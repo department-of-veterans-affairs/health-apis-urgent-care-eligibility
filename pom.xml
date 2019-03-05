@@ -16,4 +16,10 @@
     <module>ee-artifacts</module>
     <module>ee-client</module>
   </modules>
+  <distributionManagement>
+    <repository>
+      <id>health-apis-releases</id>
+      <url>https://tools.health.dev-developer.va.gov/nexus/repository/health-apis-releases/</url>
+    </repository>
+  </distributionManagement>
 </project>
