@@ -3,7 +3,11 @@ package gov.va.api.urgentcare.urgentcare.api.resources;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import gov.va.api.urgentcare.urgentcare.api.Fhir;
-import gov.va.api.urgentcare.urgentcare.api.datatypes.*;
+import gov.va.api.urgentcare.urgentcare.api.datatypes.CodeableConcept;
+import gov.va.api.urgentcare.urgentcare.api.datatypes.Identifier;
+import gov.va.api.urgentcare.urgentcare.api.datatypes.Money;
+import gov.va.api.urgentcare.urgentcare.api.datatypes.Period;
+import gov.va.api.urgentcare.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.urgentcare.urgentcare.api.elements.BackboneElement;
 import gov.va.api.urgentcare.urgentcare.api.elements.Extension;
 import gov.va.api.urgentcare.urgentcare.api.elements.Meta;
@@ -144,23 +148,23 @@ public class Coverage implements Resource {
     @Valid SimpleQuantity valueQuantity;
     @Valid Money valueMoney;
     @Valid List<Exception> exception;
+  }
 
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor
-    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-    @Schema(name = "CostToBeneficiaryException")
-    public static class Exception implements BackboneElement {
-      @Pattern(regexp = Fhir.ID)
-      String id;
+  @Data
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @AllArgsConstructor
+  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+  @Schema(name = "CostToBeneficiaryException")
+  public static class Exception implements BackboneElement {
+    @Pattern(regexp = Fhir.ID)
+    String id;
 
-      @Valid List<Extension> extension;
+    @Valid List<Extension> extension;
 
-      @Valid List<Extension> modifierExtension;
+    @Valid List<Extension> modifierExtension;
 
-      @NotNull CodeableConcept type;
-      @Valid Period period;
-    }
+    @NotNull CodeableConcept type;
+    @Valid Period period;
   }
 }

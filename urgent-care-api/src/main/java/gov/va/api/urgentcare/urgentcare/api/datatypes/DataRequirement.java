@@ -11,7 +11,11 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
@@ -58,7 +62,7 @@ public class DataRequirement implements Element {
   @AllArgsConstructor
   @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
   @Schema(name = "DataRequirementCodeFilter")
-  public class CodeFilter implements Element {
+  public static class CodeFilter implements Element {
     @Pattern(regexp = Fhir.ID)
     String id;
 
@@ -83,7 +87,7 @@ public class DataRequirement implements Element {
   @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
   @Schema(name = "DataRequirementDateFilter")
   @ZeroOrOneOf(fields = {"valueDateTime", "valuePeriod", "valueDuration"})
-  public class DateFilter implements Element {
+  public static class DateFilter implements Element {
     @Pattern(regexp = Fhir.ID)
     String id;
 
@@ -109,7 +113,7 @@ public class DataRequirement implements Element {
   @AllArgsConstructor
   @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
   @Schema(description = "DataRequirementSort")
-  public class Sort implements Element {
+  public static class Sort implements Element {
     @Pattern(regexp = Fhir.ID)
     String id;
 

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
   <!-- Exclusions can be defined here and should include a comment on why the finding can be ignored -->
-  <!-- Example:
+  <!-- Exception is a type in this case, should not be derived from an Exception -->
   <Match>
-    <Class name="gov.va.dvp.SomeClass$SomeInnerClass" />
-    <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
+    <Class name="gov.va.api.urgentcare.urgentcare.api.resources.Coverage$Exception"/>
+    <Bug pattern="NM_CLASS_NOT_EXCEPTION"/>
   </Match>
-  -->
 </FindBugsFilter>
