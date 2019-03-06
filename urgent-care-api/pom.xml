@@ -3,13 +3,12 @@
   <parent>
     <groupId>gov.va.api.health</groupId>
     <artifactId>api-starter</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.2</version>
     <relativePath/>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>gov.va.api.urgentcare</groupId>
   <artifactId>urgent-care-api</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
