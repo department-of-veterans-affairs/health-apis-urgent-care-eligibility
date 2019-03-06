@@ -7,7 +7,7 @@
     <relativePath/>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>gov.va.api.urgentcare</groupId>
+  <groupId>gov.va.api.health</groupId>
   <artifactId>urgent-care-api</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>

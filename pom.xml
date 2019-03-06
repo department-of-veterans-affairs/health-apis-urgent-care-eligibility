@@ -8,7 +8,7 @@
   </parent>
   <artifactId>urgentcare-apis-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <groupId>gov.va.api.urgentcare</groupId>
+  <groupId>gov.va.api.health</groupId>
   <packaging>pom</packaging>
   <modules>
     <module>urgent-care-api</module>
