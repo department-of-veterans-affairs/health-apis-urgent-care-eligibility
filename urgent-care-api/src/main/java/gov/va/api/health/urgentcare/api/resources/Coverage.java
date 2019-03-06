@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -58,7 +59,7 @@ public class Coverage implements Resource {
 
   // Coverage Resource
   @Valid List<Identifier> identifier;
-  @NotNull Coverage.Status status;
+  @NotNull Status status;
   @Valid CodeableConcept type;
   @Valid Reference policyHolder;
   @Valid Reference subscriber;
@@ -66,14 +67,14 @@ public class Coverage implements Resource {
   @Pattern(regexp = Fhir.STRING)
   String subscriberId;
 
-  @NotNull Reference beneficiary;
+  @NotNull @Valid Reference beneficiary;
 
   @Pattern(regexp = Fhir.STRING)
   String dependent;
 
   @Valid CodeableConcept relationship;
   @Valid Period period;
-  @NotNull List<Reference> payor;
+  @NotEmpty List<Reference> payor;
 
   @JsonProperty("class")
   List<EncounterClass> encounterClass;
@@ -119,7 +120,7 @@ public class Coverage implements Resource {
     @NotNull CodeableConcept type;
 
     @Pattern(regexp = Fhir.STRING)
-    @NotNull
+    @NotBlank
     String value;
 
     @Pattern(regexp = Fhir.STRING)

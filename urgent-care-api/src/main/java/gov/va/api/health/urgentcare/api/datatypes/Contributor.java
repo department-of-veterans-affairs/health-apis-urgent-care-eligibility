@@ -7,6 +7,7 @@ import gov.va.api.health.urgentcare.api.elements.Extension;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -27,10 +28,10 @@ public class Contributor implements Element {
 
   @Valid List<Extension> extension;
 
-  @NotNull Contributor.Type type;
+  @NotNull Type type;
 
   @Pattern(regexp = Fhir.STRING)
-  @NotNull
+  @NotBlank
   String name;
 
   @Valid List<ContactDetail> contact;

@@ -8,6 +8,7 @@ import gov.va.api.health.urgentcare.api.elements.Reference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -27,10 +28,10 @@ public class Signature implements Element {
   @Valid @NotEmpty List<Coding> type;
 
   @Pattern(regexp = Fhir.INSTANT)
-  @NotNull
+  @NotBlank
   String when;
 
-  @NotNull Reference who;
+  @NotNull @Valid Reference who;
 
   @Valid Reference onBehalfOf;
 

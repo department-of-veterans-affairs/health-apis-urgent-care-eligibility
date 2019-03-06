@@ -28,7 +28,7 @@ public class RelatedArtifact implements Element {
 
   @Valid List<Extension> extension;
 
-  @NotNull RelatedArtifact.Type type;
+  @NotNull Type type;
 
   @Pattern(regexp = Fhir.STRING)
   String label;

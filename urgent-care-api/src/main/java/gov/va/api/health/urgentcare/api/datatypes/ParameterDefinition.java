@@ -30,7 +30,7 @@ public class ParameterDefinition implements Element {
   @Pattern(regexp = Fhir.CODE)
   String name;
 
-  @NotNull ParameterDefinition.Use use;
+  @NotNull Use use;
 
   @Pattern(regexp = Fhir.INTEGER)
   String min;

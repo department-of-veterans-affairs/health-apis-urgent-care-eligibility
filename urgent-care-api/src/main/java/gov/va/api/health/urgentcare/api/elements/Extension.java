@@ -81,6 +81,7 @@ import lombok.NoArgsConstructor;
     "valueDuration",
     "valueHumanName",
     "valueIdentifier",
+    "valueMoney",
     "valuePeriod",
     "valueQuantity",
     "valueRange",

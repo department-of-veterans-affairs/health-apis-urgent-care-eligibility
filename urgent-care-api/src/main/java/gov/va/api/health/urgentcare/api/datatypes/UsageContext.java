@@ -30,7 +30,7 @@ public class UsageContext implements Element {
 
   @Valid List<Extension> extension;
 
-  @NotNull Coding code;
+  @NotNull @Valid Coding code;
 
   @Valid CodeableConcept valueCodeableConcept;
 

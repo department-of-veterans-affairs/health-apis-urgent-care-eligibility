@@ -125,6 +125,6 @@ public abstract class AbstractEntry<T extends Resource> implements BackboneEleme
 
     @Min(0)
     @Max(1)
-    BigDecimal rank;
+    @Pattern(regexp = Fhir.DECIMAL) String score;
   }
 }

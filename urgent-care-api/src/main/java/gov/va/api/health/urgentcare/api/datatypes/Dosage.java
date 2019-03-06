@@ -86,6 +86,8 @@ public class Dosage implements BackboneElement {
 
     @Valid List<Extension> extension;
 
+    @Valid CodeableConcept type;
+
     @Valid Range doseRange;
 
     @Valid SimpleQuantity doseQuantity;

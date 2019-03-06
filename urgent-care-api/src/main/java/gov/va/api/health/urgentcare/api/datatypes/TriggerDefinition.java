@@ -31,7 +31,7 @@ public class TriggerDefinition implements Element {
 
   @Valid List<Extension> extension;
 
-  @Valid @NotNull TriggerDefinition.Type type;
+  @Valid @NotNull Type type;
 
   @Pattern(regexp = Fhir.STRING)
   String name;

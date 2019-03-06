@@ -69,7 +69,7 @@ public class OperationOutcome implements DomainResource {
 
     @Valid List<Extension> extension;
 
-    @NotNull OperationOutcome.Issue.IssueSeverity severity;
+    @NotNull IssueSeverity severity;
 
     @NotBlank
     @Pattern(regexp = Fhir.CODE)

@@ -9,6 +9,7 @@ import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOf;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -31,7 +32,7 @@ public class DataRequirement implements Element {
   @Valid List<Extension> extension;
 
   @Pattern(regexp = Fhir.CODE)
-  @NotNull
+  @NotBlank
   String type;
 
   List<@Pattern(regexp = Fhir.URI) String> profile;
@@ -120,9 +121,9 @@ public class DataRequirement implements Element {
     @Valid List<Extension> extension;
 
     @Pattern(regexp = Fhir.STRING)
-    @NotNull
+    @NotBlank
     String path;
 
-    @NotNull DataRequirement.SortDirection direction;
+    @NotNull SortDirection direction;
   }
 }

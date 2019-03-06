@@ -7,6 +7,7 @@ import gov.va.api.health.urgentcare.api.elements.Extension;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -30,7 +31,7 @@ public class SampledData implements Element {
   @Valid @NotNull SimpleQuantity origin;
 
   @Pattern(regexp = Fhir.DECIMAL)
-  @NotNull
+  @NotBlank
   String period;
 
   @Pattern(regexp = Fhir.DECIMAL)
@@ -43,7 +44,7 @@ public class SampledData implements Element {
   String upperLimit;
 
   @Pattern(regexp = Fhir.POSITIVE_INT)
-  @NotNull
+  @NotBlank
   String dimensions;
 
   @Pattern(regexp = Fhir.STRING)
