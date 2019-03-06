@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>gov.va.api.health</groupId>
+  <parent>
+    <groupId>gov.va.api.health</groupId>
+    <artifactId>health-apis-parent</artifactId>
+    <version>1.1.0</version>
+  </parent>
   <artifactId>ee-artifacts</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
+  <properties>
+    <skip.checkstyle>true</skip.checkstyle>
+  </properties>
   <build>
     <plugins>
       <plugin>
@@ -29,6 +36,12 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <skip>${skip.checkstyle}</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>
