@@ -11,8 +11,6 @@
   <packaging>pom</packaging>
   <modules>
     <module>urgent-care-api</module>
-    <module>urgent-care</module>
     <module>ee-artifacts</module>
-    <module>ee-client</module>
   </modules>
 </project>
