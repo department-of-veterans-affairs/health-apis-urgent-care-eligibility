@@ -4,4 +4,10 @@
   <groupId>gov.va.api.health</groupId>
   <artifactId>urgent-care</artifactId>
   <version>1.0.0</version>
+  <distributionManagement>
+    <repository>
+      <id>health-apis-releases</id>
+      <url>https://tools.health.dev-developer.va.gov/nexus/repository/health-apis-releases/</url>
+    </repository>
+  </distributionManagement>
 </project>
