@@ -10,6 +10,8 @@ import gov.va.api.health.urgentcare.api.datatypes.Attachment;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.ContactPoint;
+import gov.va.api.health.urgentcare.api.datatypes.Count;
+import gov.va.api.health.urgentcare.api.datatypes.Duration;
 import gov.va.api.health.urgentcare.api.datatypes.HumanName;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
@@ -111,6 +113,8 @@ public abstract class AbstractRelatedFieldVerifier<T> {
     suppliers.put(SampledData.class, dataTypes::sampledData);
     suppliers.put(Age.class, dataTypes::age);
     suppliers.put(Money.class, dataTypes::money);
+    suppliers.put(Count.class, dataTypes::count);
+    suppliers.put(Duration.class, dataTypes::duration);
     return suppliers;
   }
 

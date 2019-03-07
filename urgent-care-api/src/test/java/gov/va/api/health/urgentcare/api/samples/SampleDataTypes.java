@@ -12,6 +12,8 @@ import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.ContactPoint;
 import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointSystem;
 import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointUse;
+import gov.va.api.health.urgentcare.api.datatypes.Count;
+import gov.va.api.health.urgentcare.api.datatypes.Duration;
 import gov.va.api.health.urgentcare.api.datatypes.HumanName;
 import gov.va.api.health.urgentcare.api.datatypes.HumanName.NameUse;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
@@ -53,7 +55,12 @@ public class SampleDataTypes {
   }
 
   public Age age() {
-    return Age.builder().value("11.11").unit("HelloUnit").build();
+    return Age.builder()
+        .value("19")
+        .unit("HelloUnit")
+        .system("Y")
+        .code("2000-01-01T00:00:00-00:00")
+        .build();
   }
 
   public Attachment attachment() {
@@ -90,6 +97,19 @@ public class SampleDataTypes {
         .use(ContactPointUse.home)
         .rank("1")
         .period(period())
+        .build();
+  }
+
+  public Count count() {
+    return Count.builder().value("19").unit("HelloUnit").system("Y").code("1").build();
+  }
+
+  public Duration duration() {
+    return Duration.builder()
+        .value("11.11")
+        .unit("HelloUnit")
+        .system("Y")
+        .code("2000-01-01T00:00:00-00:00")
         .build();
   }
 
