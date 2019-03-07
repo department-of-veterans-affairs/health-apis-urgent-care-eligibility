@@ -26,7 +26,7 @@ public class Age implements Element {
 
   @Valid List<Extension> extension;
 
-  @Pattern(regexp = Fhir.DECIMAL)
+  @Pattern(regexp = Fhir.POSITIVE_INT)
   String value;
 
   @Pattern(regexp = "(<|<=|>=|>)")
@@ -35,9 +35,9 @@ public class Age implements Element {
   @Pattern(regexp = Fhir.STRING)
   String unit;
 
-  @Pattern(regexp = Fhir.URI)
+  @Pattern(regexp = Fhir.CODE)
   String system;
 
-  @Pattern(regexp = Fhir.CODE)
+  @Pattern(regexp = Fhir.TIME)
   String code;
 }

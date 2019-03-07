@@ -35,9 +35,9 @@ public class Duration implements Element {
   @Pattern(regexp = Fhir.STRING)
   String unit;
 
-  @Pattern(regexp = Fhir.URI)
+  @Pattern(regexp = Fhir.CODE)
   String system;
 
-  @Pattern(regexp = Fhir.CODE)
+  @Pattern(regexp = Fhir.TIME)
   String code;
 }

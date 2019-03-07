@@ -21,12 +21,16 @@ import lombok.NoArgsConstructor;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#Count")
 public class Count implements Element {
+
+  @Pattern(regexp = Fhir.CODE)
+  String code;
+
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  @Pattern(regexp = Fhir.DECIMAL)
+  @Pattern(regexp = Fhir.INTEGER)
   String value;
 
   @Pattern(regexp = "(<|<=|>=|>)")
@@ -35,9 +39,6 @@ public class Count implements Element {
   @Pattern(regexp = Fhir.STRING)
   String unit;
 
-  @Pattern(regexp = Fhir.URI)
-  String system;
-
   @Pattern(regexp = Fhir.CODE)
-  String code;
+  String system;
 }

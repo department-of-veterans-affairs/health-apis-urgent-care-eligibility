@@ -8,6 +8,7 @@ import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
+import gov.va.api.health.urgentcare.api.datatypes.SimpleResource;
 import gov.va.api.health.urgentcare.api.elements.BackboneElement;
 import gov.va.api.health.urgentcare.api.elements.Extension;
 import gov.va.api.health.urgentcare.api.elements.Meta;
@@ -35,13 +36,16 @@ import lombok.NoArgsConstructor;
   fieldVisibility = JsonAutoDetect.Visibility.ANY,
   isGetterVisibility = JsonAutoDetect.Visibility.NONE
 )
-@Schema(description = "https://www.hl7.org/fhir/R4/coverage.html", example = "")
+@Schema(
+  description = "https://www.hl7.org/fhir/R4/coverage.html",
+  example = "SWAGGER_EXAMPLE_COVERAGE"
+)
 public class Coverage implements Resource {
-  @NotBlank String resourceType;
-
   // Anscestor -- Resource
   @Pattern(regexp = Fhir.ID)
   String id;
+
+  @NotBlank String resourceType;
 
   @Valid Meta meta;
 
@@ -53,7 +57,7 @@ public class Coverage implements Resource {
 
   // Ancestor -- DomainResource
   @Valid Narrative text;
-  @Valid List<Resource> contained;
+  @Valid List<SimpleResource> contained;
   @Valid List<Extension> extension;
   @Valid List<Extension> modifierExtension;
 
@@ -101,32 +105,6 @@ public class Coverage implements Resource {
     entered_in_error
   }
 
-  // TODO entry and bundle
-
-  @Data
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  @AllArgsConstructor
-  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-  @Schema(name = "CoverageClass")
-  public static class EncounterClass implements BackboneElement {
-    @Pattern(regexp = Fhir.ID)
-    String id;
-
-    @Valid List<Extension> extension;
-
-    @Valid List<Extension> modifierExtension;
-
-    @NotNull CodeableConcept type;
-
-    @Pattern(regexp = Fhir.STRING)
-    @NotBlank
-    String value;
-
-    @Pattern(regexp = Fhir.STRING)
-    String name;
-  }
-
   @Data
   @Builder
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -149,6 +127,30 @@ public class Coverage implements Resource {
     @Valid SimpleQuantity valueQuantity;
     @Valid Money valueMoney;
     @Valid List<Exception> exception;
+  }
+
+  @Data
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @AllArgsConstructor
+  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+  @Schema(name = "EncounterClass")
+  public static class EncounterClass implements BackboneElement {
+    @Pattern(regexp = Fhir.ID)
+    String id;
+
+    @Valid List<Extension> extension;
+
+    @Valid List<Extension> modifierExtension;
+
+    @NotNull CodeableConcept type;
+
+    @Pattern(regexp = Fhir.STRING)
+    @NotNull
+    String value;
+
+    @Pattern(regexp = Fhir.STRING)
+    String name;
   }
 
   @Data
