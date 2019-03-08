@@ -3,8 +3,6 @@ package gov.va.api.health.urgentcare.api;
 import static gov.va.api.health.urgentcare.api.RoundTrip.assertRoundTrip;
 import static java.util.Collections.singletonList;
 
-import gov.va.api.health.urgentcare.api.UrgentCareService.SearchFailed;
-import gov.va.api.health.urgentcare.api.UrgentCareService.UnknownResource;
 import gov.va.api.health.urgentcare.api.resources.OperationOutcome;
 import gov.va.api.health.urgentcare.api.samples.SampleDataTypes;
 import java.util.Arrays;
@@ -16,12 +14,12 @@ public class DataTypesTest {
 
   private final SampleDataTypes data = SampleDataTypes.get();
 
-  @SuppressWarnings("ThrowableNotThrown")
+  /*@SuppressWarnings("ThrowableNotThrown")
   @Test
   public void exceptionConstructors() {
     new UnknownResource("some id");
     new SearchFailed("some id", "some reason");
-  }
+  }*/
 
   @Test
   public void operationOutcome() {
