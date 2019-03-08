@@ -1,23 +1,7 @@
 package gov.va.api.health.urgentcare.api.bundle;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import gov.va.api.health.urgentcare.api.Fhir;
-import gov.va.api.health.urgentcare.api.datatypes.Identifier;
-import gov.va.api.health.urgentcare.api.datatypes.Signature;
-import gov.va.api.health.urgentcare.api.elements.Meta;
-import gov.va.api.health.urgentcare.api.resources.Resource;
-import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+/*@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -64,4 +48,4 @@ public abstract class AbstractBundle<N extends AbstractEntry<?>> implements Reso
     searchset,
     collection
   }
-}
+}*/

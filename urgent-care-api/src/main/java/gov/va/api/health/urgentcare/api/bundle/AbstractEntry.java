@@ -1,25 +1,7 @@
 package gov.va.api.health.urgentcare.api.bundle;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import gov.va.api.health.urgentcare.api.Fhir;
-import gov.va.api.health.urgentcare.api.elements.BackboneElement;
-import gov.va.api.health.urgentcare.api.elements.Extension;
-import gov.va.api.health.urgentcare.api.resources.Resource;
-import io.swagger.v3.oas.annotations.media.Schema;
-import java.math.BigDecimal;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+/*@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -125,6 +107,7 @@ public abstract class AbstractEntry<T extends Resource> implements BackboneEleme
 
     @Min(0)
     @Max(1)
-    @Pattern(regexp = Fhir.DECIMAL) String score;
+    @Pattern(regexp = Fhir.DECIMAL)
+    String score;
   }
-}
+}*/
