@@ -2,35 +2,13 @@ package gov.va.api.health.urgentcare.api.elements;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
-import gov.va.api.health.urgentcare.api.datatypes.Address;
-import gov.va.api.health.urgentcare.api.datatypes.Age;
-import gov.va.api.health.urgentcare.api.datatypes.Annotation;
-import gov.va.api.health.urgentcare.api.datatypes.Attachment;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
-import gov.va.api.health.urgentcare.api.datatypes.ContactDetail;
-import gov.va.api.health.urgentcare.api.datatypes.ContactPoint;
-import gov.va.api.health.urgentcare.api.datatypes.Contributor;
-import gov.va.api.health.urgentcare.api.datatypes.Count;
-import gov.va.api.health.urgentcare.api.datatypes.DataRequirement;
-import gov.va.api.health.urgentcare.api.datatypes.Distance;
-import gov.va.api.health.urgentcare.api.datatypes.Dosage;
-import gov.va.api.health.urgentcare.api.datatypes.Duration;
-import gov.va.api.health.urgentcare.api.datatypes.Expression;
-import gov.va.api.health.urgentcare.api.datatypes.HumanName;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
-import gov.va.api.health.urgentcare.api.datatypes.ParameterDefinition;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.Quantity;
-import gov.va.api.health.urgentcare.api.datatypes.Range;
 import gov.va.api.health.urgentcare.api.datatypes.Ratio;
-import gov.va.api.health.urgentcare.api.datatypes.RelatedArtifact;
-import gov.va.api.health.urgentcare.api.datatypes.SampledData;
-import gov.va.api.health.urgentcare.api.datatypes.Signature;
-import gov.va.api.health.urgentcare.api.datatypes.Timing;
-import gov.va.api.health.urgentcare.api.datatypes.TriggerDefinition;
-import gov.va.api.health.urgentcare.api.datatypes.UsageContext;
 import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOf;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -50,44 +28,44 @@ import lombok.NoArgsConstructor;
 @Schema(description = "http://hl7.org/fhir/R4/extensibility.html#extension")
 @ZeroOrOneOf(
   fields = {
-    "valueBase64Binary",
+    // "valueBase64Binary",
     "valueBoolean",
-    "valueCanonical",
+    // "valueCanonical",
     "valueCode",
-    "valueDate",
+    // "valueDate",
     "valueDateTime",
-    "valueDecimal",
+    // "valueDecimal",
     "valueId",
     "valueInstant",
-    "valueInteger",
+    /*"valueInteger",
     "valueMarkdown",
-    "valueOid",
+    "valueOid",*/
     "valuePositiveInt",
     "valueString",
-    "valueTime",
+    // "valueTime",
     "valueUnsignedInt",
     "valueUri",
-    "valueUrl",
+    /*"valueUrl",
     "valueUuid",
     "valueAddress",
     "valueAge",
     "valueAnnotation",
-    "valueAttachment",
+    "valueAttachment"*/
     "valueCodeableConcept",
     "valueCoding",
-    "valueContactPoint",
+    /*"valueContactPoint",
     "valueCount",
     "valueDistance",
     "valueDuration",
-    "valueHumanName",
+    "valueHumanName",*/
     "valueIdentifier",
     "valueMoney",
     "valuePeriod",
     "valueQuantity",
-    "valueRange",
+    /*"valueRange",*/
     "valueRatio",
     "valueReference",
-    "valueSampledData",
+    /*"valueSampledData",
     "valueSignature",
     "valueTiming",
     "valueContactDetail",
@@ -98,7 +76,7 @@ import lombok.NoArgsConstructor;
     "valueRelatedArtifact",
     "valueTriggerDefinition",
     "valueUsageContext",
-    "valueDosage"
+    "valueDosage"*/
   },
   message = "Only one value type may be specified"
 )
@@ -112,26 +90,26 @@ public class Extension implements Element {
 
   @Valid List<Extension> extension;
 
-  @Pattern(regexp = Fhir.BASE64)
-  String valueBase64Binary;
+  /*@Pattern(regexp = Fhir.BASE64)
+  String valueBase64Binary;*/
 
   @Pattern(regexp = Fhir.BOOLEAN)
   String valueBoolean;
 
-  @Pattern(regexp = Fhir.URI)
-  String valueCanonical;
+  /*@Pattern(regexp = Fhir.URI)
+  String valueCanonical;*/
 
   @Pattern(regexp = Fhir.CODE)
   String valueCode;
 
-  @Pattern(regexp = Fhir.DATE)
-  String valueDate;
+  /*@Pattern(regexp = Fhir.DATE)
+  String valueDate;*/
 
   @Pattern(regexp = Fhir.DATETIME)
   String valueDateTime;
 
-  @Pattern(regexp = Fhir.DECIMAL)
-  Double valueDecimal;
+  /*@Pattern(regexp = Fhir.DECIMAL)
+  Double valueDecimal;*/
 
   @Pattern(regexp = Fhir.ID)
   String valueId;
@@ -142,11 +120,11 @@ public class Extension implements Element {
   @Pattern(regexp = Fhir.INTEGER)
   Integer valueInteger;
 
-  @Pattern(regexp = Fhir.MARKDOWN)
+  /*@Pattern(regexp = Fhir.MARKDOWN)
   String valueMarkdown;
 
   @Pattern(regexp = Fhir.OID)
-  String valueOid;
+  String valueOid;*/
 
   @Pattern(regexp = Fhir.POSITIVE_INT)
   String valuePositiveInt;
@@ -154,8 +132,8 @@ public class Extension implements Element {
   @Pattern(regexp = Fhir.STRING)
   String valueString;
 
-  @Pattern(regexp = Fhir.TIME)
-  String valueTime;
+  /*@Pattern(regexp = Fhir.TIME)
+  String valueTime;*/
 
   @Pattern(regexp = Fhir.UNSIGNED_INT)
   String valueUnsignedInt;
@@ -163,7 +141,7 @@ public class Extension implements Element {
   @Pattern(regexp = Fhir.URI)
   String valueUri;
 
-  @Pattern(regexp = Fhir.URI)
+  /*@Pattern(regexp = Fhir.URI)
   String valueUrl;
 
   @Pattern(regexp = Fhir.URI)
@@ -175,13 +153,13 @@ public class Extension implements Element {
 
   @Valid Annotation valueAnnotation;
 
-  @Valid Attachment valueAttachment;
+  @Valid Attachment valueAttachment;*/
 
   @Valid CodeableConcept valueCodeableConcept;
 
   @Valid Coding valueCoding;
 
-  @Valid ContactPoint valueContactPoint;
+  /*@Valid ContactPoint valueContactPoint;
 
   @Valid Count valueCount;
 
@@ -189,7 +167,7 @@ public class Extension implements Element {
 
   @Valid Duration valueDuration;
 
-  @Valid HumanName valueHumanName;
+  @Valid HumanName valueHumanName;*/
 
   @Valid Identifier valueIdentifier;
 
@@ -199,13 +177,13 @@ public class Extension implements Element {
 
   @Valid Quantity valueQuantity;
 
-  @Valid Range valueRange;
+  /*@Valid Range valueRange;*/
 
   @Valid Ratio valueRatio;
 
   @Valid Reference valueReference;
 
-  @Valid SampledData valueSampledData;
+  /*@Valid SampledData valueSampledData;
 
   @Valid Signature valueSignature;
 
@@ -227,5 +205,5 @@ public class Extension implements Element {
 
   @Valid UsageContext valueUsageContext;
 
-  @Valid Dosage valueDosage;
+  @Valid Dosage valueDosage;*/
 }

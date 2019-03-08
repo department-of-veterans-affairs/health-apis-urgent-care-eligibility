@@ -12,11 +12,15 @@ public class CoverageTest {
 
   @Test
   public void coverage() {
-    assertRoundTrip(data.coverage());
+    assertRoundTrip(data.coverageWithValueQuanitity());
+    assertRoundTrip(data.coverageWithValueMoney());
   }
 
   @Test
   public void relatedGroups() {
-    ExactlyOneOfVerifier.builder().sample(data.coverage()).fieldPrefix("value").build();
+    ExactlyOneOfVerifier.builder()
+        .sample(data.coverageWithValueQuanitity())
+        .fieldPrefix("value")
+        .build();
   }
 }

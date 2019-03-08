@@ -2,28 +2,14 @@ package gov.va.api.health.urgentcare.api.samples;
 
 import static java.util.Collections.singletonList;
 
-import gov.va.api.health.urgentcare.api.datatypes.Address;
-import gov.va.api.health.urgentcare.api.datatypes.Address.AddressType;
-import gov.va.api.health.urgentcare.api.datatypes.Address.AddressUse;
-import gov.va.api.health.urgentcare.api.datatypes.Age;
-import gov.va.api.health.urgentcare.api.datatypes.Attachment;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
-import gov.va.api.health.urgentcare.api.datatypes.ContactPoint;
-import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointSystem;
-import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointUse;
-import gov.va.api.health.urgentcare.api.datatypes.Count;
-import gov.va.api.health.urgentcare.api.datatypes.Duration;
-import gov.va.api.health.urgentcare.api.datatypes.HumanName;
-import gov.va.api.health.urgentcare.api.datatypes.HumanName.NameUse;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier.IdentifierUse;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.Quantity;
-import gov.va.api.health.urgentcare.api.datatypes.Range;
 import gov.va.api.health.urgentcare.api.datatypes.Ratio;
-import gov.va.api.health.urgentcare.api.datatypes.SampledData;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleResource;
 import gov.va.api.health.urgentcare.api.elements.Extension;
@@ -31,13 +17,14 @@ import gov.va.api.health.urgentcare.api.elements.Meta;
 import gov.va.api.health.urgentcare.api.elements.Narrative;
 import gov.va.api.health.urgentcare.api.elements.Narrative.NarrativeStatus;
 import gov.va.api.health.urgentcare.api.elements.Reference;
-import java.util.Arrays;
+import gov.va.api.health.urgentcare.api.resources.OperationOutcome.Issue;
+import gov.va.api.health.urgentcare.api.resources.OperationOutcome.Issue.IssueSeverity;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(staticName = "get")
 public class SampleDataTypes {
 
-  public Address address() {
+  /*public Address address() {
     return Address.builder()
         .id("1234")
         .extension(singletonList(extension()))
@@ -74,7 +61,7 @@ public class SampleDataTypes {
         .title("HelloTitle")
         .creation("2000-01-01T00:00:00-00:00")
         .build();
-  }
+  }*/
 
   public CodeableConcept codeableConcept() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("code text test").build();
@@ -90,7 +77,7 @@ public class SampleDataTypes {
         .build();
   }
 
-  public ContactPoint contactPoint() {
+  /*public ContactPoint contactPoint() {
     return ContactPoint.builder()
         .system(ContactPointSystem.other)
         .value("HelloValue")
@@ -98,9 +85,9 @@ public class SampleDataTypes {
         .rank("1")
         .period(period())
         .build();
-  }
+  }*/
 
-  public Count count() {
+  /*public Count count() {
     return Count.builder().value("19").unit("HelloUnit").system("Y").code("1").build();
   }
 
@@ -111,10 +98,14 @@ public class SampleDataTypes {
         .system("Y")
         .code("2000-01-01T00:00:00-00:00")
         .build();
+  }*/
+
+  public CodeableConcept details() {
+    return CodeableConcept.builder().coding(singletonList(coding())).text("HelloText").build();
   }
 
   public Extension extension() {
-    return Extension.builder().url("http://HelloUrl.com").valueInteger(1).build();
+    return Extension.builder().url("http://HelloUrl.com").valueCoding(coding()).build();
   }
 
   public Extension extensionWithQuantity() {
@@ -144,7 +135,7 @@ public class SampleDataTypes {
         .build();
   }
 
-  public HumanName humanName() {
+  /*public HumanName humanName() {
     return HumanName.builder()
         .use(NameUse.anonymous)
         .text("HelloText")
@@ -154,7 +145,7 @@ public class SampleDataTypes {
         .suffix(singletonList("HelloSuffix"))
         .period(period())
         .build();
-  }
+  }*/
 
   public Identifier identifier() {
     return Identifier.builder()
@@ -162,6 +153,17 @@ public class SampleDataTypes {
         .use(IdentifierUse.official)
         .use(Identifier.IdentifierUse.official)
         .extension(singletonList(extension()))
+        .build();
+  }
+
+  public Issue issue() {
+    return Issue.builder()
+        .severity(IssueSeverity.error)
+        .code("HelloCode")
+        .details(details())
+        .diagnostics("HelloDiagnostics")
+        .location(singletonList("HelloLocation"))
+        .expression(singletonList("HelloExpression"))
         .build();
   }
 
@@ -197,13 +199,13 @@ public class SampleDataTypes {
     return Quantity.builder().value("11.11").unit("HelloUnit").build();
   }
 
-  public Range range() {
+  /*public Range range() {
     return Range.builder().low(simpleQuantity()).high(simpleQuantity()).build();
   }
 
   public Ratio ratio() {
     return Ratio.builder().numerator(quantity()).denominator(quantity()).build();
-  }
+  }*/
 
   public Reference reference() {
     return Reference.builder().reference("HelloReference").display("HelloDisplay").build();
@@ -218,7 +220,7 @@ public class SampleDataTypes {
         .build();
   }
 
-  public SampledData sampledData() {
+  /*public SampledData sampledData() {
     return SampledData.builder()
         .origin(simpleQuantity())
         .period("11.11")
@@ -228,7 +230,7 @@ public class SampleDataTypes {
         .dimensions("1")
         .data("HelloText")
         .build();
-  }
+  }*/
 
   public SimpleQuantity simpleQuantity() {
     return SimpleQuantity.builder()

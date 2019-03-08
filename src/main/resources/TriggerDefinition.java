@@ -1,5 +1,3 @@
-package gov.va.api.health.urgentcare.api.datatypes;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import gov.va.api.health.urgentcare.api.Fhir;

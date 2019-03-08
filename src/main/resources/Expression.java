@@ -1,11 +1,7 @@
-package gov.va.api.health.urgentcare.api.datatypes;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.elements.Element;
 import gov.va.api.health.urgentcare.api.elements.Extension;
-import gov.va.api.health.urgentcare.api.elements.Reference;
-import gov.va.api.health.urgentcare.api.validation.ExactlyOneOf;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
@@ -22,21 +18,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "https://www.hl7.org/fhir/R4/metadatatypes.html#UsageContext")
-@ExactlyOneOf(fields = {"valueCodeableConcept", "valueQuantity", "valueRange", "valueReference"})
-public class UsageContext implements Element {
+@Schema(description = "https://www.hl7.org/fhir/R4/metadatatypes.html#Expression")
+public class Expression implements Element {
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  @NotNull @Valid Coding code;
+  @Pattern(regexp = Fhir.STRING)
+  String description;
 
-  @Valid CodeableConcept valueCodeableConcept;
+  @Pattern(regexp = Fhir.ID)
+  String name;
 
-  @Valid Quantity valueQuantity;
+  @Pattern(regexp = Fhir.CODE)
+  @NotNull
+  String language;
 
-  @Valid Range valueRange;
+  @Pattern(regexp = Fhir.STRING)
+  String expression;
 
-  @Valid Reference valueReference;
+  @Pattern(regexp = Fhir.URI)
+  String reference;
 }

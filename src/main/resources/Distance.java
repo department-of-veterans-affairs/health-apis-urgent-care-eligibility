@@ -1,5 +1,3 @@
-package gov.va.api.health.urgentcare.api.datatypes;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.elements.Element;
@@ -7,7 +5,6 @@ import gov.va.api.health.urgentcare.api.elements.Extension;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,35 +17,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "https://www.hl7.org/fhir/R4/metadatatypes.html#ParameterDefinition")
-public class ParameterDefinition implements Element {
+@Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#Distance")
+public class Distance implements Element {
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  @Pattern(regexp = Fhir.CODE)
-  String name;
+  @Pattern(regexp = Fhir.DECIMAL)
+  String value;
 
-  @NotNull Use use;
-
-  @Pattern(regexp = Fhir.INTEGER)
-  String min;
+  @Pattern(regexp = "(<|<=|>=|>)")
+  String comparator;
 
   @Pattern(regexp = Fhir.STRING)
-  String max;
-
-  @Pattern(regexp = Fhir.STRING)
-  String documentation;
-
-  @Pattern(regexp = Fhir.CODE)
-  String type;
+  String unit;
 
   @Pattern(regexp = Fhir.URI)
-  String profile;
+  String system;
 
-  public enum Use {
-    in,
-    out
-  }
+  @Pattern(regexp = Fhir.CODE)
+  String code;
 }

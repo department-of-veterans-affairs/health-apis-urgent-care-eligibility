@@ -1,5 +1,3 @@
-package gov.va.api.health.urgentcare.api.datatypes;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.elements.Element;
@@ -19,14 +17,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#Distance")
-public class Distance implements Element {
+@Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#Age")
+public class Age implements Element {
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  @Pattern(regexp = Fhir.DECIMAL)
+  @Pattern(regexp = Fhir.POSITIVE_INT)
   String value;
 
   @Pattern(regexp = "(<|<=|>=|>)")
@@ -35,9 +33,9 @@ public class Distance implements Element {
   @Pattern(regexp = Fhir.STRING)
   String unit;
 
-  @Pattern(regexp = Fhir.URI)
+  @Pattern(regexp = Fhir.CODE)
   String system;
 
-  @Pattern(regexp = Fhir.CODE)
+  @Pattern(regexp = Fhir.TIME)
   String code;
 }

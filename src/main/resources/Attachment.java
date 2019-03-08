@@ -1,5 +1,3 @@
-package gov.va.api.health.urgentcare.api.datatypes;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.elements.Element;
@@ -19,40 +17,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "https://hl7.org/fhir/R4/datatypes.html#ContactPoint")
-public class ContactPoint implements Element {
+@Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#Attachment")
+public class Attachment implements Element {
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  ContactPointSystem system;
+  @Pattern(regexp = Fhir.CODE)
+  String contentType;
+
+  @Pattern(regexp = Fhir.CODE)
+  String language;
+
+  @Pattern(regexp = Fhir.BASE64)
+  String data;
+
+  @Pattern(regexp = Fhir.URI)
+  String url;
+
+  @Pattern(regexp = Fhir.UNSIGNED_INT)
+  String size;
+
+  @Pattern(regexp = Fhir.BASE64)
+  String hash;
 
   @Pattern(regexp = Fhir.STRING)
-  String value;
+  String title;
 
-  ContactPointUse use;
-
-  @Pattern(regexp = Fhir.POSITIVE_INT)
-  String rank;
-
-  @Valid Period period;
-
-  public enum ContactPointSystem {
-    phone,
-    fax,
-    email,
-    pager,
-    other,
-    url,
-    sms
-  }
-
-  public enum ContactPointUse {
-    home,
-    work,
-    temp,
-    old,
-    mobile
-  }
+  @Pattern(regexp = Fhir.DATETIME)
+  String creation;
 }
