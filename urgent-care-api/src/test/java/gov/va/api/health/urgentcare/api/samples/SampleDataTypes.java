@@ -2,6 +2,11 @@ package gov.va.api.health.urgentcare.api.samples;
 
 import static java.util.Collections.singletonList;
 
+import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.HttpVerb;
+import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Request;
+import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Response;
+import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Search;
+import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.SearchMode;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
@@ -10,6 +15,7 @@ import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.Quantity;
 import gov.va.api.health.urgentcare.api.datatypes.Ratio;
+import gov.va.api.health.urgentcare.api.datatypes.Signature;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleResource;
 import gov.va.api.health.urgentcare.api.elements.Extension;
@@ -211,12 +217,38 @@ public class SampleDataTypes {
     return Reference.builder().reference("HelloReference").display("HelloDisplay").build();
   }
 
+  public Request request() {
+    return Request.builder()
+        .id("request1")
+        .extension(singletonList(extension()))
+        .modifierExtension(singletonList(extension()))
+        .method(HttpVerb.GET)
+        .url("http://example.com")
+        .ifNoneMatch("ok")
+        .ifModifiedSince("also ok")
+        .ifMatch("really ok")
+        .ifNoneExist("meh, ok.")
+        .build();
+  }
+
   public SimpleResource resource() {
     return SimpleResource.builder()
         .id("1111")
         .meta(meta())
         .implicitRules("http://HelloRules.com")
         .language("Hello Language")
+        .build();
+  }
+
+  public Response response() {
+    return Response.builder()
+        .id("response1")
+        .extension(singletonList(extension()))
+        .modifierExtension(singletonList(extension()))
+        .status("single")
+        .location("http://example.com")
+        .etag("you're it")
+        .lastModified("2005-01-21T07:57:00Z")
         .build();
   }
 
@@ -231,6 +263,28 @@ public class SampleDataTypes {
         .data("HelloText")
         .build();
   }*/
+
+  public Search search() {
+    return Search.builder()
+        .id("search1")
+        .mode(SearchMode.match)
+        .extension(singletonList(extension()))
+        .modifierExtension(singletonList(extension()))
+        .score("0.5")
+        .build();
+  }
+
+  public Signature signature() {
+    return Signature.builder()
+        .type(singletonList(coding()))
+        .when("now")
+        .who(reference())
+        .onBehalfOf(reference())
+        .targetFormat("YO")
+        .sigFormat("YO")
+        .data("00000")
+        .build();
+  }
 
   public SimpleQuantity simpleQuantity() {
     return SimpleQuantity.builder()
