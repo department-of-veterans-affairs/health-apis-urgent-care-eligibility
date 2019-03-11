@@ -1,6 +1,5 @@
 package gov.va.api.health.urgentcare.api.bundle;
 
-
 /*@Data
 @NoArgsConstructor
 @AllArgsConstructor
