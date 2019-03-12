@@ -1,10 +1,15 @@
+package gov.va.api.health.urgentcare.api.datatypes;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.elements.Element;
 import gov.va.api.health.urgentcare.api.elements.Extension;
+import gov.va.api.health.urgentcare.api.elements.Reference;
+import gov.va.api.health.urgentcare.api.validation.ExactlyOneOf;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,40 +22,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "https://hl7.org/fhir/R4/datatypes.html#ContactPoint")
-public class ContactPoint implements Element {
+@Schema(description = "https://www.hl7.org/fhir/R4/metadatatypes.html#UsageContext")
+@ExactlyOneOf(fields = {"valueCodeableConcept", "valueQuantity", "valueRange", "valueReference"})
+public class UsageContext implements Element {
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  ContactPointSystem system;
+  @NotNull @Valid Coding code;
 
-  @Pattern(regexp = Fhir.STRING)
-  String value;
+  @Valid CodeableConcept valueCodeableConcept;
 
-  ContactPointUse use;
+  @Valid Quantity valueQuantity;
 
-  @Pattern(regexp = Fhir.POSITIVE_INT)
-  String rank;
+  @Valid Range valueRange;
 
-  @Valid Period period;
-
-  public enum ContactPointSystem {
-    phone,
-    fax,
-    email,
-    pager,
-    other,
-    url,
-    sms
-  }
-
-  public enum ContactPointUse {
-    home,
-    work,
-    temp,
-    old,
-    mobile
-  }
+  @Valid Reference valueReference;
 }
