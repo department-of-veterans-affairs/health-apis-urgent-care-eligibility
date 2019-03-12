@@ -13,7 +13,7 @@ import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.elements.Reference;
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Bundle;
-import gov.va.api.health.urgentcare.api.resources.Coverage.EncounterClass;
+import gov.va.api.health.urgentcare.api.resources.Coverage.CoverageClass;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Entry;
 import lombok.experimental.UtilityClass;
 
@@ -48,9 +48,9 @@ public class SwaggerCoverage {
                           "https://dev-api.va.gov/services/argonaut/v0/Coverage/1008547368V529417")
                       .resource(
                           Coverage.builder()
-                              .encounterClass(
+                              .coverageClass(
                                   asList(
-                                      EncounterClass.builder()
+                                      CoverageClass.builder()
                                           .type(
                                               CodeableConcept.builder()
                                                   .coding(

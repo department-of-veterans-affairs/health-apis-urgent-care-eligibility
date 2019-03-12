@@ -87,7 +87,7 @@ public class Coverage implements Resource {
   @NotEmpty List<Reference> payor;
 
   @JsonProperty("class")
-  List<EncounterClass> encounterClass;
+  List<CoverageClass> coverageClass;
 
   @Pattern(regexp = Fhir.POSITIVE_INT)
   String order;
@@ -179,8 +179,8 @@ public class Coverage implements Resource {
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
   @AllArgsConstructor
   @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-  @Schema(name = "EncounterClass")
-  public static class EncounterClass implements BackboneElement {
+  @Schema(name = "CoverageClass")
+  public static class CoverageClass implements BackboneElement {
     @Pattern(regexp = Fhir.ID)
     String id;
 
