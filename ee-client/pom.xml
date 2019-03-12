@@ -9,6 +9,7 @@
   </parent>
   <artifactId>ee-client</artifactId>
   <version>1.0.0</version>
+  <packaging>jar</packaging>
   <dependencies>
     <dependency>
       <groupId>gov.va.api.health</groupId>
@@ -18,6 +19,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>service-auto-config</artifactId>
     </dependency>
   </dependencies>
 </project>

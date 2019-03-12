@@ -1,7 +1,9 @@
-package gov.va.api.health.eeclient.gov.va.api.health.eeclient.ee;
+package gov.va.api.health.eeclient.ee;
 
-import gov.va.api.health.eeclient.util.EeSoapHeaders;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryRequest;
+import lombok.Builder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.MultiValueMap;
 
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
@@ -12,11 +14,28 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
-/** Build a SOAP Message that will be sent as a request to the Eligibility and Enrollment Service. */
-public class SoapMessageBuilder {
+/** Build a SOAP Message that will be sent as a request to the
+ *  Eligibility and Enrollment Service. */
+@lombok.Value
+@Builder(toBuilder = true)
+public class SoapMessageGenerator {
 
+    @Value("${ee.header.username}")
+    private final String eeUsername;
 
-    public static SOAPMessage createGetEESummarySoapRequest(GetEESummaryRequest eeRequestParams, EeSoapHeaders eeRequestHeaders) throws SOAPException {
+    @Value("${ee.header.password}")
+    private final String eePassword;
+
+    @Value("${ee.request.name}")
+    private final String eeRequestName;
+
+    String id;
+
+    @Builder.Default boolean raw = false;
+
+    /** Generates a Request to the Eligibility and Enrollment Service's
+     *  getEESummary operation using only ICN as a value. */
+    public SOAPMessage createGetEESummarySoapRequest() throws SOAPException {
 
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
@@ -34,30 +53,21 @@ public class SoapMessageBuilder {
         SOAPElement soapHeaderSecurityElement = soapHeader.addChildElement("Security", "wsse");
         SOAPElement soapHeaderSecurityAttribute = soapHeaderSecurityElement.addAttribute(soapEnvelope.createQName("mustUnderstand", "SOAP-ENV"), "1");
         SOAPElement soapHeaderUsernameTokenElement = soapHeaderSecurityElement.addChildElement("UsernameToken", "wsse");
-        SOAPElement soapHeaderUsernameTokenAttribute = soapHeaderUsernameTokenElement.addAttribute(soapEnvelope.createQName("Id", "wsu"), eeRequestHeaders.getUsernameTokenId());
+        SOAPElement soapHeaderUsernameTokenAttribute = soapHeaderUsernameTokenElement.addAttribute(soapEnvelope.createQName("Id", "wsu"), "XWSSGID-1281117217796-43574433");
         SOAPElement soapHeaderUsernameTokenUserElement = soapHeaderUsernameTokenElement.addChildElement("Username", "wsse");
-        soapHeaderUsernameTokenUserElement.addTextNode(eeRequestHeaders.getUsername());
+        soapHeaderUsernameTokenUserElement.addTextNode(eeUsername);
         SOAPElement soapHeaderUsernameTokenPasswordElement = soapHeaderUsernameTokenElement.addChildElement("Password", "wsse");
-        soapHeaderUsernameTokenPasswordElement.addTextNode(eeRequestHeaders.getPassword());
+        soapHeaderUsernameTokenPasswordElement.addTextNode(eePassword);
         SOAPElement soapHeaderUsernameTokenPasswordAttribute = soapHeaderUsernameTokenPasswordElement.addAttribute(soapEnvelope.createName("Type"), "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
 
         /* Set the body of the SOAP Request Message. */
         SOAPBody soapBody = soapEnvelope.getBody();
         SOAPElement soapBodyRequestElement = soapBody.addChildElement("getEESummaryRequest", "sch");
         SOAPElement soapBodyElementKey = soapBodyRequestElement.addChildElement("key", "sch");
-        soapBodyElementKey.addTextNode(eeRequestParams.getKey());
-        /* Key Type is an optional parameter. */
-        if(eeRequestParams.getKeyType() != null) {
-            SOAPElement soapBodyElementKeyType = soapBodyRequestElement.addChildElement("keyType", "sch");
-            soapBodyElementKeyType.addTextNode(eeRequestParams.getKeyType());
-        }
+        soapBodyElementKey.addTextNode(id);
+
         SOAPElement soapBodyElementRequestName = soapBodyRequestElement.addChildElement("requestName", "sch");
-        soapBodyElementRequestName.addTextNode(eeRequestParams.getRequestName());
-        /* Income Year is an optional parameter. */
-        if(eeRequestParams.getIncomeYear() != null) {
-            SOAPElement soapBodyElementIncomeYear = soapBodyRequestElement.addChildElement("incomeYear", "sch");
-            soapBodyElementIncomeYear.addTextNode(eeRequestParams.getIncomeYear().toString());
-        }
+        soapBodyElementRequestName.addTextNode(eeRequestName);
 
         soapMessage.saveChanges();
 
