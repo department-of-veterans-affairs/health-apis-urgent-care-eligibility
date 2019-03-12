@@ -28,7 +28,6 @@ import gov.va.api.health.urgentcare.api.resources.Capability.SupportedMessageMod
 import gov.va.api.health.urgentcare.api.resources.Capability.SystemRestfulInteraction;
 import gov.va.api.health.urgentcare.api.resources.Capability.TypeRestfulInteraction;
 import gov.va.api.health.urgentcare.api.resources.Capability.Versioning;
-import java.util.Collections;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Delegate;
 
@@ -106,10 +105,7 @@ public class SampleCapability {
   }
 
   public MessagingEndpoint endpoint() {
-    return MessagingEndpoint.builder()
-        .protocol(coding())
-        .address("")
-        .build();
+    return MessagingEndpoint.builder().protocol(coding()).address("").build();
   }
 
   public Implementation implementation() {

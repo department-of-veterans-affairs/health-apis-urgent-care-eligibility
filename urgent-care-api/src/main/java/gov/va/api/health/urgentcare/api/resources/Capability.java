@@ -68,7 +68,8 @@ public class Capability implements Resource {
   @Pattern(regexp = Fhir.BOOLEAN)
   String experimental;
 
-  @NotBlank @Pattern(regexp = Fhir.DATETIME)
+  @NotBlank
+  @Pattern(regexp = Fhir.DATETIME)
   String date;
 
   @Pattern(regexp = Fhir.STRING)
@@ -99,10 +100,12 @@ public class Capability implements Resource {
   @Valid Software software;
   @Valid Implementation implementation;
 
-  @NotBlank @Pattern(regexp = Fhir.CODE)
+  @NotBlank
+  @Pattern(regexp = Fhir.CODE)
   String fhirVersion;
 
-  @NotEmpty @Pattern(regexp = Fhir.CODE)
+  @NotEmpty
+  @Pattern(regexp = Fhir.CODE)
   List<String> format;
 
   @Pattern(regexp = Fhir.CODE)
@@ -237,7 +240,8 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NotBlank @Pattern(regexp = Fhir.CODE)
+    @NotBlank
+    @Pattern(regexp = Fhir.CODE)
     String type;
 
     @Pattern(regexp = Fhir.URI)
@@ -298,7 +302,8 @@ public class Capability implements Resource {
     @Pattern(regexp = Fhir.MARKDOWN)
     String documentation;
 
-    @NotBlank @Pattern(regexp = Fhir.URI)
+    @NotBlank
+    @Pattern(regexp = Fhir.URI)
     String profile;
   }
 
@@ -316,7 +321,8 @@ public class Capability implements Resource {
 
     @NotNull Coding protocol;
 
-    @NotBlank @Pattern(regexp = Fhir.URI)
+    @NotBlank
+    @Pattern(regexp = Fhir.URI)
     String address;
   }
 
@@ -332,7 +338,8 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NotBlank @Pattern(regexp = Fhir.STRING)
+    @NotBlank
+    @Pattern(regexp = Fhir.STRING)
     String description;
 
     @Pattern(regexp = Fhir.URI)
@@ -376,10 +383,12 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NotBlank @Pattern(regexp = Fhir.STRING)
+    @NotBlank
+    @Pattern(regexp = Fhir.STRING)
     String name;
 
-    @NotBlank @Pattern(regexp = Fhir.URI)
+    @NotBlank
+    @Pattern(regexp = Fhir.URI)
     String definition;
 
     @Pattern(regexp = Fhir.MARKDOWN)
@@ -461,7 +470,8 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NotBlank @Pattern(regexp = Fhir.STRING)
+    @NotBlank
+    @Pattern(regexp = Fhir.STRING)
     String name;
 
     @Pattern(regexp = Fhir.URI)
@@ -494,7 +504,6 @@ public class Capability implements Resource {
     String description;
   }
 
-
   @Data
   @Builder
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -507,7 +516,8 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NotBlank @Pattern(regexp = Fhir.STRING)
+    @NotBlank
+    @Pattern(regexp = Fhir.STRING)
     String name;
 
     @Pattern(regexp = Fhir.STRING)
@@ -531,7 +541,8 @@ public class Capability implements Resource {
 
     @NotNull SupportedMessageMode mode;
 
-    @NotBlank @Pattern(regexp = Fhir.URI)
+    @NotBlank
+    @Pattern(regexp = Fhir.URI)
     String definition;
   }
 }

@@ -2,7 +2,6 @@ package gov.va.api.health.urgentcare.api.samples;
 
 import static java.util.Collections.singletonList;
 
-import com.sun.prism.Texture.Usage;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.ContactDetail;
@@ -14,6 +13,7 @@ import gov.va.api.health.urgentcare.api.datatypes.Identifier.IdentifierUse;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.Quantity;
+import gov.va.api.health.urgentcare.api.datatypes.Range;
 import gov.va.api.health.urgentcare.api.datatypes.Ratio;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleResource;
@@ -68,7 +68,6 @@ public class SampleDataTypes {
         .creation("2000-01-01T00:00:00-00:00")
         .build();
   }*/
-
   public CodeableConcept codeableConcept() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("code text test").build();
   }
@@ -112,7 +111,6 @@ public class SampleDataTypes {
         .code("2000-01-01T00:00:00-00:00")
         .build();
   }*/
-
   public CodeableConcept details() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("HelloText").build();
   }
@@ -159,7 +157,6 @@ public class SampleDataTypes {
         .period(period())
         .build();
   }*/
-
   public Identifier identifier() {
     return Identifier.builder()
         .id("5678")
@@ -212,11 +209,11 @@ public class SampleDataTypes {
     return Quantity.builder().value("11.11").unit("HelloUnit").build();
   }
 
-  /*public Range range() {
-    return Range.builder().low(simpleQuantity()).high(simpleQuantity()).build();
+  public Range range() {
+    return Range.builder().high(simpleQuantity()).low(simpleQuantity()).build();
   }
 
-  public Ratio ratio() {
+  /*public Ratio ratio() {
     return Ratio.builder().numerator(quantity()).denominator(quantity()).build();
   }*/
 
@@ -244,7 +241,6 @@ public class SampleDataTypes {
         .data("HelloText")
         .build();
   }*/
-
   public SimpleQuantity simpleQuantity() {
     return SimpleQuantity.builder()
         .value("11.11")
@@ -254,9 +250,6 @@ public class SampleDataTypes {
   }
 
   public UsageContext usageContext() {
-    return UsageContext.builder()
-        .code(coding())
-        .valueCodeableConcept(codeableConcept())
-        .build();
+    return UsageContext.builder().code(coding()).valueRange(range()).build();
   }
 }

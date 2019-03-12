@@ -11,5 +11,4 @@ public class CapabilityTest {
   public void capability() {
     assertRoundTrip(SampleCapability.get().capability());
   }
-
 }
