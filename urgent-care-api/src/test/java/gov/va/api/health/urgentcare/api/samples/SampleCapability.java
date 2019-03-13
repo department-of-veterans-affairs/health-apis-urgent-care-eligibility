@@ -145,7 +145,7 @@ public class SampleCapability {
         .mode(RestMode.client)
         .documentation("words words")
         .security(security())
-        .resource(capabilityResource())
+        .resource(singletonList(capabilityResource()))
         .interaction(singletonList(restInteraction()))
         .searchParam(searchParam())
         .operation(operation())
