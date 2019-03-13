@@ -431,7 +431,7 @@ public class Capability implements Resource {
     String documentation;
 
     @Valid Security security;
-    @Valid CapabilityResource resource;
+    @Valid List<CapabilityResource> resource;
     @Valid List<RestInteraction> interaction;
     SearchParam searchParam;
     Operation operation;

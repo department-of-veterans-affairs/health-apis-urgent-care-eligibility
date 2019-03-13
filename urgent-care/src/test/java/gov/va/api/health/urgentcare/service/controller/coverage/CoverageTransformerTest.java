@@ -25,17 +25,17 @@ import org.junit.Test;
 public class CoverageTransformerTest {
 
   private final CoverageTransformer tx = new CoverageTransformer();
+
   private final EeSampleData ee = new EeSampleData();
+
   private final Expected expected = new Expected();
+
+  @Test
+  public void classType() {}
 
   @Test
   public void coverage() {
     assertThat(tx.apply(ee.coverage())).isEqualTo(expected.coverage());
-  }
-
-  @Test
-  public void classType() {
-    
   }
 
   private static class EeSampleData {

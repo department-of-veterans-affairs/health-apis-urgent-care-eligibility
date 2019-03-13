@@ -12,5 +12,6 @@
   <modules>
     <module>urgent-care-api</module>
     <module>ee-artifacts</module>
+    <module>urgent-care</module>
   </modules>
 </project>
