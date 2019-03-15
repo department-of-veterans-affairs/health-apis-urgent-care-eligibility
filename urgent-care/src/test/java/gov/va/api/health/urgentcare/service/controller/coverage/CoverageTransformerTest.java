@@ -9,7 +9,6 @@ import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.api.health.urgentcare.api.resources.Coverage.CoverageClass;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
-import gov.va.api.health.urgetcare.service.controller.coverage.CoverageTransformer;
 import gov.va.med.esr.webservices.jaxws.schemas.CommunityCareEligibilityInfo;
 import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
@@ -25,8 +24,24 @@ import org.junit.Test;
 public class CoverageTransformerTest {
 
   private final CoverageTransformer tx = new CoverageTransformer();
+
   private final EeSampleData ee = new EeSampleData();
+
   private final Expected expected = new Expected();
+
+  @Test
+  public void classType() {
+    assertThat(tx.classType(ee.eligibility())).isEqualTo(expected.classType());
+    assertThat(tx.classType(null)).isNull();
+    assertThat(tx.classType(new VceEligibilityInfo())).isNull();
+  }
+
+  @Test
+  public void classTypeCoding() {
+    assertThat(tx.classTypeCodings(ee.eligibility())).isEqualTo(expected.classTypeCoding());
+    assertThat(tx.classTypeCodings(null)).isNull();
+    assertThat(tx.classTypeCodings(new VceEligibilityInfo())).isNull();
+  }
 
   @Test
   public void coverage() {
@@ -34,8 +49,17 @@ public class CoverageTransformerTest {
   }
 
   @Test
-  public void classType() {
-    
+  public void coverageClass() {
+    assertThat(tx.coverageClass(ee.communityCareEligibilityInfo().getEligibilities()))
+        .isEqualTo(expected.coverageClasses());
+    assertThat(tx.coverageClass(new VceEligibilityCollection())).isNull();
+    assertThat(tx.coverageClass(null)).isNull();
+  }
+
+  @Test
+  public void period() {
+    assertThat(tx.period(ee.invocationDate())).isEqualTo(expected.period());
+    assertThat(tx.period(null)).isNull();
   }
 
   private static class EeSampleData {
@@ -68,6 +92,7 @@ public class CoverageTransformerTest {
 
     VceEligibilityCollection eligibilities() {
       VceEligibilityCollection eligibilities = new VceEligibilityCollection();
+      eligibilities.getEligibility().add(eligibility());
       eligibilities.getEligibility().add(eligibility());
       return eligibilities;
     }
@@ -110,14 +135,14 @@ public class CoverageTransformerTest {
           .build();
     }
 
-    CoverageClass coverageClassOne() {
+    CoverageClass coverageClass() {
       return CoverageClass.builder().type(classType()).build();
     }
 
     List<CoverageClass> coverageClasses() {
       List<CoverageClass> coverageClasses = new LinkedList<>();
-      coverageClasses.add(coverageClassOne());
-      coverageClasses.add(coverageClassOne());
+      coverageClasses.add(coverageClass());
+      coverageClasses.add(coverageClass());
       return coverageClasses;
     }
 

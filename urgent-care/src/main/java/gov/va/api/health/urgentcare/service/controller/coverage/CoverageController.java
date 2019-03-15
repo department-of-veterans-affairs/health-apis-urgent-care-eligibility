@@ -1,4 +1,4 @@
-package gov.va.api.health.urgetcare.service.controller.coverage;
+package gov.va.api.health.urgentcare.service.controller.coverage;
 
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;

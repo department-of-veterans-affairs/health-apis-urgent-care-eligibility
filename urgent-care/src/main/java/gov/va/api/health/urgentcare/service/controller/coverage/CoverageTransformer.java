@@ -1,9 +1,5 @@
-package gov.va.api.health.urgetcare.service.controller.coverage;
+package gov.va.api.health.urgentcare.service.controller.coverage;
 
-import static gov.va.api.health.urgetcare.service.controller.Transformers.allBlank;
-import static gov.va.api.health.urgetcare.service.controller.Transformers.asDateTimeString;
-import static gov.va.api.health.urgetcare.service.controller.Transformers.convertAll;
-import static gov.va.api.health.urgetcare.service.controller.Transformers.ifPresent;
 import static java.util.Collections.singletonList;
 
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
@@ -12,7 +8,8 @@ import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.api.health.urgentcare.api.resources.Coverage.CoverageClass;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
-import gov.va.api.health.urgetcare.service.controller.coverage.CoverageController.Transformer;
+import gov.va.api.health.urgentcare.service.controller.Transformers;
+import gov.va.api.health.urgentcare.service.controller.coverage.CoverageController.Transformer;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityCollection;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityInfo;
@@ -29,13 +26,16 @@ public class CoverageTransformer implements Transformer {
   }
 
   CodeableConcept classType(VceEligibilityInfo source) {
-    if (source == null || allBlank(source.getVceCode(), source.getVceDescription())) {
+    if (source == null || Transformers.allBlank(source.getVceCode(), source.getVceDescription())) {
       return null;
     }
     return CodeableConcept.builder().coding(classTypeCodings(source)).build();
   }
 
   List<Coding> classTypeCodings(VceEligibilityInfo source) {
+    if (source == null || Transformers.allBlank(source.getVceCode(), source.getVceDescription())) {
+      return null;
+    }
     return singletonList(
         Coding.builder().code(source.getVceCode()).display(source.getVceDescription()).build());
   }
@@ -50,31 +50,21 @@ public class CoverageTransformer implements Transformer {
   }
 
   List<CoverageClass> coverageClass(VceEligibilityCollection optionalSource) {
-    if (optionalSource == null || optionalSource.getEligibility().isEmpty()) {
+    if (optionalSource == null || optionalSource.getEligibility() == null) {
       return null;
     }
-    return convertAll(
-        ifPresent(optionalSource, VceEligibilityCollection::getEligibility),
+    if (optionalSource.getEligibility().isEmpty()) {
+      return null;
+    }
+    return Transformers.convertAll(
+        Transformers.ifPresent(optionalSource, VceEligibilityCollection::getEligibility),
         eligibilityInfo -> CoverageClass.builder().type(classType(eligibilityInfo)).build());
   }
 
   Period period(XMLGregorianCalendar source) {
-    if (source == null
-        || allBlank(
-            source.getDay(),
-            source.getEon(),
-            source.getEonAndYear(),
-            source.getFractionalSecond(),
-            source.getHour(),
-            source.getMillisecond(),
-            source.getMinute(),
-            source.getMonth(),
-            source.getSecond(),
-            source.getTimezone(),
-            source.getXMLSchemaType(),
-            source.getYear())) {
+    if (source == null) {
       return null;
     }
-    return Period.builder().start(asDateTimeString(source)).build();
+    return Period.builder().start(Transformers.asDateTimeString(source)).build();
   }
 }

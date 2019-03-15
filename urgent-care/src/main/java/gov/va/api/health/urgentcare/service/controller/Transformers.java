@@ -1,4 +1,4 @@
-package gov.va.api.health.urgetcare.service.controller;
+package gov.va.api.health.urgentcare.service.controller;
 
 import java.util.List;
 import java.util.Objects;
