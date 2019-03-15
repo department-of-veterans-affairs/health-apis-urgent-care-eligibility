@@ -9,6 +9,7 @@ import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.Quantity;
 import gov.va.api.health.urgentcare.api.datatypes.Ratio;
+import gov.va.api.health.urgentcare.api.datatypes.Signature;
 import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOf;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -183,11 +184,11 @@ public class Extension implements Element {
 
   @Valid Reference valueReference;
 
-  /*@Valid SampledData valueSampledData;
+  /*@Valid SampledData valueSampledData;*/
 
   @Valid Signature valueSignature;
 
-  @Valid Timing valueTiming;
+  /*@Valid Timing valueTiming;
 
   @Valid ContactDetail valueContactDetail;
 

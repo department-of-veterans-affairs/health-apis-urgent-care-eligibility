@@ -2,11 +2,16 @@ package gov.va.api.health.urgentcare.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import gov.va.api.health.urgentcare.api.Fhir;
+import gov.va.api.health.urgentcare.api.bundle.AbstractBundle;
+import gov.va.api.health.urgentcare.api.bundle.AbstractEntry;
+import gov.va.api.health.urgentcare.api.bundle.BundleLink;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
+import gov.va.api.health.urgentcare.api.datatypes.Signature;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleResource;
 import gov.va.api.health.urgentcare.api.elements.BackboneElement;
@@ -26,6 +31,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -106,6 +112,45 @@ public class Coverage implements Resource {
   }
 
   @Data
+  @NoArgsConstructor
+  @EqualsAndHashCode(callSuper = true)
+  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+  @JsonDeserialize(builder = Coverage.Bundle.BundleBuilder.class)
+  @Schema(name = "CoverageBundle", example = "SWAGGER_EXAMPLE_COVERAGE_BUNDLE")
+  public static class Bundle extends AbstractBundle<Entry> {
+
+    /** Coverage bundle builder. */
+    @Builder
+    public Bundle(
+        @NotBlank String resourceType,
+        @Pattern(regexp = Fhir.ID) String id,
+        @Valid Meta meta,
+        @Pattern(regexp = Fhir.URI) String implicitRules,
+        @Pattern(regexp = Fhir.CODE) String language,
+        @Valid Identifier identifier,
+        @NotNull BundleType type,
+        @Pattern(regexp = Fhir.INSTANT) String timestamp,
+        @Pattern(regexp = Fhir.UNSIGNED_INT) String total,
+        @Valid List<BundleLink> link,
+        @Valid List<Entry> entry,
+        @Valid Signature signature) {
+      super(
+          resourceType,
+          id,
+          meta,
+          implicitRules,
+          language,
+          identifier,
+          type,
+          timestamp,
+          total,
+          link,
+          entry,
+          signature);
+    }
+  }
+
+  @Data
   @Builder
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
   @AllArgsConstructor
@@ -151,6 +196,29 @@ public class Coverage implements Resource {
 
     @Pattern(regexp = Fhir.STRING)
     String name;
+  }
+
+  @Data
+  @NoArgsConstructor
+  @EqualsAndHashCode(callSuper = true)
+  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+  @JsonDeserialize(builder = Coverage.Entry.EntryBuilder.class)
+  @Schema(name = "CoverageEntry")
+  public static class Entry extends AbstractEntry<Coverage> {
+
+    @Builder
+    public Entry(
+        @Pattern(regexp = Fhir.ID) String id,
+        @Valid List<Extension> extension,
+        @Valid List<Extension> modifierExtension,
+        @Valid List<BundleLink> link,
+        @Pattern(regexp = Fhir.URI) String fullUrl,
+        @Valid Coverage resource,
+        @Valid Search search,
+        @Valid Request request,
+        @Valid Response response) {
+      super(id, extension, modifierExtension, link, fullUrl, resource, search, request, response);
+    }
   }
 
   @Data
