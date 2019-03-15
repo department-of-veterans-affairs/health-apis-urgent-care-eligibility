@@ -31,7 +31,7 @@ public interface CoverageApi {
       )
   )
   @ApiResponse(
-      responseCode = "400",
+      responseCode = "404",
       description = "Not found",
       content =
       @Content(
@@ -40,7 +40,7 @@ public interface CoverageApi {
       )
   )
   @ApiResponse(
-      responseCode = "404",
+      responseCode = "400",
       description = "Bad request",
       content =
       @Content(
@@ -68,7 +68,7 @@ public interface CoverageApi {
         )
   )
   @ApiResponse(
-    responseCode = "400",
+    responseCode = "404",
     description = "Not found",
     content =
         @Content(
@@ -77,7 +77,7 @@ public interface CoverageApi {
         )
   )
   @ApiResponse(
-    responseCode = "404",
+    responseCode = "400",
     description = "Bad request",
     content =
         @Content(
