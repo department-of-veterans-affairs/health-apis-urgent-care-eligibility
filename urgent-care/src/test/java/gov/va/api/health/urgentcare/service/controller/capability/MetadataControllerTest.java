@@ -1,11 +1,14 @@
 package gov.va.api.health.urgentcare.service.controller.capability;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
 import gov.va.api.health.urgentcare.api.resources.Capability;
-import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
-import gov.va.api.health.urgetcare.service.controller.capability.CapabilityStatementProperties;
-import gov.va.api.health.urgetcare.service.controller.capability.CapabilityStatementProperties.ContactProperties;
+import gov.va.api.health.urgentcare.api.resources.Capability.Status;
+import gov.va.api.health.urgentcare.service.controller.capability.CapabilityStatementProperties.ContactProperties;
+import gov.va.api.health.urgentcare.service.controller.capability.CapabilityStatementProperties.SecurityProperties;
 import lombok.SneakyThrows;
+import org.junit.Test;
 
 public class MetadataControllerTest {
   @SneakyThrows
@@ -37,17 +40,23 @@ public class MetadataControllerTest {
         .softwareName("Urgent Care")
         .fhirVersion("1.0.4")
         .resourceDocumentation("Implemented per the specification")
+        .security(
+            SecurityProperties.builder()
+                .tokenEndpoint("https://argonaut.lighthouse.va.gov/token")
+                .authorizeEndpoint("https://argonaut.lighthouse.va.gov/authorize")
+                .description(
+                    "This is the conformance statement to declare that the server"
+                        + " supports SMART-on-FHIR. See the SMART-on-FHIR docs for the"
+                        + " extension that would go with such a server.")
+                .build())
         .build();
   }
 
-  /*@Test
-  @Ignore
+  @Test
   @SneakyThrows
   public void read() {
     CapabilityStatementProperties properties = properties();
-    gov.va.api.health.urgentcare.service.controller.capability.MetadataController controller =
-        new gov.va.api.health.urgentcare.service.controller.capability.MetadataController(
-            properties);
+    MetadataController controller = new MetadataController(properties);
     Capability old =
         JacksonConfig.createMapper()
             .readValue(getClass().getResourceAsStream("/capability.json"), Capability.class);
@@ -57,5 +66,5 @@ public class MetadataControllerTest {
       System.out.println(e.getMessage());
       throw e;
     }
-  }*/
+  }
 }

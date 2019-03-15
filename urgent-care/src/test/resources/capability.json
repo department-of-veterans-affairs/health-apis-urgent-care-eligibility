@@ -1,8 +1,9 @@
 {
     "resourceType" : "Capability",
-    "id" : "R4-fhir-capabiilty",
+    "id" : "R4-fhir-capability",
     "version" : "1.0.0",
     "name" : "Urgent Care FHIR",
+    "status" : "active",
     "publisher" : "Liberty ITS",
     "contact" : [
         {
@@ -22,7 +23,6 @@
         "name" : "Urgent Care"
     },
     "fhirVersion" : "1.0.4",
-    "acceptUnknown" : "no",
     "format" : [
         "application/json+fhir",
         "application/json",
@@ -32,19 +32,6 @@
         {
             "mode" : "server",
             "security" : {
-                "cors" : true,
-                "service" : [
-                    {
-                        "coding" : [
-                            {
-                                "system" : "http://hl7.org/fhir/restful-security-service",
-                                "code" : "SMART-on-FHIR",
-                                "display" : "SMART-on-FHIR"
-                            }
-                        ]
-                    }
-                ],
-                "description" : "This is the conformance statement to declare that the server supports SMART-on-FHIR. See the SMART-on-FHIR docs for the extension that would go with such a server.",
                 "extension" : [
                     {
                         "url" : "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris",
@@ -59,14 +46,25 @@
                             }
                         ]
                     }
-                ]
+                ],
+                "cors" : true,
+                "service" : [
+                    {
+                        "coding" : [
+                            {
+                                "system" : "https://www.hl7.org/fhir/valueset-restful-security-service.html",
+                                "code" : "SMART-on-FHIR",
+                                "display" : "SMART-on-FHIR"
+                            }
+                        ]
+                    }
+                ],
+                "description" : "This is the conformance statement to declare that the server supports SMART-on-FHIR. See the SMART-on-FHIR docs for the extension that would go with such a server."
             },
             "resource" : [
                 {
                     "type" : "Coverage",
-                    "profile" : {
-                        "reference" : "https://www.hl7.org/fhir/R4/coverage.html"
-                    },
+                    "profile" : "https://www.hl7.org/fhir/R4/coverage.html",
                     "interaction" : [
                         {
                             "code" : "search-type",
@@ -79,7 +77,8 @@
                     ],
                     "searchParam" : [
                         {
-                            "name" : "patient"
+                            "name" : "patient",
+                            "type" : "reference"
                         }
                     ]
                 }

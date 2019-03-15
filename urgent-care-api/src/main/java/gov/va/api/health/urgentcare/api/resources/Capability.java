@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "http://hl7.org/fhir/DSTU2/conformance.html")
+@Schema(description = "https://www.hl7.org/fhir/R4/capabilitystatement.html")
 public class Capability implements Resource {
 
   @Pattern(regexp = Fhir.ID)

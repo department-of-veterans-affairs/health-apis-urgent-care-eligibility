@@ -1,6 +1,7 @@
-package gov.va.api.health.urgetcare.service.controller.capability;
+package gov.va.api.health.urgentcare.service.controller.capability;
 
-import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
+import gov.va.api.health.urgentcare.api.resources.Capability.Kind;
+import gov.va.api.health.urgentcare.api.resources.Capability.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @SuppressWarnings("DefaultAnnotationParam")
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties("conformance")
+@ConfigurationProperties("capability")
 @Data
 @Accessors(fluent = false)
 @NoArgsConstructor
@@ -24,14 +25,15 @@ public class CapabilityStatementProperties {
   private String version;
   private String name;
   private Status status;
-  private String experimental;
   private String date;
   private String publisher;
   private String description;
+  private Kind kind;
   private String fhirVersion;
   private String softwareName;
   private String resourceDocumentation;
   private ContactProperties contact;
+  private SecurityProperties security;
 
   @Data
   @Accessors(fluent = false)
@@ -41,5 +43,16 @@ public class CapabilityStatementProperties {
   public static class ContactProperties {
     private String name;
     private String email;
+  }
+
+  @Data
+  @Accessors(fluent = false)
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class SecurityProperties {
+    private String tokenEndpoint;
+    private String authorizeEndpoint;
+    private String description;
   }
 }

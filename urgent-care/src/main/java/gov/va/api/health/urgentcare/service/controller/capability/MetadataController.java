@@ -1,4 +1,4 @@
-package gov.va.api.health.urgetcare.service.controller.capability;
+package gov.va.api.health.urgentcare.service.controller.capability;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -29,17 +29,17 @@ import lombok.Getter;
 import lombok.Singular;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping(
   value = {"/api/metadata"},
   produces = {"application/json", "application/json+fhir", "application/fhir+json"}
 )
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
-public class MetadataController {
+class MetadataController {
 
   private static final String COVERAGE_HTML = "https://www.hl7.org/fhir/R4/coverage.html";
 
@@ -64,6 +64,7 @@ public class MetadataController {
         .resourceType("Capability")
         .id(properties.getId())
         .version(properties.getVersion())
+        .status(properties.getStatus())
         .name(properties.getName())
         .publisher(properties.getPublisher())
         .contact(contact())
@@ -101,10 +102,18 @@ public class MetadataController {
                     .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
                     .extension(
                         asList(
-                            Extension.builder().url("token").build(),
-                            Extension.builder().url("authorize").build()))
+                            Extension.builder()
+                                .url("token")
+                                .valueUri(properties.getSecurity().getTokenEndpoint())
+                                .build(),
+                            Extension.builder()
+                                .url("authorize")
+                                .valueUri(properties.getSecurity().getAuthorizeEndpoint())
+                                .build()))
                     .build()))
+        .cors("true")
         .service(singletonList(smartOnFhirCodeableConcept()))
+        .description(properties.getSecurity().getDescription())
         .build();
   }
 
@@ -113,7 +122,7 @@ public class MetadataController {
         .coding(
             singletonList(
                 Coding.builder()
-                    .system("http://hl7.org/fhir/restful-security-service")
+                    .system("https://www.hl7.org/fhir/valueset-restful-security-service.html")
                     .code("SMART-on-FHIR")
                     .display("SMART-on-FHIR")
                     .build()))
@@ -121,7 +130,7 @@ public class MetadataController {
   }
 
   private Software software() {
-    return Software.builder().name(properties.getName()).build();
+    return Software.builder().name(properties.getSoftwareName()).build();
   }
 
   private SupportedResource.SupportedResourceBuilder support(String type) {
@@ -156,13 +165,11 @@ public class MetadataController {
           .type(type)
           .interaction(interactions())
           .searchParam(searchParams())
+          .profile(documentation)
           .build();
     }
 
     private List<ResourceInteraction> interactions() {
-      if (search.isEmpty()) {
-        return singletonList(readable());
-      }
       return asList(searchable(), readable());
     }
 
@@ -174,9 +181,6 @@ public class MetadataController {
     }
 
     private List<Capability.SearchParam> searchParams() {
-      if (search.isEmpty()) {
-        return null;
-      }
       return search
           .stream()
           .map(s -> Capability.SearchParam.builder().name(s.param()).type(s.type()).build())

@@ -1,4 +1,4 @@
-package gov.va.api.health.urgetcare.service;
+package gov.va.api.health.urgentcare.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
