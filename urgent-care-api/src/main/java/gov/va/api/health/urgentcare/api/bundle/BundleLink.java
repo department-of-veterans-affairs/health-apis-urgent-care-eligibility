@@ -1,6 +1,19 @@
 package gov.va.api.health.urgentcare.api.bundle;
 
-/*@Data
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import gov.va.api.health.urgentcare.api.Fhir;
+import gov.va.api.health.urgentcare.api.elements.BackboneElement;
+import gov.va.api.health.urgentcare.api.elements.Extension;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
 @Builder
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BundleLink implements BackboneElement {
@@ -132,4 +145,4 @@ public class BundleLink implements BackboneElement {
     @JsonProperty("working-copy-of")
     working_copy_of
   }
-}*/
+}
