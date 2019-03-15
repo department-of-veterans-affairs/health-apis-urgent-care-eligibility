@@ -4,7 +4,7 @@ import static java.util.Collections.singletonList;
 
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.api.health.urgentcare.api.resources.Coverage.CostToBeneficiary;
-import gov.va.api.health.urgentcare.api.resources.Coverage.EncounterClass;
+import gov.va.api.health.urgentcare.api.resources.Coverage.CoverageClass;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Exception;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
 import java.util.Arrays;
@@ -32,6 +32,14 @@ public class SampleCoverages {
         .build();
   }
 
+  public CoverageClass coverageClass() {
+    return CoverageClass.builder()
+        .type(codeableConcept())
+        .value("Hello value")
+        .name("Hello name")
+        .build();
+  }
+
   public Coverage coverageWithValueMoney() {
     return Coverage.builder()
         .id("1324")
@@ -55,7 +63,7 @@ public class SampleCoverages {
         .relationship(codeableConcept())
         .period(period())
         .payor(singletonList(reference()))
-        .encounterClass(singletonList(encounterClass()))
+        .coverageClass(singletonList(coverageClass()))
         .order("1")
         .network("Hello network")
         .costToBeneficiary(singletonList(costToBeneficiaryWithValueMoney()))
@@ -87,20 +95,12 @@ public class SampleCoverages {
         .relationship(codeableConcept())
         .period(period())
         .payor(singletonList(reference()))
-        .encounterClass(singletonList(encounterClass()))
+        .coverageClass(singletonList(coverageClass()))
         .order("1")
         .network("Hello network")
         .costToBeneficiary(singletonList(costToBeneficiaryWithValueQuantity()))
         .subrogation("true")
         .contract(singletonList(reference()))
-        .build();
-  }
-
-  public EncounterClass encounterClass() {
-    return EncounterClass.builder()
-        .type(codeableConcept())
-        .value("Hello value")
-        .name("Hello name")
         .build();
   }
 
