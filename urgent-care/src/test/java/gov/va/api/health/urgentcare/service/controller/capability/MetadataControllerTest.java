@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
 import gov.va.api.health.urgentcare.api.resources.Capability;
+import gov.va.api.health.urgentcare.api.resources.Capability.Kind;
 import gov.va.api.health.urgentcare.api.resources.Capability.Status;
 import gov.va.api.health.urgentcare.service.controller.capability.CapabilityStatementProperties.ContactProperties;
 import gov.va.api.health.urgentcare.service.controller.capability.CapabilityStatementProperties.SecurityProperties;
@@ -37,6 +38,7 @@ public class MetadataControllerTest {
                 + " set of functionality defined by FHIR."
                 + " It is provided to use as a template for system designers to"
                 + " build their own conformance statements from.")
+        .kind(Kind.capability)
         .softwareName("Urgent Care")
         .fhirVersion("1.0.4")
         .resourceDocumentation("Implemented per the specification")

@@ -11,7 +11,6 @@ import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointSyste
 import gov.va.api.health.urgentcare.api.elements.Extension;
 import gov.va.api.health.urgentcare.api.resources.Capability;
 import gov.va.api.health.urgentcare.api.resources.Capability.CapabilityResource;
-import gov.va.api.health.urgentcare.api.resources.Capability.Kind;
 import gov.va.api.health.urgentcare.api.resources.Capability.ResourceInteraction;
 import gov.va.api.health.urgentcare.api.resources.Capability.Rest;
 import gov.va.api.health.urgentcare.api.resources.Capability.RestMode;
@@ -70,7 +69,7 @@ class MetadataController {
         .contact(contact())
         .date(properties.getDate())
         .description(properties.getDescription())
-        .kind(Kind.capability)
+        .kind(properties.getKind())
         .software(software())
         .fhirVersion(properties.getFhirVersion())
         .format(asList("application/json+fhir", "application/json", "application/fhir+json"))
