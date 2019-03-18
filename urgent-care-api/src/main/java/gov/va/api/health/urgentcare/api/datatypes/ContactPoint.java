@@ -1,3 +1,5 @@
+package gov.va.api.health.urgentcare.api.datatypes;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.elements.Element;
@@ -17,15 +19,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "https://www.hl7.org/fhir/R4/metadatatypes.html#ContactDetail")
-public class ContactDetail implements Element {
+@Schema(description = "https://hl7.org/fhir/R4/datatypes.html#ContactPoint")
+public class ContactPoint implements Element {
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  @Pattern(regexp = Fhir.STRING)
-  String name;
+  ContactPointSystem system;
 
-  @Valid List<ContactPoint> telecom;
+  @Pattern(regexp = Fhir.STRING)
+  String value;
+
+  ContactPointUse use;
+
+  @Pattern(regexp = Fhir.POSITIVE_INT)
+  String rank;
+
+  @Valid Period period;
+
+  public enum ContactPointSystem {
+    phone,
+    fax,
+    email,
+    pager,
+    other,
+    url,
+    sms
+  }
+
+  public enum ContactPointUse {
+    home,
+    work,
+    temp,
+    old,
+    mobile
+  }
 }
