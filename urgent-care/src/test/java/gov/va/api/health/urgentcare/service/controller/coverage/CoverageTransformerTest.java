@@ -120,11 +120,7 @@ public class CoverageTransformerTest {
     }
 
     List<Coding> classTypeCoding() {
-      return singletonList(
-          Coding.builder()
-              .code("M")
-              .display("Mileage eligibility for the Veterans Choice Program")
-              .build());
+      return singletonList(Coding.builder().code("plan").build());
     }
 
     Coverage coverage() {
@@ -136,7 +132,11 @@ public class CoverageTransformerTest {
     }
 
     CoverageClass coverageClass() {
-      return CoverageClass.builder().type(classType()).build();
+      return CoverageClass.builder()
+          .type(classType())
+          .value("M")
+          .name("Mileage eligibility for the Veterans Choice Program")
+          .build();
     }
 
     List<CoverageClass> coverageClasses() {

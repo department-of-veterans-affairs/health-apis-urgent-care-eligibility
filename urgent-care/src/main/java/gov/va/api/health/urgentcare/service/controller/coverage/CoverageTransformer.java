@@ -36,8 +36,7 @@ public class CoverageTransformer implements Transformer {
     if (source == null || Transformers.allBlank(source.getVceCode(), source.getVceDescription())) {
       return null;
     }
-    return singletonList(
-        Coding.builder().code(source.getVceCode()).display(source.getVceDescription()).build());
+    return singletonList(Coding.builder().code("plan").build());
   }
 
   private Coverage coverage(GetEESummaryResponse source) {
@@ -58,7 +57,12 @@ public class CoverageTransformer implements Transformer {
     }
     return Transformers.convertAll(
         Transformers.ifPresent(optionalSource, VceEligibilityCollection::getEligibility),
-        eligibilityInfo -> CoverageClass.builder().type(classType(eligibilityInfo)).build());
+        eligibilityInfo ->
+            CoverageClass.builder()
+                .type(classType(eligibilityInfo))
+                .value(eligibilityInfo.getVceCode())
+                .name(eligibilityInfo.getVceDescription())
+                .build());
   }
 
   Period period(XMLGregorianCalendar source) {
