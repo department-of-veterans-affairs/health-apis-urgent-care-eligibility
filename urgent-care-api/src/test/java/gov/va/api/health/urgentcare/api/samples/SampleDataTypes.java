@@ -9,15 +9,21 @@ import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Search;
 import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.SearchMode;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
+import gov.va.api.health.urgentcare.api.datatypes.ContactDetail;
+import gov.va.api.health.urgentcare.api.datatypes.ContactPoint;
+import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointSystem;
+import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointUse;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier.IdentifierUse;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.Quantity;
+import gov.va.api.health.urgentcare.api.datatypes.Range;
 import gov.va.api.health.urgentcare.api.datatypes.Ratio;
 import gov.va.api.health.urgentcare.api.datatypes.Signature;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleResource;
+import gov.va.api.health.urgentcare.api.datatypes.UsageContext;
 import gov.va.api.health.urgentcare.api.elements.Extension;
 import gov.va.api.health.urgentcare.api.elements.Meta;
 import gov.va.api.health.urgentcare.api.elements.Narrative;
@@ -68,7 +74,6 @@ public class SampleDataTypes {
         .creation("2000-01-01T00:00:00-00:00")
         .build();
   }*/
-
   public CodeableConcept codeableConcept() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("code text test").build();
   }
@@ -83,7 +88,14 @@ public class SampleDataTypes {
         .build();
   }
 
-  /*public ContactPoint contactPoint() {
+  public ContactDetail contactDetail() {
+    return ContactDetail.builder()
+        .name("Hello name")
+        .telecom(singletonList(contactPoint()))
+        .build();
+  }
+
+  public ContactPoint contactPoint() {
     return ContactPoint.builder()
         .system(ContactPointSystem.other)
         .value("HelloValue")
@@ -91,7 +103,7 @@ public class SampleDataTypes {
         .rank("1")
         .period(period())
         .build();
-  }*/
+  }
 
   /*public Count count() {
     return Count.builder().value("19").unit("HelloUnit").system("Y").code("1").build();
@@ -105,7 +117,6 @@ public class SampleDataTypes {
         .code("2000-01-01T00:00:00-00:00")
         .build();
   }*/
-
   public CodeableConcept details() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("HelloText").build();
   }
@@ -152,7 +163,6 @@ public class SampleDataTypes {
         .period(period())
         .build();
   }*/
-
   public Identifier identifier() {
     return Identifier.builder()
         .id("5678")
@@ -205,11 +215,11 @@ public class SampleDataTypes {
     return Quantity.builder().value("11.11").unit("HelloUnit").build();
   }
 
-  /*public Range range() {
-    return Range.builder().low(simpleQuantity()).high(simpleQuantity()).build();
+  public Range range() {
+    return Range.builder().high(simpleQuantity()).low(simpleQuantity()).build();
   }
 
-  public Ratio ratio() {
+  /*public Ratio ratio() {
     return Ratio.builder().numerator(quantity()).denominator(quantity()).build();
   }*/
 
@@ -292,5 +302,9 @@ public class SampleDataTypes {
         .unit("HelloUnit")
         .system("http://example.com")
         .build();
+  }
+
+  public UsageContext usageContext() {
+    return UsageContext.builder().code(coding()).valueRange(range()).build();
   }
 }
