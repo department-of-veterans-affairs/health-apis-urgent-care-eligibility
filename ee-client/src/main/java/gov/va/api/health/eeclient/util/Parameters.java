@@ -1,11 +1,10 @@
 package gov.va.api.health.eeclient.util;
 
+import java.util.List;
 import lombok.NoArgsConstructor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import java.util.List;
 
 /** A cleaner parameter map builder based on Spring' MultiValueMap. */
 @SuppressWarnings("UnusedReturnValue")

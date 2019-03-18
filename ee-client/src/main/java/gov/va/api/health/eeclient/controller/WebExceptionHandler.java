@@ -25,9 +25,7 @@ public class WebExceptionHandler {
     return responseFor(e);
   }
 
-  @ExceptionHandler({
-          Eligibilities.UnknownIdentityInSearchParameter.class
-   })
+  @ExceptionHandler({Eligibilities.UnknownIdentityInSearchParameter.class})
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ErrorResponse handleNotFound(Exception e) {
     return responseFor(e);

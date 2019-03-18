@@ -1,5 +1,20 @@
 package gov.va.api.health.eeclient.util;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import lombok.NoArgsConstructor;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -10,18 +25,10 @@ import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-
 /** Utilities for working with XML documents. */
 @NoArgsConstructor(staticName = "create")
 public final class XmlDocuments {
+
   /**
    * Finds a DOM implementation is capable of 'Load/Save' operations, which gives us the ability to
    * write Documents.
@@ -38,6 +45,21 @@ public final class XmlDocuments {
     throw new WriteFailed(
         "Unexpected LS DOM implementation. Required: org.w3c.dom.ls.DOMImplementationLS, Got: "
             + domImplementation.getClass());
+  }
+
+  /** Get the body of a SOAP Message as a string value. */
+  public static String getSoapBodyAsString(SOAPMessage soapMessage) {
+    try {
+      SOAPBody soapBody = soapMessage.getSOAPBody();
+      DOMSource source = new DOMSource(soapBody);
+      StringWriter stringResult = new StringWriter();
+      TransformerFactory.newInstance()
+          .newTransformer()
+          .transform(source, new StreamResult(stringResult));
+      return stringResult.toString();
+    } catch (SOAPException | TransformerException e) {
+      throw new WriteFailed(e);
+    }
   }
 
   private DOMImplementationRegistry createRegistryOrDie() {
@@ -84,12 +106,14 @@ public final class XmlDocuments {
   }
 
   public static class ParseFailed extends RuntimeException {
+
     ParseFailed(Exception cause) {
       super(cause);
     }
   }
 
   public static class WriteFailed extends RuntimeException {
+
     WriteFailed(String message) {
       super(message);
     }

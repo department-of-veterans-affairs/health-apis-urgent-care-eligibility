@@ -1,15 +1,14 @@
 package gov.va.api.health.eeclient.controller;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /** The error response is the payload returned to the caller should a failure occur. */
 @JsonDeserialize(builder = ErrorResponse.ErrorResponseBuilder.class)
