@@ -1,5 +1,6 @@
 package gov.va.api.health.eeclient.ee;
 
+import javax.xml.soap.SOAPMessage;
 import org.springframework.stereotype.Component;
 
 /** The primary interface for sending requests to the EE Service. */
@@ -32,12 +33,20 @@ public interface Eligibilities {
       super(
           soapMessageGenerator.createGetEeSummarySoapRequest().toString() + " Reason: " + message);
     }
+
+    public RequestFailed(SOAPMessage soapRequestMessage, String message) {
+      super(soapRequestMessage.toString() + " Reason: " + message);
+    }
   }
 
   class UnknownIdentityInSearchParameter extends EligibilitiesException {
     public UnknownIdentityInSearchParameter(
         SoapMessageGenerator soapMessageGenerator, Exception cause) {
       super(soapMessageGenerator.createGetEeSummarySoapRequest().toString(), cause);
+    }
+
+    public UnknownIdentityInSearchParameter(SoapMessageGenerator soapMessageGenerator) {
+      super(soapMessageGenerator.createGetEeSummarySoapRequest().toString());
     }
   }
 }

@@ -4,7 +4,6 @@ import gov.va.api.health.eeclient.ee.Eligibilities;
 import gov.va.api.health.eeclient.ee.EligibilityInfo;
 import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
 import gov.va.api.health.eeclient.util.XmlDocuments;
-import javax.xml.soap.SOAPException;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +19,7 @@ public class ValidateEligibilities implements Eligibilities {
 
   private final EligibilityInfo eligibilityInfo;
 
-  private Document parse(SoapMessageGenerator soapMessageGenerator, String xml)
-      throws SOAPException {
+  private Document parse(SoapMessageGenerator soapMessageGenerator, String xml) {
     try {
       return XmlDocuments.create().parse(xml);
     } catch (XmlDocuments.ParseFailed e) {
@@ -47,14 +45,16 @@ public class ValidateEligibilities implements Eligibilities {
     return write(originalSoapMessage, xml);
   }
 
-  private void validate(SoapMessageGenerator soapMessageGenerator) throws SOAPException {
+  private void validate(SoapMessageGenerator soapMessageGenerator) {
     if (soapMessageGenerator.getId().isEmpty()) {
       throw new MissingIcnValue(soapMessageGenerator);
     }
+    if (!soapMessageGenerator.getId().matches("[0-9]{10}V[0-9]{6}")) {
+      throw new UnknownIdentityInSearchParameter(soapMessageGenerator);
+    }
   }
 
-  private String write(SoapMessageGenerator soapMessageGenerator, Document xml)
-      throws SOAPException {
+  private String write(SoapMessageGenerator soapMessageGenerator, Document xml) {
     try {
       return XmlDocuments.create().write(xml);
     } catch (XmlDocuments.WriteFailed e) {

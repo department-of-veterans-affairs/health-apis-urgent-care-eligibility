@@ -10,7 +10,6 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Build a SOAP Message that will be sent as a request to the Eligibility and Enrollment Service.
@@ -20,18 +19,13 @@ import org.springframework.beans.factory.annotation.Value;
 @Slf4j
 public class SoapMessageGenerator {
 
-  @Value("${ee.header.username}")
   private final String eeUsername;
 
-  @Value("${ee.header.password}")
   private final String eePassword;
 
-  @Value("${ee.request.name}")
   private final String eeRequestName;
 
   String id;
-
-  @Builder.Default boolean raw = false;
 
   /**
    * Generates a Request to the Eligibility and Enrollment Service's getEESummary operation using
@@ -92,8 +86,10 @@ public class SoapMessageGenerator {
       soapMessage.saveChanges();
 
     } catch (SOAPException e) {
-      log.error("Failed to generate SOAPMessage for getEESummaryRequest");
+      throw new Eligibilities.RequestFailed(
+          soapMessage, "Failed to generate SOAPMessage for getEESummaryRequest");
     }
+
     return soapMessage;
   }
 }

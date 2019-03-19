@@ -6,11 +6,12 @@ import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,8 +29,19 @@ public class EeClientV1ApiController {
     method = RequestMethod.GET
   )
   @SneakyThrows
-  public ResponseEntity<String> requestEligibility(@Valid @PathVariable("id") String id) {
-    String xml = eligibilities.request(SoapMessageGenerator.builder().id(id).build());
+  public ResponseEntity<String> requestEligibility(
+      @Valid @RequestParam("id") String id,
+      @Value("${ee.header.username}") String eeUsername,
+      @Value("${ee.header.password}") String eePassword,
+      @Value("${ee.request.name}") String eeRequestName) {
+    String xml =
+        eligibilities.request(
+            SoapMessageGenerator.builder()
+                .id(id)
+                .eeUsername(eeUsername)
+                .eePassword(eePassword)
+                .eeRequestName(eeRequestName)
+                .build());
     return ResponseEntity.ok().body(xml);
   }
 }
