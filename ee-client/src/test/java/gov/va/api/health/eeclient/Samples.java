@@ -19,6 +19,10 @@ public class Samples {
     return read("getEESummaryResponse.xml");
   }
 
+  public String getEeSummaryResponseBody() {
+    return read("getEeSummaryResponseBody.xml");
+  }
+
   @SneakyThrows
   private String read(String fileName) {
     InputStream stream = getClass().getResourceAsStream("/samples/" + fileName);
