@@ -3,7 +3,7 @@ info:
   title: "Eligibility and Enrollment Client"
   version: v1
 servers:
-  - url: https://localhost:8089/api
+  - url: https://localhost:8088/api
     description: Local Instance
 paths:
   /v1/eligibilityandenrollment:
@@ -16,7 +16,7 @@ paths:
           description: ICN of a Person
           schema:
             type: string
-            pattern: "{[0-9]{10}V[0-9]{6}}"
+            pattern: "[0-9]{10}V[0-9]{6}"
         responses:
           '200':
             description: Eligibility Response
