@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
+import gov.va.api.health.urgentcare.api.elements.Reference;
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.api.health.urgentcare.api.resources.Coverage.CoverageClass;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
@@ -128,6 +129,8 @@ public class CoverageTransformerTest {
           .coverageClass(coverageClasses())
           .period(period())
           .status(Status.active)
+          .payor(singletonList(Reference.builder().reference("Patient/137891564258").build()))
+          .beneficiary(Reference.builder().reference("Patient/137891564258").build())
           .build();
     }
 

@@ -5,6 +5,7 @@ import static java.util.Collections.singletonList;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
+import gov.va.api.health.urgentcare.api.elements.Reference;
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.api.health.urgentcare.api.resources.Coverage.CoverageClass;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
@@ -45,6 +46,8 @@ public class CoverageTransformer implements Transformer {
             coverageClass(source.getSummary().getCommunityCareEligibilityInfo().getEligibilities()))
         .status(Status.active)
         .period(period(source.getInvocationDate()))
+        .beneficiary(Reference.builder().reference("Patient/137891564258").build())
+        .payor(singletonList(Reference.builder().reference("Patient/137891564258").build()))
         .build();
   }
 
