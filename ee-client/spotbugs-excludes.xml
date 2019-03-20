@@ -7,4 +7,9 @@
     <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
   </Match>
   -->
+  <!-- The three lines of code that are pointed to by this finding are required to create the EE request message -->
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.SoapMessageGenerator"/>
+    <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+  </Match>
 </FindBugsFilter>
