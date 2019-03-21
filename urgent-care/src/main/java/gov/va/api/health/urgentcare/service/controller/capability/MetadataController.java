@@ -67,7 +67,7 @@ class MetadataController {
         .name(properties.getName())
         .publisher(properties.getPublisher())
         .contact(contact())
-        .date(properties.getDate())
+        .date(properties.getPublicationDate())
         .description(properties.getDescription())
         .kind(properties.getKind())
         .software(software())

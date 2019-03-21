@@ -39,7 +39,7 @@ public class WebExceptionHandler {
 
   private ErrorResponse responseFor(Exception e) {
     ErrorResponse response = ErrorResponse.of(e);
-    log.error("{}: {}", response.getType(), response.getMessage(), e);
+    log.error("{}: {}", response.type(), response.message(), e);
     return response;
   }
 }

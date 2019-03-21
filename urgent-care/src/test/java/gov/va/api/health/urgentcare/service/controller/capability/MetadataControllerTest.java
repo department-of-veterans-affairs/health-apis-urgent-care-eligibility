@@ -31,7 +31,7 @@ public class MetadataControllerTest {
                 .name("Drew Myklegard")
                 .email("david.myklegard@va.gov")
                 .build())
-        .date("2018-09-27T19:30:00-05:00")
+        .publicationDate("2018-09-27T19:30:00-05:00")
         .description(
             "This is the base conformance statement for FHIR."
                 + " It represents a server that provides the full"

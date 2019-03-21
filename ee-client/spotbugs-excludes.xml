@@ -12,4 +12,36 @@
     <Class name="gov.va.api.health.eeclient.ee.SoapMessageGenerator"/>
     <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
   </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.impl.SoapRequester"/>
+    <Bug pattern="SSL_CONTEXT"/>
+  </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.impl.SoapRequester"/>
+    <Bug pattern="URLCONNECTION_SSRF_FD"/>
+  </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.impl.SoapRequester"/>
+    <Bug pattern="URLCONNECTION_SSRF_FD"/>
+  </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.impl.SoapRequester$1"/>
+    <Bug pattern="WEAK_TRUST_MANAGER"/>
+  </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.impl.SoapRequester$2"/>
+    <Bug pattern="WEAK_HOSTNAME_VERIFIER"/>
+  </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.impl.XmlResponseValidator"/>
+    <Bug pattern="ES_COMPARING_STRINGS_WITH_EQ"/>
+  </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.util.XmlDocuments"/>
+    <Bug pattern="XXE_DTD_TRANSFORM_FACTORY"/>
+  </Match>
+  <Match>
+    <Class name="gov.va.api.health.eeclient.util.XmlDocuments"/>
+    <Bug pattern="XXE_XSLT_TRANSFORM_FACTORY"/>
+  </Match>
 </FindBugsFilter>

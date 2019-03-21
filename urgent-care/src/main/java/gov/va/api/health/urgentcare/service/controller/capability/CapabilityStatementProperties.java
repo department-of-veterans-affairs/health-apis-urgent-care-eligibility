@@ -25,7 +25,7 @@ public class CapabilityStatementProperties {
   private String version;
   private String name;
   private Status status;
-  private String date;
+  private String publicationDate;
   private String publisher;
   private String description;
   private Kind kind;

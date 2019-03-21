@@ -46,10 +46,10 @@ public class ValidateEligibilities implements Eligibilities {
   }
 
   private void validate(SoapMessageGenerator soapMessageGenerator) {
-    if (soapMessageGenerator.getId().isEmpty()) {
+    if (soapMessageGenerator.id().isEmpty()) {
       throw new MissingIcnValue(soapMessageGenerator);
     }
-    if (!soapMessageGenerator.getId().matches("[0-9]{10}V[0-9]{6}")) {
+    if (!soapMessageGenerator.id().matches("[0-9]{10}V[0-9]{6}")) {
       throw new UnknownIdentityInSearchParameter(soapMessageGenerator);
     }
   }
