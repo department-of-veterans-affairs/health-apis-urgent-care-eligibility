@@ -7,9 +7,21 @@
     <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
   </Match>
   -->
-  <!-- The three lines of code that are pointed to by this finding are required to create the EE request message -->
+  <!--
+    The three lines of code that are pointed to by this finding are required to create the EE request message
+  -->
   <Match>
     <Class name="gov.va.api.health.eeclient.ee.SoapMessageGenerator"/>
     <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+  </Match>
+  <!--
+    Line 88 of Soap Requester opens a url connection from the ee.endpoint.url in properties.
+    To prevent Server Side Request forgery, the code checks the url protocol is HTTPS (E&E
+    uses one way TLS) and that the request address is not local. If the url fails either of
+    these checks, the connection is never made and the request fails.
+  -->
+  <Match>
+    <Class name="gov.va.api.health.eeclient.ee.impl.SoapRequester"/>
+    <Bug pattern="URLCONNECTION_SSRF_FD"/>
   </Match>
 </FindBugsFilter>

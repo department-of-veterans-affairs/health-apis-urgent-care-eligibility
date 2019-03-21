@@ -37,6 +37,10 @@ public interface Eligibilities {
     public RequestFailed(SOAPMessage soapRequestMessage, String message) {
       super(soapRequestMessage.toString() + " Reason: " + message);
     }
+
+    public RequestFailed(String message) {
+      super(" Reason: " + message);
+    }
   }
 
   class UnknownIdentityInSearchParameter extends EligibilitiesException {

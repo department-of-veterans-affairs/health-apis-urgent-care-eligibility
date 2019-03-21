@@ -53,9 +53,10 @@ public final class XmlDocuments {
       SOAPBody soapBody = soapMessage.getSOAPBody();
       DOMSource source = new DOMSource(soapBody);
       StringWriter stringResult = new StringWriter();
-      TransformerFactory.newInstance()
-          .newTransformer()
-          .transform(source, new StreamResult(stringResult));
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+      transformerFactory.newTransformer().transform(source, new StreamResult(stringResult));
       return stringResult.toString();
     } catch (SOAPException | TransformerException e) {
       throw new WriteFailed(e);
