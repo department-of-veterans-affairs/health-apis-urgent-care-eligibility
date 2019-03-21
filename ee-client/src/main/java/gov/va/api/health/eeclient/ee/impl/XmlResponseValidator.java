@@ -31,7 +31,7 @@ public class XmlResponseValidator {
 
   void validate() {
     String summary = extractSummaryField();
-    if (summary == "") {
+    if (summary.isEmpty()) {
       throw new Eligibilities.RequestFailed(
           soapMessageGenerator, "Don't Understand XML, getEESummaryResponse is Missing");
     }
