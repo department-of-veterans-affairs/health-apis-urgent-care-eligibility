@@ -1,4 +1,4 @@
-package gov.va.api.health.urgentcare.service;
+package gov.va.api.health.urgentcare.service.controller;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import gov.va.api.health.urgentcare.service.controller.UrgentCareHomeController;
 import java.nio.charset.StandardCharsets;
 import lombok.SneakyThrows;
 import org.junit.Test;
