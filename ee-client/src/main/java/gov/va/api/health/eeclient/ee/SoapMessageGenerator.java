@@ -84,12 +84,10 @@ public class SoapMessageGenerator {
       soapBodyElementRequestName.addTextNode(eeRequestName);
 
       soapMessage.saveChanges();
-
+      return soapMessage;
     } catch (SOAPException e) {
       throw new Eligibilities.RequestFailed(
           soapMessage, "Failed to generate SOAPMessage for getEESummaryRequest");
     }
-
-    return soapMessage;
   }
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
-  <!-- Exclusions can be defined here and should include a comment on why the finding can be ignored -->
-  <!-- Example:
-  <Match>
-    <Class name="gov.va.dvp.SomeClass$SomeInnerClass" />
-    <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
-  </Match>
+  <!--
+    Exclusions can be defined here and should include a comment on why the finding can be ignored
   -->
   <!--
-    The three lines of code that are pointed to by this finding are required to create the EE request message
+    The three lines of code that are pointed to by this finding are used to add attribute
+    values to SOAPElements within the SOAPHeader. These values, while not explicitly
+    used by any subsequent instruction, are used in the generation of the SOAPMessage
+    that is eventually sent to E&E as a request and are therefore should not be
+    considered dead.
   -->
   <Match>
     <Class name="gov.va.api.health.eeclient.ee.SoapMessageGenerator"/>
