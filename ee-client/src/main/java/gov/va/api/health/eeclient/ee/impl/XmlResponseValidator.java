@@ -21,9 +21,7 @@ public class XmlResponseValidator {
   private String extractSummaryField() {
     XPath xpath = XPathFactory.newInstance().newXPath();
     try {
-      return xpath
-          .compile("/*[local-name()='Body']/*[local-name()='getEESummaryResponse']")
-          .evaluate(response);
+      return xpath.compile("/getEESummaryResponse").evaluate(response);
     } catch (XPathExpressionException e) {
       throw new Eligibilities.RequestFailed(soapMessageGenerator, "Don't Understand XML.");
     }

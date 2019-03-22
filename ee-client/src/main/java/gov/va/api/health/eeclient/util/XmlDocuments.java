@@ -8,6 +8,7 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.soap.Node;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -51,12 +52,14 @@ public final class XmlDocuments {
   public static String getSoapBodyAsString(SOAPMessage soapMessage) {
     try {
       SOAPBody soapBody = soapMessage.getSOAPBody();
-      DOMSource source = new DOMSource(soapBody);
+      Node element = (Node) soapBody.getChildElements().next();
       StringWriter stringResult = new StringWriter();
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
       transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
       transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-      transformerFactory.newTransformer().transform(source, new StreamResult(stringResult));
+      transformerFactory
+          .newTransformer()
+          .transform(new DOMSource(element), new StreamResult(stringResult));
       return stringResult.toString();
     } catch (SOAPException | TransformerException e) {
       throw new WriteFailed(e);
