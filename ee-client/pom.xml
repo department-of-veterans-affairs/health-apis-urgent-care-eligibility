@@ -8,7 +8,7 @@
     <relativePath/>
   </parent>
   <artifactId>ee-client</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.5</version>
   <packaging>jar</packaging>
   <properties>
     <jacoco.coverage>0.00</jacoco.coverage>
