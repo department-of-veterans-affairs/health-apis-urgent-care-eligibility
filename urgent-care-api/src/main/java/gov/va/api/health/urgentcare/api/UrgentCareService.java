@@ -29,7 +29,7 @@ import javax.ws.rs.Path;
       )
 )
 @Path("/")
-public interface UrgentCareService extends CoverageApi {
+public interface UrgentCareService extends CoverageApi, MetadataApi {
   class UrgentCareServiceException extends RuntimeException {
     UrgentCareServiceException(String message) {
       super(message);
