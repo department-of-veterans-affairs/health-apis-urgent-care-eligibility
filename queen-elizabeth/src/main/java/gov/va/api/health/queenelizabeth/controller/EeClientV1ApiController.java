@@ -1,7 +1,7 @@
-package gov.va.api.health.eeclient.controller;
+package gov.va.api.health.queenelizabeth.controller;
 
-import gov.va.api.health.eeclient.ee.Eligibilities;
-import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
+import gov.va.api.health.queenelizabeth.ee.Eligibilities;
+import gov.va.api.health.queenelizabeth.ee.SoapMessageGenerator;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;

@@ -1,9 +1,9 @@
-package gov.va.api.health.eeclient.ee.impl;
+package gov.va.api.health.queenelizabeth.ee.impl;
 
-import gov.va.api.health.eeclient.ee.Eligibilities;
-import gov.va.api.health.eeclient.ee.EligibilityInfo;
-import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
-import gov.va.api.health.eeclient.util.XmlDocuments;
+import gov.va.api.health.queenelizabeth.ee.Eligibilities;
+import gov.va.api.health.queenelizabeth.ee.EligibilityInfo;
+import gov.va.api.health.queenelizabeth.ee.SoapMessageGenerator;
+import gov.va.api.health.queenelizabeth.util.XmlDocuments;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

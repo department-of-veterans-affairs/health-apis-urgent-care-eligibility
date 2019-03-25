@@ -1,4 +1,4 @@
-package gov.va.api.health.eeclient.controller;
+package gov.va.api.health.queenelizabeth.controller;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import java.io.IOException;

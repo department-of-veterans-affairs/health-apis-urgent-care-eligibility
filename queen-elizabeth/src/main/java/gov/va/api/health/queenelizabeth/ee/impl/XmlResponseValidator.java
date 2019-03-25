@@ -1,7 +1,7 @@
-package gov.va.api.health.eeclient.ee.impl;
+package gov.va.api.health.queenelizabeth.ee.impl;
 
-import gov.va.api.health.eeclient.ee.Eligibilities;
-import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
+import gov.va.api.health.queenelizabeth.ee.Eligibilities;
+import gov.va.api.health.queenelizabeth.ee.SoapMessageGenerator;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;

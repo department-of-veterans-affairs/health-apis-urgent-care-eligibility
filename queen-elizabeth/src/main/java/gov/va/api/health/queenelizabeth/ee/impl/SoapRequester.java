@@ -1,10 +1,10 @@
-package gov.va.api.health.eeclient.ee.impl;
+package gov.va.api.health.queenelizabeth.ee.impl;
 
-import static gov.va.api.health.eeclient.util.XmlDocuments.getSoapBodyAsString;
+import static gov.va.api.health.queenelizabeth.util.XmlDocuments.getSoapBodyAsString;
 
-import gov.va.api.health.eeclient.ee.Eligibilities;
-import gov.va.api.health.eeclient.ee.EligibilityInfo;
-import gov.va.api.health.eeclient.util.Checks;
+import gov.va.api.health.queenelizabeth.ee.Eligibilities;
+import gov.va.api.health.queenelizabeth.ee.EligibilityInfo;
+import gov.va.api.health.queenelizabeth.util.Checks;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.InetAddress;

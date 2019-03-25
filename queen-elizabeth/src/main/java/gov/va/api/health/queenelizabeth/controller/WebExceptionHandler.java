@@ -1,6 +1,6 @@
-package gov.va.api.health.eeclient.controller;
+package gov.va.api.health.queenelizabeth.controller;
 
-import gov.va.api.health.eeclient.ee.Eligibilities;
+import gov.va.api.health.queenelizabeth.ee.Eligibilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

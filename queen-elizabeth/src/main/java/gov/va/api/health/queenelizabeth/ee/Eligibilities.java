@@ -1,4 +1,4 @@
-package gov.va.api.health.eeclient.ee;
+package gov.va.api.health.queenelizabeth.ee;
 
 import javax.xml.soap.SOAPMessage;
 import org.springframework.stereotype.Component;

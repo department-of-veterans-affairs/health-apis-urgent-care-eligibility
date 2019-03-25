@@ -11,7 +11,7 @@
     considered dead.
   -->
   <Match>
-    <Class name="gov.va.api.health.eeclient.ee.SoapMessageGenerator"/>
+    <Class name="gov.va.api.health.queenelizabeth.ee.SoapMessageGenerator"/>
     <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
   </Match>
   <!--
@@ -21,7 +21,7 @@
     these checks, the connection is never made and the request fails.
   -->
   <Match>
-    <Class name="gov.va.api.health.eeclient.ee.impl.SoapRequester"/>
+    <Class name="gov.va.api.health.queenelizabeth.ee.impl.SoapRequester"/>
     <Bug pattern="URLCONNECTION_SSRF_FD"/>
   </Match>
 </FindBugsFilter>

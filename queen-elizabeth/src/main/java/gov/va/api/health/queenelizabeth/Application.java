@@ -1,4 +1,4 @@
-package gov.va.api.health.eeclient;
+package gov.va.api.health.queenelizabeth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

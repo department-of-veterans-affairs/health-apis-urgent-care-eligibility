@@ -13,6 +13,6 @@
     <module>urgent-care-api</module>
     <module>ee-artifacts</module>
     <module>urgent-care</module>
-    <module>ee-client</module>
+    <module>queen-elizabeth</module>
   </modules>
 </project>

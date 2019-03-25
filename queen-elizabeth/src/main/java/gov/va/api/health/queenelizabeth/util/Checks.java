@@ -1,4 +1,4 @@
-package gov.va.api.health.eeclient.util;
+package gov.va.api.health.queenelizabeth.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

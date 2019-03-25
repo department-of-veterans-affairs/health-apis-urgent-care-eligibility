@@ -7,7 +7,7 @@
     <version>2.0.0</version>
     <relativePath/>
   </parent>
-  <artifactId>ee-client</artifactId>
+  <artifactId>queen-elizabeth</artifactId>
   <version>1.0.6-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
