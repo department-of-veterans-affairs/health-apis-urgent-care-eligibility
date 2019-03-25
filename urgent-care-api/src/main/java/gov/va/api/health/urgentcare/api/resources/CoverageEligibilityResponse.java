@@ -18,7 +18,6 @@ import gov.va.api.health.urgentcare.api.elements.Extension;
 import gov.va.api.health.urgentcare.api.elements.Meta;
 import gov.va.api.health.urgentcare.api.elements.Narrative;
 import gov.va.api.health.urgentcare.api.elements.Reference;
-import gov.va.api.health.urgentcare.api.resources.Coverage.Entry;
 import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOf;
 import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOfs;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -62,5 +62,13 @@ public class CoverageEligibilityResponseTest {
         .sample(data.coverageEligibilityResponse())
         .fieldPrefix("serviced")
         .build();
+    ZeroOrOneOfVerifier.builder()
+        .sample(data.coverageEligibilityResponse())
+        .fieldPrefix("allowed")
+        .build();
+    ZeroOrOneOfVerifier.builder()
+        .sample(data.coverageEligibilityResponse())
+        .fieldPrefix("used")
+        .build();
   }
 }
