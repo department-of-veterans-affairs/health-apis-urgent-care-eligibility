@@ -1,0 +1,90 @@
+package gov.va.api.health.urgentcare.api.samples;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Benefit;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.CoverageEligibilityResponseError;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Insurance;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Item;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Outcome;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Purpose;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Status;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Delegate;
+
+@NoArgsConstructor(staticName = "get")
+public class SampleCoverageEligibilityResponses {
+
+  @Delegate SampleDataTypes dataTypes = SampleDataTypes.get();
+
+  public Benefit benefit() {
+    return Benefit.builder()
+        .type(codeableConcept())
+        .allowedString("Allowed String")
+        .usedMoney(money())
+        .build();
+  }
+
+  public CoverageEligibilityResponse coverageEligibilityResponse() {
+    return CoverageEligibilityResponse.builder()
+        .id("1324")
+        .resourceType("Coverage")
+        .meta(meta())
+        .implicitRules("https://HelloRules.com")
+        .language("Hello language")
+        .text(narrative())
+        .contained(singletonList(resource()))
+        .extension(asList(extension(), extension()))
+        .modifierExtension(asList(extension(), extensionWithQuantity(), extensionWithRatio()))
+        .identifier(singletonList(identifier()))
+        .status(Status.active)
+        .purpose(singletonList(Purpose.benefits))
+        .patient(reference())
+        .servicedPeriod(period())
+        .created("2015-04-15T04:00:00Z")
+        .requestor(reference())
+        .request(reference())
+        .outcome(Outcome.complete)
+        .disposition("Hello disposition")
+        .insurer(reference())
+        .insurance(singletonList(insurance()))
+        .preAuthRef("Hello preAuthRef")
+        .form(codeableConcept())
+        .error(singletonList(error()))
+        .build();
+  }
+
+  public CoverageEligibilityResponseError error() {
+    return CoverageEligibilityResponseError.builder().code(codeableConcept()).build();
+  }
+
+  public Insurance insurance() {
+    return Insurance.builder()
+        .coverage(reference())
+        .inforce("true")
+        .benefitPeriod(period())
+        .item(singletonList(item()))
+        .build();
+  }
+
+  public Item item() {
+    return Item.builder()
+        .category(codeableConcept())
+        .productOrService(codeableConcept())
+        .modifier(singletonList(codeableConcept()))
+        .provider(reference())
+        .excluded("false")
+        .name("Hello name")
+        .description("Hello description")
+        .network(codeableConcept())
+        .unit(codeableConcept())
+        .term(codeableConcept())
+        .benefit(singletonList(benefit()))
+        .authorizationRequired("true")
+        .authorizationSupporting(singletonList(codeableConcept()))
+        .authorizationUrl("http://example.com")
+        .build();
+  }
+}

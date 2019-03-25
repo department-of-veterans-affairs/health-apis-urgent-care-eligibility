@@ -8,13 +8,13 @@ import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.SearchMode;
 import gov.va.api.health.urgentcare.api.bundle.BundleLink;
 import gov.va.api.health.urgentcare.api.bundle.BundleLink.LinkRelation;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
-import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.elements.Reference;
 import gov.va.api.health.urgentcare.api.resources.Coverage;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Bundle;
 import gov.va.api.health.urgentcare.api.resources.Coverage.CoverageClass;
 import gov.va.api.health.urgentcare.api.resources.Coverage.Entry;
+import gov.va.api.health.urgentcare.api.resources.Coverage.Status;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -48,19 +48,16 @@ public class SwaggerCoverage {
                           "https://dev-api.va.gov/services/argonaut/v0/Coverage/1008547368V529417")
                       .resource(
                           Coverage.builder()
+                              .status(Status.active)
                               .coverageClass(
                                   asList(
                                       CoverageClass.builder()
                                           .type(
                                               CodeableConcept.builder()
-                                                  .coding(
-                                                      asList(
-                                                          Coding.builder()
-                                                              .code("M")
-                                                              .display(
-                                                                  "Mileage eligibility for the Veterans Choice Program")
-                                                              .build()))
+                                                  .text(
+                                                      "Mileage eligibility for the Veterans Choice Program")
                                                   .build())
+                                          .value("M")
                                           .build()))
                               .beneficiary(
                                   Reference.builder().reference("1008547368V529417").build())

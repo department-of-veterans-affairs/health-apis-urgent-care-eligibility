@@ -25,7 +25,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,6 +32,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @Builder
@@ -69,7 +69,7 @@ public class Coverage implements Resource {
 
   // Coverage Resource
   @Valid List<Identifier> identifier;
-  @NotNull Status status;
+  @NonNull Status status;
   @Valid CodeableConcept type;
   @Valid Reference policyHolder;
   @Valid Reference subscriber;
@@ -77,7 +77,7 @@ public class Coverage implements Resource {
   @Pattern(regexp = Fhir.STRING)
   String subscriberId;
 
-  @NotNull @Valid Reference beneficiary;
+  @NonNull @Valid Reference beneficiary;
 
   @Pattern(regexp = Fhir.STRING)
   String dependent;
@@ -128,7 +128,7 @@ public class Coverage implements Resource {
         @Pattern(regexp = Fhir.URI) String implicitRules,
         @Pattern(regexp = Fhir.CODE) String language,
         @Valid Identifier identifier,
-        @NotNull BundleType type,
+        @NonNull BundleType type,
         @Pattern(regexp = Fhir.INSTANT) String timestamp,
         @Pattern(regexp = Fhir.UNSIGNED_INT) String total,
         @Valid List<BundleLink> link,
@@ -188,10 +188,10 @@ public class Coverage implements Resource {
 
     @Valid List<Extension> modifierExtension;
 
-    @NotNull CodeableConcept type;
+    @NonNull CodeableConcept type;
 
     @Pattern(regexp = Fhir.STRING)
-    @NotNull
+    @NonNull
     String value;
 
     @Pattern(regexp = Fhir.STRING)
@@ -235,7 +235,7 @@ public class Coverage implements Resource {
 
     @Valid List<Extension> modifierExtension;
 
-    @NotNull CodeableConcept type;
+    @NonNull CodeableConcept type;
     @Valid Period period;
   }
 }
