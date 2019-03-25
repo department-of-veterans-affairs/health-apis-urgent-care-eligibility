@@ -1,3 +1,5 @@
+package gov.va.api.health.urgentcare.api.datatypes;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.elements.Element;
@@ -17,51 +19,37 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#Address")
-public class Address implements Element {
+@Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#HumanName")
+public class HumanName implements Element {
   @Pattern(regexp = Fhir.ID)
   String id;
 
   @Valid List<Extension> extension;
 
-  AddressUse use;
-  AddressType type;
+  NameUse use;
 
   @Pattern(regexp = Fhir.STRING)
   String text;
 
-  List<@Pattern(regexp = Fhir.STRING) String> line;
-
   @Pattern(regexp = Fhir.STRING)
-  String city;
+  String family;
 
-  @Pattern(regexp = Fhir.STRING)
-  String district;
+  List<@Pattern(regexp = Fhir.STRING) String> given;
 
-  @Pattern(regexp = Fhir.STRING)
-  String state;
+  List<@Pattern(regexp = Fhir.STRING) String> prefix;
 
-  @Pattern(regexp = Fhir.STRING)
-  String postalCode;
-
-  @Pattern(regexp = Fhir.STRING)
-  String country;
+  List<@Pattern(regexp = Fhir.STRING) String> suffix;
 
   @Valid Period period;
 
   @SuppressWarnings("unused")
-  public enum AddressUse {
-    home,
-    work,
+  public enum NameUse {
+    usual,
+    official,
     temp,
+    nickname,
+    anonymous,
     old,
-    billing
-  }
-
-  @SuppressWarnings("unused")
-  public enum AddressType {
-    postal,
-    physical,
-    both
+    maiden
   }
 }
