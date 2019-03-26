@@ -68,6 +68,7 @@ public abstract class AbstractRelatedFieldVerifier<T> {
     suppliers.put(Fhir.URI, () -> "http://example.com");
     suppliers.put(Fhir.DATE, () -> "2005-01-21");
     suppliers.put(Fhir.DATETIME, () -> "2005-01-21T07:57:00Z");
+    suppliers.put(Fhir.DECIMAL, () -> "1.00");
     suppliers.put(Fhir.ID, () -> "id");
     suppliers.put(Fhir.INSTANT, () -> "2005-01-21T07:57:00.000Z");
     suppliers.put(Fhir.INTEGER, () -> "10");
