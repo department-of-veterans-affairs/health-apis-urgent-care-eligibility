@@ -1,6 +1,7 @@
 package gov.va.api.health.urgentcare.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gov.va.api.health.urgentcare.api.Fhir;
 import gov.va.api.health.urgentcare.api.datatypes.Address;
 import gov.va.api.health.urgentcare.api.datatypes.Attachment;
@@ -114,6 +115,14 @@ public class Patient implements Resource {
     unknown
   }
 
+  public enum Type {
+    @JsonProperty("replaced-by")
+    replaced_by,
+    replaces,
+    refer,
+    seealso
+  }
+
   @Data
   @Builder
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -150,9 +159,7 @@ public class Patient implements Resource {
 
     @NonNull @Valid Reference other;
 
-    @NotBlank
-    @Pattern(regexp = Fhir.CODE)
-    String type;
+    @NonNull Type type;
   }
 
   @Data

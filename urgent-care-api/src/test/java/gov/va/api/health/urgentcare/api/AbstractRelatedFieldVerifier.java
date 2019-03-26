@@ -62,15 +62,20 @@ public abstract class AbstractRelatedFieldVerifier<T> {
   private static Map<String, Supplier<?>> createKnownStringTypes() {
     Map<String, Supplier<?>> suppliers = new HashMap<>();
     suppliers.put("", () -> "hello");
-    suppliers.put(Fhir.ID, () -> "id");
+    suppliers.put(Fhir.BOOLEAN, () -> "true");
+    suppliers.put(Fhir.BASE64, () -> "SSBqdXN0IGF0ZSBhIHBlYW51dAo=");
     suppliers.put(Fhir.CODE, () -> "code");
     suppliers.put(Fhir.URI, () -> "http://example.com");
-    suppliers.put(Fhir.BASE64, () -> "SSBqdXN0IGF0ZSBhIHBlYW51dAo=");
     suppliers.put(Fhir.DATE, () -> "2005-01-21");
     suppliers.put(Fhir.DATETIME, () -> "2005-01-21T07:57:00Z");
-    suppliers.put(Fhir.TIME, () -> "07:57:00.000");
+    suppliers.put(Fhir.ID, () -> "id");
     suppliers.put(Fhir.INSTANT, () -> "2005-01-21T07:57:00.000Z");
+    suppliers.put(Fhir.INTEGER, () -> "10");
     suppliers.put(Fhir.OID, () -> "urn:oid:0.1");
+    suppliers.put(Fhir.POSITIVE_INT, () -> "1");
+    suppliers.put(Fhir.STRING, () -> "hello");
+    suppliers.put(Fhir.TIME, () -> "07:57:00.000");
+    suppliers.put(Fhir.UNSIGNED_INT, () -> "0");
     suppliers.put(Fhir.XHTML, () -> "<div>html</div>");
     return suppliers;
   }
@@ -78,10 +83,6 @@ public abstract class AbstractRelatedFieldVerifier<T> {
   private static Map<Class<?>, Supplier<?>> createKnownTypes() {
     SampleDataTypes dataTypes = SampleDataTypes.get();
     Map<Class<?>, Supplier<?>> suppliers = new HashMap<>();
-    suppliers.put(String.class, () -> "hello");
-    suppliers.put(Integer.class, () -> 1);
-    suppliers.put(Boolean.class, () -> true);
-    suppliers.put(Double.class, () -> 1.0);
     suppliers.put(Extension.class, dataTypes::extension);
     suppliers.put(Money.class, dataTypes::money);
     suppliers.put(SimpleQuantity.class, dataTypes::simpleQuantity);

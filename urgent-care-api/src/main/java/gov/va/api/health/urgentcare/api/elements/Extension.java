@@ -119,7 +119,7 @@ public class Extension implements Element {
   String valueInstant;
 
   @Pattern(regexp = Fhir.INTEGER)
-  Integer valueInteger;
+  String valueInteger;
 
   /*@Pattern(regexp = Fhir.MARKDOWN)
   String valueMarkdown;

@@ -60,8 +60,9 @@ public class CoverageTest {
   @Test
   public void relatedGroups() {
     ExactlyOneOfVerifier.builder()
-        .sample(data.coverageWithValueQuanitity())
+        .sample(data.costToBeneficiaryWithValueQuantity())
         .fieldPrefix("value")
-        .build();
+        .build()
+    .verify();
   }
 }
