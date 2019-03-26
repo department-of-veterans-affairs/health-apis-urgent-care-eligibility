@@ -25,23 +25,28 @@ public class SoapRequesterTests {
   @Mock SOAPConnectionFactory soapConnectionFactory;
 
   @Mock SOAPConnection soapConnection;
+
   @Mock HttpsURLConnection mockHttpsURLConnection;
 
   private SoapRequester soapRequester;
-
-  @Before
-  @SneakyThrows
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-    Mockito.when(soapConnectionFactory.createConnection()).thenReturn(soapConnection);
-    soapRequester = new SoapRequester("https://ee.va.gov:9334/getEESummary/", "src/test/resources/test-truststore.jks", "test");
-  }
 
   @SneakyThrows
   private void mockResults(String exampleXml) {
     InputStream is = new ByteArrayInputStream(exampleXml.getBytes());
     SOAPMessage response = MessageFactory.newInstance().createMessage(null, is);
     Mockito.when(soapConnection.call(any(SOAPMessage.class), anyString())).thenReturn(response);
+  }
+
+  @Before
+  @SneakyThrows
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
+    Mockito.when(soapConnectionFactory.createConnection()).thenReturn(soapConnection);
+    soapRequester =
+        new SoapRequester(
+            "https://ee.va.gov:9334/getEESummary/",
+            "src/test/resources/test-truststore.jks",
+            "test");
   }
 
   private SoapMessageGenerator soapMessageGenerator() {

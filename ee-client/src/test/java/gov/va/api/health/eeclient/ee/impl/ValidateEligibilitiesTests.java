@@ -1,9 +1,12 @@
 package gov.va.api.health.eeclient.ee.impl;
 
+import static org.mockito.Mockito.when;
+
 import gov.va.api.health.eeclient.Samples;
 import gov.va.api.health.eeclient.ee.Eligibilities;
 import gov.va.api.health.eeclient.ee.EligibilityInfo;
 import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
+import javax.xml.soap.SOAPMessage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,10 +14,6 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import javax.xml.soap.SOAPMessage;
-
-import static org.mockito.Mockito.when;
 
 public class ValidateEligibilitiesTests {
 
@@ -27,7 +26,7 @@ public class ValidateEligibilitiesTests {
   private ValidateEligibilities validateEligibilities;
 
   @Before
-  public void setup() {
+  public void _init() {
     MockitoAnnotations.initMocks(this);
     validateEligibilities = new ValidateEligibilities(soapRequesterMock);
   }
@@ -56,17 +55,9 @@ public class ValidateEligibilitiesTests {
             .build());
   }
 
-  @Test
-  public void validIcnShouldParseAndWriteDocSuccessfully() {
-    mockResponse(Samples.create().getEeSummaryResponseBody());
-    validateEligibilities.request(soapMessageGenerator());
-  }
-
-  private  String mockResponse(String responseXml) {
-    //Mockito.doReturn(responseXml).when(eligibilityInfoMock).executeSoapCall(Mockito.any(SOAPMessage.class));
+  private void mockResponse(String responseXml) {
     when(eligibilityInfoMock.executeSoapCall(Mockito.any(SOAPMessage.class)))
-            .thenReturn(responseXml);
-    return responseXml;
+        .thenReturn(responseXml);
   }
 
   private SoapMessageGenerator soapMessageGenerator() {
@@ -76,5 +67,11 @@ public class ValidateEligibilitiesTests {
         .eeRequestName("eeTestRequestName")
         .id("1010101010V666666")
         .build();
+  }
+
+  @Test
+  public void validIcnShouldParseAndWriteDocSuccessfully() {
+    mockResponse(Samples.create().getEeSummaryResponseBody());
+    validateEligibilities.request(soapMessageGenerator());
   }
 }

@@ -27,6 +27,6 @@ public class Samples {
   private String read(String fileName) {
     InputStream stream = getClass().getResourceAsStream("/samples/" + fileName);
     assertThat(stream).isNotNull();
-    return StreamUtils.copyToString(stream, StandardCharsets.UTF_8);
+    return StreamUtils.copyToString(stream, StandardCharsets.UTF_8).replaceAll("(>\\W+<)", "><");
   }
 }

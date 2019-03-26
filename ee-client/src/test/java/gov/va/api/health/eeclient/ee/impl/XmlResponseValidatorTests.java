@@ -21,14 +21,15 @@ public class XmlResponseValidatorTests {
   }
 
   private void parse(String sample) {
+    String sampleBody = null;
     try {
       InputStream is = new ByteArrayInputStream(sample.getBytes());
       SOAPMessage response = MessageFactory.newInstance().createMessage(null, is);
-      sample = XmlDocuments.getSoapBodyAsString(response);
+      sampleBody = XmlDocuments.getSoapBodyAsString(response);
     } catch (SOAPException | IOException e) {
       e.printStackTrace();
     }
-    Document document = XmlDocuments.create().parse(sample);
+    Document document = XmlDocuments.create().parse(sampleBody);
     XmlResponseValidator xmlResponseValidator =
         XmlResponseValidator.builder()
             .soapMessageGenerator(soapMessageGenerator())
