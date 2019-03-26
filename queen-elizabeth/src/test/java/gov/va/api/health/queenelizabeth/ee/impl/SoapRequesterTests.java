@@ -1,11 +1,11 @@
-package gov.va.api.health.eeclient.ee.impl;
+package gov.va.api.health.queenelizabeth.ee.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 
-import gov.va.api.health.eeclient.Samples;
-import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
+import gov.va.api.health.queenelizabeth.Samples;
+import gov.va.api.health.queenelizabeth.ee.SoapMessageGenerator;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import javax.net.ssl.HttpsURLConnection;

@@ -1,9 +1,9 @@
-package gov.va.api.health.eeclient.ee.impl;
+package gov.va.api.health.queenelizabeth.ee.impl;
 
-import gov.va.api.health.eeclient.Samples;
-import gov.va.api.health.eeclient.ee.Eligibilities;
-import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
-import gov.va.api.health.eeclient.util.XmlDocuments;
+import gov.va.api.health.queenelizabeth.Samples;
+import gov.va.api.health.queenelizabeth.ee.Eligibilities;
+import gov.va.api.health.queenelizabeth.ee.SoapMessageGenerator;
+import gov.va.api.health.queenelizabeth.util.XmlDocuments;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;

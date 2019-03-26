@@ -1,4 +1,4 @@
-package gov.va.api.health.eeclient;
+package gov.va.api.health.queenelizabeth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

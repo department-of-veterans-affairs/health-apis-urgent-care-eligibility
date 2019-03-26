@@ -1,11 +1,11 @@
-package gov.va.api.health.eeclient.ee.impl;
+package gov.va.api.health.queenelizabeth.ee.impl;
 
 import static org.mockito.Mockito.when;
 
-import gov.va.api.health.eeclient.Samples;
-import gov.va.api.health.eeclient.ee.Eligibilities;
-import gov.va.api.health.eeclient.ee.EligibilityInfo;
-import gov.va.api.health.eeclient.ee.SoapMessageGenerator;
+import gov.va.api.health.queenelizabeth.Samples;
+import gov.va.api.health.queenelizabeth.ee.Eligibilities;
+import gov.va.api.health.queenelizabeth.ee.EligibilityInfo;
+import gov.va.api.health.queenelizabeth.ee.SoapMessageGenerator;
 import javax.xml.soap.SOAPMessage;
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,8 +56,7 @@ public class ValidateEligibilitiesTests {
   }
 
   private void mockResponse(String responseXml) {
-    when(eligibilityInfoMock.executeSoapCall(Mockito.any(SOAPMessage.class)))
-        .thenReturn(responseXml);
+    when(eligibilityInfoMock.executeSoapCall(Mockito.any(SOAPMessage.class))).thenReturn(responseXml);
   }
 
   private SoapMessageGenerator soapMessageGenerator() {

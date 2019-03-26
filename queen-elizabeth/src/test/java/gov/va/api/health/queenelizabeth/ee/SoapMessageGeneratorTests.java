@@ -1,4 +1,4 @@
-package gov.va.api.health.eeclient.ee;
+package gov.va.api.health.queenelizabeth.ee;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
