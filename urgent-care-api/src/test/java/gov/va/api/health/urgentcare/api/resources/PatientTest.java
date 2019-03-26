@@ -17,11 +17,7 @@ public class PatientTest {
 
   @Test
   public void relatedFields() {
-    ZeroOrOneOfVerifier.builder()
-        .sample(data.patient())
-        .fieldPrefix("deceased")
-        .build()
-        .verify();
+    ZeroOrOneOfVerifier.builder().sample(data.patient()).fieldPrefix("deceased").build().verify();
     ZeroOrOneOfVerifier.builder()
         .sample(data.patient())
         .fieldPrefix("multipleBirth")

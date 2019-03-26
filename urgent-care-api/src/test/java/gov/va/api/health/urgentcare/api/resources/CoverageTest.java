@@ -63,6 +63,6 @@ public class CoverageTest {
         .sample(data.costToBeneficiaryWithValueQuantity())
         .fieldPrefix("value")
         .build()
-    .verify();
+        .verify();
   }
 }
