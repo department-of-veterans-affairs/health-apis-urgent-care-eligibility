@@ -9,6 +9,7 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import lombok.Builder;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -31,13 +32,14 @@ public class SoapMessageGenerator {
    * Generates a Request to the Eligibility and Enrollment Service's getEESummary operation using
    * only ICN as a value.
    */
+  @SneakyThrows
   public SOAPMessage createGetEeSummarySoapRequest() {
 
     SOAPMessage soapMessage = null;
-    try {
-      MessageFactory messageFactory = MessageFactory.newInstance();
-      soapMessage = messageFactory.createMessage();
+    MessageFactory messageFactory = MessageFactory.newInstance();
+    soapMessage = messageFactory.createMessage();
 
+    try {
       SOAPPart soapPart = soapMessage.getSOAPPart();
 
       /* Set up the SOAP Request Envelope and Namespaces. */
