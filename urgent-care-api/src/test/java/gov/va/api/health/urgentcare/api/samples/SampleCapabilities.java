@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Delegate;
 
 @NoArgsConstructor(staticName = "get")
-public class SampleCapability {
+public class SampleCapabilities {
 
   @Delegate SampleDataTypes dataTypes = SampleDataTypes.get();
 

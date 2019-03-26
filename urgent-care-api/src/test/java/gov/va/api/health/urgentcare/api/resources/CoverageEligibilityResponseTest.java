@@ -61,14 +61,9 @@ public class CoverageEligibilityResponseTest {
     ZeroOrOneOfVerifier.builder()
         .sample(data.coverageEligibilityResponse())
         .fieldPrefix("serviced")
-        .build();
-    ZeroOrOneOfVerifier.builder()
-        .sample(data.coverageEligibilityResponse())
-        .fieldPrefix("allowed")
-        .build();
-    ZeroOrOneOfVerifier.builder()
-        .sample(data.coverageEligibilityResponse())
-        .fieldPrefix("used")
-        .build();
+        .build()
+        .verify();
+    ZeroOrOneOfVerifier.builder().sample(data.benefit()).fieldPrefix("allowed").build().verify();
+    ZeroOrOneOfVerifier.builder().sample(data.benefit()).fieldPrefix("used").build().verify();
   }
 }
