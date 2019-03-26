@@ -62,7 +62,7 @@ public class RestQueenElizabethClientTests {
   }
 
   private Query<GetEESummaryResponse> query() {
-    return Query.forType(GetEESummaryResponse.class).id("1008783908V808657").build();
+    return Query.forType(GetEESummaryResponse.class).id("1010101010V666666").build();
   }
 
   @Test
