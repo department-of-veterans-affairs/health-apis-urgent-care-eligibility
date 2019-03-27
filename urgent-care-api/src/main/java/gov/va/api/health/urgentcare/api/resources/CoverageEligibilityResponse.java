@@ -25,6 +25,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @Builder
@@ -73,9 +73,9 @@ public class CoverageEligibilityResponse implements Resource {
 
   // CoverageEligibilityResponse Resource
   @Valid List<Identifier> identifier;
-  @NonNull Status status;
+  @NotNull Status status;
   @NotEmpty List<Purpose> purpose;
-  @NonNull @Valid Reference patient;
+  @NotNull @Valid Reference patient;
 
   @Pattern(regexp = Fhir.DATE)
   String servicedDate;
@@ -88,14 +88,14 @@ public class CoverageEligibilityResponse implements Resource {
 
   @Valid Reference requestor;
 
-  @NonNull @Valid Reference request;
+  @NotNull @Valid Reference request;
 
-  @NonNull Outcome outcome;
+  @NotNull Outcome outcome;
 
   @Pattern(regexp = Fhir.STRING)
   String disposition;
 
-  @NonNull @Valid Reference insurer;
+  @NotNull @Valid Reference insurer;
   @Valid List<Insurance> insurance;
 
   @Pattern(regexp = Fhir.STRING)
@@ -148,7 +148,7 @@ public class CoverageEligibilityResponse implements Resource {
         @Pattern(regexp = Fhir.URI) String implicitRules,
         @Pattern(regexp = Fhir.CODE) String language,
         @Valid Identifier identifier,
-        @NonNull BundleType type,
+        @NotNull BundleType type,
         @Pattern(regexp = Fhir.INSTANT) String timestamp,
         @Pattern(regexp = Fhir.UNSIGNED_INT) String total,
         @Valid List<BundleLink> link,
@@ -207,7 +207,7 @@ public class CoverageEligibilityResponse implements Resource {
 
     @Valid List<Extension> modifierExtension;
 
-    @NonNull @Valid Reference coverage;
+    @NotNull @Valid Reference coverage;
 
     @Pattern(regexp = Fhir.BOOLEAN)
     String inforce;
@@ -283,7 +283,7 @@ public class CoverageEligibilityResponse implements Resource {
 
     @Valid List<Extension> modifierExtension;
 
-    @NonNull @Valid CodeableConcept type;
+    @NotNull @Valid CodeableConcept type;
 
     @Pattern(regexp = Fhir.UNSIGNED_INT)
     String allowedUnsignedInt;
@@ -316,6 +316,6 @@ public class CoverageEligibilityResponse implements Resource {
 
     @Valid List<Extension> modifierExtension;
 
-    @NonNull @Valid CodeableConcept code;
+    @NotNull @Valid CodeableConcept code;
   }
 }
