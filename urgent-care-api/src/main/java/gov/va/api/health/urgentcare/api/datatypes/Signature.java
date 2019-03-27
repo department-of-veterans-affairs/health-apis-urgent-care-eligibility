@@ -10,10 +10,10 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @Builder
@@ -31,7 +31,7 @@ public class Signature implements Element {
   @NotBlank
   String when;
 
-  @NotNull @Valid Reference who;
+  @NonNull @Valid Reference who;
 
   @Valid Reference onBehalfOf;
 

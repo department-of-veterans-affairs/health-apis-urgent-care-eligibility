@@ -12,14 +12,14 @@ import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.Signature;
-import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleResource;
 import gov.va.api.health.urgentcare.api.elements.BackboneElement;
 import gov.va.api.health.urgentcare.api.elements.Extension;
 import gov.va.api.health.urgentcare.api.elements.Meta;
 import gov.va.api.health.urgentcare.api.elements.Narrative;
 import gov.va.api.health.urgentcare.api.elements.Reference;
-import gov.va.api.health.urgentcare.api.validation.ExactlyOneOf;
+import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOf;
+import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOfs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
@@ -43,10 +43,14 @@ import lombok.NonNull;
   isGetterVisibility = JsonAutoDetect.Visibility.NONE
 )
 @Schema(
-  description = "https://www.hl7.org/fhir/R4/coverage.html",
-  example = "SWAGGER_EXAMPLE_COVERAGE"
+  description = "https://www.hl7.org/fhir/R4/coverageeligibilityresponse.html",
+  example = "SWAGGER_EXAMPLE_COVERAGEELIGIBILITYRESPONSE"
 )
-public class Coverage implements Resource {
+@ZeroOrOneOf(
+  fields = {"servicedDate", "servicedPeriod"},
+  message = "Only one serviced value may be specified"
+)
+public class CoverageEligibilityResponse implements Resource {
   // Anscestor -- Resource
   @Pattern(regexp = Fhir.ID)
   String id;
@@ -67,42 +71,40 @@ public class Coverage implements Resource {
   @Valid List<Extension> extension;
   @Valid List<Extension> modifierExtension;
 
-  // Coverage Resource
+  // CoverageEligibilityResponse Resource
   @Valid List<Identifier> identifier;
   @NonNull Status status;
-  @Valid CodeableConcept type;
-  @Valid Reference policyHolder;
-  @Valid Reference subscriber;
+  @NotEmpty List<Purpose> purpose;
+  @NonNull @Valid Reference patient;
+
+  @Pattern(regexp = Fhir.DATE)
+  String servicedDate;
+
+  @Valid Period servicedPeriod;
+
+  @NotBlank
+  @Pattern(regexp = Fhir.DATETIME)
+  String created;
+
+  @Valid Reference requestor;
+
+  @NonNull @Valid Reference request;
+
+  @NonNull Outcome outcome;
 
   @Pattern(regexp = Fhir.STRING)
-  String subscriberId;
+  String disposition;
 
-  @NonNull @Valid Reference beneficiary;
-
-  @Pattern(regexp = Fhir.STRING)
-  String dependent;
-
-  @Valid CodeableConcept relationship;
-  @Valid Period period;
-  @NotEmpty List<Reference> payor;
-
-  @JsonProperty("class")
-  List<CoverageClass> coverageClass;
-
-  @Pattern(regexp = Fhir.POSITIVE_INT)
-  String order;
+  @NonNull @Valid Reference insurer;
+  @Valid List<Insurance> insurance;
 
   @Pattern(regexp = Fhir.STRING)
-  String network;
+  String preAuthRef;
 
-  @Valid List<CostToBeneficiary> costToBeneficiary;
+  @Valid CodeableConcept form;
 
-  @Pattern(regexp = Fhir.BOOLEAN)
-  String subrogation;
+  @Valid List<CoverageEligibilityResponseError> error;
 
-  @Valid List<Reference> contract;
-
-  @SuppressWarnings("unused")
   public enum Status {
     active,
     cancelled,
@@ -111,12 +113,30 @@ public class Coverage implements Resource {
     entered_in_error
   }
 
+  public enum Purpose {
+    @JsonProperty("auth-requirements")
+    auth_requirements,
+    benefits,
+    discovery,
+    validation
+  }
+
+  public enum Outcome {
+    queued,
+    complete,
+    error,
+    partial
+  }
+
   @Data
   @NoArgsConstructor
   @EqualsAndHashCode(callSuper = true)
   @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-  @JsonDeserialize(builder = Coverage.Bundle.BundleBuilder.class)
-  @Schema(name = "CoverageBundle", example = "SWAGGER_EXAMPLE_COVERAGE_BUNDLE")
+  @JsonDeserialize(builder = CoverageEligibilityResponse.Bundle.BundleBuilder.class)
+  @Schema(
+    name = "CoverageEligibilityResponseBundle",
+    example = "SWAGGER_EXAMPLE_COVERAGEELIGIBILITYRESPONSE_BUNDLE"
+  )
   public static class Bundle extends AbstractBundle<Entry> {
 
     /** Coverage bundle builder. */
@@ -151,60 +171,12 @@ public class Coverage implements Resource {
   }
 
   @Data
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  @AllArgsConstructor
-  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-  @Schema(name = "CoverageCostToBeneficiary")
-  @ExactlyOneOf(
-    fields = {"valueQuantity", "valueMoney"},
-    message = "valueQuantity or valueMoney, but not both"
-  )
-  public static class CostToBeneficiary implements BackboneElement {
-    @Pattern(regexp = Fhir.ID)
-    String id;
-
-    @Valid List<Extension> extension;
-
-    @Valid List<Extension> modifierExtension;
-
-    @Valid CodeableConcept type;
-    @Valid SimpleQuantity valueQuantity;
-    @Valid Money valueMoney;
-    @Valid List<Exception> exception;
-  }
-
-  @Data
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  @AllArgsConstructor
-  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-  @Schema(name = "CoverageClass")
-  public static class CoverageClass implements BackboneElement {
-    @Pattern(regexp = Fhir.ID)
-    String id;
-
-    @Valid List<Extension> extension;
-
-    @Valid List<Extension> modifierExtension;
-
-    @NonNull CodeableConcept type;
-
-    @Pattern(regexp = Fhir.STRING)
-    @NonNull
-    String value;
-
-    @Pattern(regexp = Fhir.STRING)
-    String name;
-  }
-
-  @Data
   @NoArgsConstructor
   @EqualsAndHashCode(callSuper = true)
   @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-  @JsonDeserialize(builder = Coverage.Entry.EntryBuilder.class)
-  @Schema(name = "CoverageEntry")
-  public static class Entry extends AbstractEntry<Coverage> {
+  @JsonDeserialize(builder = CoverageEligibilityResponse.Entry.EntryBuilder.class)
+  @Schema(name = "CoverageEligibilityResponseEntry")
+  public static class Entry extends AbstractEntry<CoverageEligibilityResponse> {
 
     @Builder
     public Entry(
@@ -213,7 +185,7 @@ public class Coverage implements Resource {
         @Valid List<Extension> modifierExtension,
         @Valid List<BundleLink> link,
         @Pattern(regexp = Fhir.URI) String fullUrl,
-        @Valid Coverage resource,
+        @Valid CoverageEligibilityResponse resource,
         @Valid Search search,
         @Valid Request request,
         @Valid Response response) {
@@ -226,8 +198,8 @@ public class Coverage implements Resource {
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
   @AllArgsConstructor
   @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-  @Schema(name = "CostToBeneficiaryException")
-  public static class Exception implements BackboneElement {
+  @Schema(name = "Insurance")
+  public static class Insurance implements BackboneElement {
     @Pattern(regexp = Fhir.ID)
     String id;
 
@@ -235,7 +207,115 @@ public class Coverage implements Resource {
 
     @Valid List<Extension> modifierExtension;
 
-    @NonNull CodeableConcept type;
-    @Valid Period period;
+    @NonNull @Valid Reference coverage;
+
+    @Pattern(regexp = Fhir.BOOLEAN)
+    String inforce;
+
+    @Valid Period benefitPeriod;
+
+    @Valid List<Item> item;
+  }
+
+  @Data
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @AllArgsConstructor
+  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+  @Schema(name = "Item")
+  public static class Item implements BackboneElement {
+    @Pattern(regexp = Fhir.ID)
+    String id;
+
+    @Valid List<Extension> extension;
+
+    @Valid List<Extension> modifierExtension;
+
+    @Valid CodeableConcept category;
+    @Valid CodeableConcept productOrService;
+    @Valid List<CodeableConcept> modifier;
+    @Valid Reference provider;
+
+    @Pattern(regexp = Fhir.BOOLEAN)
+    String excluded;
+
+    @Pattern(regexp = Fhir.STRING)
+    String name;
+
+    @Pattern(regexp = Fhir.STRING)
+    String description;
+
+    @Valid CodeableConcept network;
+    @Valid CodeableConcept unit;
+    @Valid CodeableConcept term;
+    @Valid List<Benefit> benefit;
+
+    @Pattern(regexp = Fhir.BOOLEAN)
+    String authorizationRequired;
+
+    @Valid List<CodeableConcept> authorizationSupporting;
+
+    @Pattern(regexp = Fhir.URI)
+    String authorizationUrl;
+  }
+
+  @Data
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @AllArgsConstructor
+  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+  @Schema(name = "Benefit")
+  @ZeroOrOneOfs({
+    @ZeroOrOneOf(
+      fields = {"allowedUnsignedInt", "allowedString", "allowedMoney"},
+      message = "Only one effective value may be specified"
+    ),
+    @ZeroOrOneOf(
+      fields = {"usedUnsignedInt", "usedString", "usedMoney"},
+      message = "Only one used value may be specified"
+    )
+  })
+  public static class Benefit implements BackboneElement {
+    @Pattern(regexp = Fhir.ID)
+    String id;
+
+    @Valid List<Extension> extension;
+
+    @Valid List<Extension> modifierExtension;
+
+    @NonNull @Valid CodeableConcept type;
+
+    @Pattern(regexp = Fhir.UNSIGNED_INT)
+    String allowedUnsignedInt;
+
+    @Pattern(regexp = Fhir.STRING)
+    String allowedString;
+
+    @Valid Money allowedMoney;
+
+    @Pattern(regexp = Fhir.UNSIGNED_INT)
+    String usedUnsignedInt;
+
+    @Pattern(regexp = Fhir.STRING)
+    String usedString;
+
+    @Valid Money usedMoney;
+  }
+
+  @Data
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @AllArgsConstructor
+  @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+  @Schema(name = "CoverageEligibilityResponseError")
+  public static class CoverageEligibilityResponseError implements BackboneElement {
+    @Pattern(regexp = Fhir.ID)
+    String id;
+
+    @Valid List<Extension> extension;
+
+    @Valid List<Extension> modifierExtension;
+
+    @NonNull @Valid CodeableConcept code;
   }
 }
