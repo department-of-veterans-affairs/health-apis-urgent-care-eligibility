@@ -12,7 +12,7 @@ import lombok.NonNull;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DataAbsentReason {
   /**
-   * Create a new Extension that indicates a field is absent because for the given reason.
+   * Create a new Extension that indicates a field is absent for a given reason.
    *
    * <p>See https://www.hl7.org/fhir/R4/valueset-data-absent-reason.html
    */
@@ -21,7 +21,7 @@ public final class DataAbsentReason {
         .extension(
             singletonList(
                 Extension.builder()
-                    .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+                    .url("https://hl7.org/fhir/extension-data-absent-reason.html")
                     .valueCode(value)
                     .build()))
         .build();

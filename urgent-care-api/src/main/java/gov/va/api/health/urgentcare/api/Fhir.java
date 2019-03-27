@@ -59,7 +59,7 @@ public class Fhir {
   public static final String XHTML = "<.+>";
 
   @Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#positiveInt")
-  public static final String POSITIVE_INT = "+?[1-9][0-9]*";
+  public static final String POSITIVE_INT = "\\+?[1-9][0-9]*";
 
   @Schema(description = "https://www.hl7.org/fhir/R4/datatypes.html#unsignedInt")
   public static final String UNSIGNED_INT = "[0]|([1-9][0-9]*)";

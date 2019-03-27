@@ -8,7 +8,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>urgent-care-api</artifactId>
-  <version>1.0.6-SNAPSHOT</version>
+  <version>1.0.7-SNAPSHOT</version>
   <packaging>jar</packaging>
   <build>
     <plugins>
@@ -103,6 +103,26 @@
     </plugins>
   </build>
   <dependencies>
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>javax.persistence-api</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.0.14.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.common</groupId>
+      <artifactId>hibernate-commons-annotations</artifactId>
+      <version>5.0.4.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.3.7.Final</version>
+    </dependency>
     <dependency>
       <groupId>org.glassfish</groupId>
       <artifactId>javax.el</artifactId>
