@@ -18,13 +18,13 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @Builder
@@ -63,7 +63,7 @@ public class Capability implements Resource {
   @Pattern(regexp = Fhir.STRING)
   String title;
 
-  @NonNull Status status;
+  @NotNull Status status;
 
   @Pattern(regexp = Fhir.BOOLEAN)
   String experimental;
@@ -89,7 +89,7 @@ public class Capability implements Resource {
   @Pattern(regexp = Fhir.MARKDOWN)
   String copyright;
 
-  @NonNull Kind kind;
+  @NotNull Kind kind;
 
   @Pattern(regexp = Fhir.URI)
   List<String> instantiates;
@@ -297,7 +297,7 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NonNull DocumentMode mode;
+    @NotNull DocumentMode mode;
 
     @Pattern(regexp = Fhir.MARKDOWN)
     String documentation;
@@ -319,7 +319,7 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NonNull Coding protocol;
+    @NotNull Coding protocol;
 
     @NotBlank
     @Pattern(regexp = Fhir.URI)
@@ -407,7 +407,7 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NonNull TypeRestfulInteraction code;
+    @NotNull TypeRestfulInteraction code;
 
     @Pattern(regexp = Fhir.MARKDOWN)
     String documentation;
@@ -425,7 +425,7 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NonNull RestMode mode;
+    @NotNull RestMode mode;
 
     @Pattern(regexp = Fhir.MARKDOWN)
     String documentation;
@@ -452,7 +452,7 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NonNull SystemRestfulInteraction code;
+    @NotNull SystemRestfulInteraction code;
 
     @Pattern(regexp = Fhir.MARKDOWN)
     String documentation;
@@ -477,7 +477,7 @@ public class Capability implements Resource {
     @Pattern(regexp = Fhir.URI)
     String definition;
 
-    @NonNull SearchParamType type;
+    @NotNull SearchParamType type;
 
     @Pattern(regexp = Fhir.MARKDOWN)
     String documentation;
@@ -539,7 +539,7 @@ public class Capability implements Resource {
     @Valid List<Extension> modifierExtension;
     @Valid List<Extension> extension;
 
-    @NonNull SupportedMessageMode mode;
+    @NotNull SupportedMessageMode mode;
 
     @NotBlank
     @Pattern(regexp = Fhir.URI)
