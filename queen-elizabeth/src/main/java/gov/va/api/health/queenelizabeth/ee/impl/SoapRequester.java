@@ -67,9 +67,7 @@ public class SoapRequester implements EligibilityInfo {
   private SSLContext getSslContext() {
     /* Load the truststore that contains the ee certs. */
     InputStream truststoreInputStream =
-        SoapRequester.class.getResourceAsStream(
-            "classpath:" + FilenameUtils.getName(eeTruststorePath));
-    // new FileInputStream("classpath:" + FilenameUtils.getName(eeTruststorePath));
+        getClass().getClassLoader().getResourceAsStream(FilenameUtils.getName(eeTruststorePath));
     KeyStore ts = KeyStore.getInstance("JKS");
     ts.load(truststoreInputStream, eeTruststorePassword.toCharArray());
     TrustManagerFactory trustManagerFactory =
