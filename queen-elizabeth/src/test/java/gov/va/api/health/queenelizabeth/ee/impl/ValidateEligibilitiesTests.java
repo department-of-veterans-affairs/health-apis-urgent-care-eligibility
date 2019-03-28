@@ -1,7 +1,5 @@
 package gov.va.api.health.queenelizabeth.ee.impl;
 
-import static org.mockito.Mockito.when;
-
 import gov.va.api.health.queenelizabeth.Samples;
 import gov.va.api.health.queenelizabeth.ee.Eligibilities;
 import gov.va.api.health.queenelizabeth.ee.EligibilityInfo;
@@ -21,14 +19,14 @@ public class ValidateEligibilitiesTests {
 
   @Mock SoapRequester soapRequesterMock;
 
-  @Mock EligibilityInfo eligibilityInfoMock;
+  @Mock EligibilityInfo eligibilityInfo;
 
   private ValidateEligibilities validateEligibilities;
 
   @Before
   public void _init() {
     MockitoAnnotations.initMocks(this);
-    validateEligibilities = new ValidateEligibilities(soapRequesterMock);
+    validateEligibilities = new ValidateEligibilities(eligibilityInfo);
   }
 
   @Test
@@ -55,10 +53,6 @@ public class ValidateEligibilitiesTests {
             .build());
   }
 
-  private void mockResponse(String responseXml) {
-    when(eligibilityInfoMock.executeSoapCall(Mockito.any(SOAPMessage.class))).thenReturn(responseXml);
-  }
-
   private SoapMessageGenerator soapMessageGenerator() {
     return SoapMessageGenerator.builder()
         .eeUsername("eeTestUsername")
@@ -70,7 +64,10 @@ public class ValidateEligibilitiesTests {
 
   @Test
   public void validIcnShouldParseAndWriteDocSuccessfully() {
-    mockResponse(Samples.create().getEeSummaryResponseBody());
+    String eeValidResponse = Samples.create().getEeSummaryResponseBody();
+    Mockito.doReturn(eeValidResponse)
+        .when(eligibilityInfo)
+        .executeSoapCall(Mockito.any(SOAPMessage.class));
     validateEligibilities.request(soapMessageGenerator());
   }
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequestMapping("/api")
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
-public class EeClientV1ApiController {
+public class QueenElizabethV1ApiController {
 
   private final Eligibilities eligibilities;
 

@@ -5,7 +5,6 @@ import static gov.va.api.health.queenelizabeth.util.XmlDocuments.getSoapBodyAsSt
 import gov.va.api.health.queenelizabeth.ee.Eligibilities;
 import gov.va.api.health.queenelizabeth.ee.EligibilityInfo;
 import gov.va.api.health.queenelizabeth.util.Checks;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
@@ -68,7 +67,9 @@ public class SoapRequester implements EligibilityInfo {
   private SSLContext getSslContext() {
     /* Load the truststore that contains the ee certs. */
     InputStream truststoreInputStream =
-        new FileInputStream("src/main/resources/" + FilenameUtils.getName(eeTruststorePath));
+        SoapRequester.class.getResourceAsStream(
+            "classpath:" + FilenameUtils.getName(eeTruststorePath));
+    // new FileInputStream("classpath:" + FilenameUtils.getName(eeTruststorePath));
     KeyStore ts = KeyStore.getInstance("JKS");
     ts.load(truststoreInputStream, eeTruststorePassword.toCharArray());
     TrustManagerFactory trustManagerFactory =

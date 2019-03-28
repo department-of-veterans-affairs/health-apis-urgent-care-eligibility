@@ -16,37 +16,46 @@ import javax.xml.soap.SOAPMessage;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(SoapRequester.class)
 public class SoapRequesterTests {
 
   @Mock SOAPConnectionFactory soapConnectionFactory;
 
+  @Mock HttpsURLConnection httpsUrlConnection;
+
   @Mock SOAPConnection soapConnection;
 
-  @Mock HttpsURLConnection mockHttpsURLConnection;
-
   private SoapRequester soapRequester;
+
+  private SoapRequester soapRequesterSpy;
+
+  @Before
+  @SneakyThrows
+  public void _init() {
+    MockitoAnnotations.initMocks(this);
+    soapRequester =
+        new SoapRequester(
+            "https://ee.va.gov:9334/getEESummary/",
+            "src/test/resources/test-truststore.jks",
+            "secret");
+    soapRequesterSpy = PowerMockito.spy(soapRequester);
+    Mockito.when(soapConnectionFactory.createConnection()).thenReturn(soapConnection);
+  }
 
   @SneakyThrows
   private void mockResults(String exampleXml) {
     InputStream is = new ByteArrayInputStream(exampleXml.getBytes());
     SOAPMessage response = MessageFactory.newInstance().createMessage(null, is);
     Mockito.when(soapConnection.call(any(SOAPMessage.class), anyString())).thenReturn(response);
-  }
-
-  @Before
-  @SneakyThrows
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-    Mockito.when(soapConnectionFactory.createConnection()).thenReturn(soapConnection);
-    soapRequester =
-        new SoapRequester(
-            "https://ee.va.gov:9334/getEESummary/",
-            "src/test/resources/test-truststore.jks",
-            "test");
   }
 
   private SoapMessageGenerator soapMessageGenerator() {
@@ -59,8 +68,10 @@ public class SoapRequesterTests {
   }
 
   @Test
+  @SneakyThrows
   public void successfulResponseShouldReturnWhenGoodIcn() {
     mockResults(Samples.create().getEeSummaryResponse());
+    PowerMockito.doReturn(httpsUrlConnection).when(soapRequesterSpy, "openHttpsConnection");
     String xmlResponse =
         soapRequester.executeSoapCall(soapMessageGenerator().createGetEeSummarySoapRequest());
     assertThat(Samples.create().getEeSummaryResponse()).contains(xmlResponse);

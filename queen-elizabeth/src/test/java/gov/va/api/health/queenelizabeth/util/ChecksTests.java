@@ -1,11 +1,10 @@
-package gov.va.api.health.queenelizabeth.ee.util;
-
-import gov.va.api.health.queenelizabeth.util.Checks;
-import org.junit.Test;
+package gov.va.api.health.queenelizabeth.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ChecksTest {
+import org.junit.Test;
+
+public class ChecksTests {
 
   @Test
   public void argumentMatchesReturnsMatchingValue() {

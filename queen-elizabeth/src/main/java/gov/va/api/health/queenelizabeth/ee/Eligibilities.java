@@ -44,10 +44,6 @@ public interface Eligibilities {
   }
 
   class UnknownIdentityInSearchParameter extends EligibilitiesException {
-    public UnknownIdentityInSearchParameter(
-        SoapMessageGenerator soapMessageGenerator, Exception cause) {
-      super(soapMessageGenerator.createGetEeSummarySoapRequest().toString(), cause);
-    }
 
     public UnknownIdentityInSearchParameter(SoapMessageGenerator soapMessageGenerator) {
       super(soapMessageGenerator.createGetEeSummarySoapRequest().toString());
