@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
     "ssl.trust-store-password=secret"
   }
 )
-public class ApplicationTests {
+public class ApplicationTest {
 
   @Test
   public void contextLoads() {

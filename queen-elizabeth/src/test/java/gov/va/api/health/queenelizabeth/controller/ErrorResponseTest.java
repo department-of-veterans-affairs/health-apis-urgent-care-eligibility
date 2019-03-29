@@ -7,7 +7,7 @@ import gov.va.api.health.autoconfig.configuration.JacksonConfig;
 import lombok.SneakyThrows;
 import org.junit.Test;
 
-public class ErrorResponseTests {
+public class ErrorResponseTest {
 
   @Test
   public void errorResponse() {

@@ -13,7 +13,7 @@ import javax.xml.soap.SOAPMessage;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-public class XmlResponseValidatorTests {
+public class XmlResponseValidatorTest {
 
   @Test
   public void noErrorsForGetEeSummaryFound() {

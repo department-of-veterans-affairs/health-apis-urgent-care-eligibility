@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-public class ValidateEligibilitiesTests {
+public class ValidateEligibilitiesTest {
 
   @Rule public final ExpectedException thrown = ExpectedException.none();
 

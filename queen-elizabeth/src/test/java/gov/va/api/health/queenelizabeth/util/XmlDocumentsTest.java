@@ -5,13 +5,16 @@ import static org.mockito.Mockito.when;
 
 import gov.va.api.health.queenelizabeth.util.XmlDocuments.ParseFailed;
 import gov.va.api.health.queenelizabeth.util.XmlDocuments.WriteFailed;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
-public class XmlDocumentsTests {
+public class XmlDocumentsTest {
   @Test(expected = ParseFailed.class)
   public void badXmlCausesParseFailure() {
     String xml = "<a><b>bee</b><c><no-closing-tag></c></a>";
@@ -40,5 +43,13 @@ public class XmlDocumentsTests {
     DOMImplementation mockDom = Mockito.mock(DOMImplementation.class);
     when(mock.getDOMImplementation(Mockito.any())).thenReturn(mockDom);
     XmlDocuments.findLsDomImplementationOrDie(mock);
+  }
+
+  @Test(expected = WriteFailed.class)
+  @SneakyThrows
+  public void writeFailedWhenSoapBodyCantBeFound() {
+    SOAPMessage soapMessage = Mockito.mock(SOAPMessage.class);
+    Mockito.when(soapMessage.getSOAPBody()).thenThrow(SOAPException.class);
+    XmlDocuments.getSoapBodyAsString(soapMessage);
   }
 }

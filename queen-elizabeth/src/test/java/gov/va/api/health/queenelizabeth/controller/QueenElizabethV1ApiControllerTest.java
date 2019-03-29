@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-public class QueenElizabethV1ApiControllerTests {
+public class QueenElizabethV1ApiControllerTest {
 
   @Mock Eligibilities eligibilities;
 

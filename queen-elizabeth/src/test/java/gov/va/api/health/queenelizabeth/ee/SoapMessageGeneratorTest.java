@@ -10,11 +10,13 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.junit.Test;
 
-public class SoapMessageGeneratorTests {
+public class SoapMessageGeneratorTest {
+
+  SoapMessageGenerator soapMessageGenerator;
 
   @Test
   public void createGetEeSummarySoapRequest() throws SOAPException {
-    SoapMessageGenerator soapMessageGenerator = soapMessageGenerator();
+    soapMessageGenerator = soapMessageGenerator();
     SOAPEnvelope xml =
         soapMessageGenerator.createGetEeSummarySoapRequest().getSOAPPart().getEnvelope();
     XPath xpath = XPathFactory.newInstance().newXPath();
@@ -48,6 +50,18 @@ public class SoapMessageGeneratorTests {
     } catch (XPathExpressionException e) {
       e.printStackTrace();
     }
+  }
+
+  @Test(expected = Eligibilities.RequestFailed.class)
+  public void exceptionWhenMessageGenerateFailure() {
+    soapMessageGenerator =
+        SoapMessageGenerator.builder()
+            .eeUsername("eeTestUsername")
+            .eePassword("eeTestPassword")
+            .eeRequestName("eeTestRequestName")
+            .id(null)
+            .build();
+    soapMessageGenerator.createGetEeSummarySoapRequest();
   }
 
   private SoapMessageGenerator soapMessageGenerator() {

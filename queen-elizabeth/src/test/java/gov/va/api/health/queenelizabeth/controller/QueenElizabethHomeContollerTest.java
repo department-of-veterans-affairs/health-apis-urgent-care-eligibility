@@ -20,7 +20,7 @@ import org.springframework.util.StreamUtils;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = {QueenElizabethHomeController.class})
-public class QueenElizabethHomeContollerTests {
+public class QueenElizabethHomeContollerTest {
   @MockBean Eligibilities eligibilities;
 
   @Autowired private MockMvc mockMvc;

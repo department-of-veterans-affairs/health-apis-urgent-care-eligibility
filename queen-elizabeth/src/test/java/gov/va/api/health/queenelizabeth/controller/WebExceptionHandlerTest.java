@@ -32,7 +32,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
 @RunWith(Parameterized.class)
-public class WebExceptionHandlerTests {
+public class WebExceptionHandlerTest {
 
   @Parameterized.Parameter(0)
   public HttpStatus httpStatus;
