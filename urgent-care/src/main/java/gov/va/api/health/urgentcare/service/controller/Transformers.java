@@ -1,17 +1,7 @@
 package gov.va.api.health.urgentcare.service.controller;
 
-import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
 
 /** Utility methods for transforming CDW results to Argonaut. */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
