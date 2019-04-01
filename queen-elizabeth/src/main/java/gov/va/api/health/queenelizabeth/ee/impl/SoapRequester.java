@@ -4,7 +4,6 @@ import static gov.va.api.health.queenelizabeth.util.XmlDocuments.getSoapBodyAsSt
 
 import gov.va.api.health.queenelizabeth.ee.Eligibilities;
 import gov.va.api.health.queenelizabeth.ee.EligibilityInfo;
-import gov.va.api.health.queenelizabeth.util.Checks;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
@@ -34,14 +33,12 @@ public class SoapRequester implements EligibilityInfo {
 
   /** Constructor. */
   @Autowired
+  @SneakyThrows
   public SoapRequester(
       @Value("${ee.endpoint.url}") String endpointUrl,
       @Value("${ee.truststore.path}") String eeTruststorePath,
       @Value("${ee.truststore.password}") String eeTruststorePassword) {
-    this.endpointUrl =
-        Checks.argumentMatches(
-            endpointUrl,
-            "(http|https(:\\/\\/))([A-Za-z0-9\\.]+(va\\.gov))(:[0-9]+)([A-Za-z0-9\\-\\/\\_]+)");
+    this.endpointUrl = endpointUrl;
     this.eeTruststorePath = eeTruststorePath;
     this.eeTruststorePassword = eeTruststorePassword;
   }
@@ -51,8 +48,7 @@ public class SoapRequester implements EligibilityInfo {
     try {
       /* In E&E we trust. */
       HttpsURLConnection httpsUrlConnection = openHttpsConnection();
-      SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-      SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+      SOAPConnection soapConnection = getSoapConnectionFromFactory();
       /* Lets get us a SOAP Response. */
       SOAPMessage soapResponse = soapConnection.call(soapRequestMessage, endpointUrl);
       soapConnection.close();
@@ -64,7 +60,22 @@ public class SoapRequester implements EligibilityInfo {
   }
 
   @SneakyThrows
-  private SSLContext getSslContext() {
+  protected InetAddress getInetAddressByName(String host) {
+    return InetAddress.getByName(host);
+  }
+
+  @SneakyThrows
+  protected URL getNewUrl(String urlString) {
+    return new URL(urlString);
+  }
+
+  protected SOAPConnection getSoapConnectionFromFactory() throws SOAPException {
+    SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+    return soapConnectionFactory.createConnection();
+  }
+
+  @SneakyThrows
+  protected SSLContext getSslContext() {
     /* Load the truststore that contains the ee certs. */
     InputStream truststoreInputStream =
         getClass().getClassLoader().getResourceAsStream(FilenameUtils.getName(eeTruststorePath));
@@ -82,13 +93,15 @@ public class SoapRequester implements EligibilityInfo {
 
   @SneakyThrows
   private HttpsURLConnection openHttpsConnection() {
+    URL eeUrl = getNewUrl(endpointUrl);
     /* HTTPS connection with the EE service. */
     HttpsURLConnection.setDefaultSSLSocketFactory(getSslContext().getSocketFactory());
-    URL eeUrl = new URL(endpointUrl);
-    if (!eeUrl.getProtocol().equals("https")) {
+    String urlProtocol = eeUrl.getProtocol();
+    if (!urlProtocol.equals("https")) {
       throw new Eligibilities.RequestFailed("E&E Url received is not https.");
     }
-    InetAddress inetAddress = InetAddress.getByName(eeUrl.getHost());
+    String urlHost = eeUrl.getHost();
+    InetAddress inetAddress = getInetAddressByName(urlHost);
     if (inetAddress.isAnyLocalAddress()
         || inetAddress.isLoopbackAddress()
         || inetAddress.isLinkLocalAddress()) {
