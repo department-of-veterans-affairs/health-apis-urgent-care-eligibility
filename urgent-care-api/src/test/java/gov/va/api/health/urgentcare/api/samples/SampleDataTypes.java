@@ -205,7 +205,7 @@ public class SampleDataTypes {
     return Period.builder()
         .id("5678")
         .extension(
-            singletonList(Extension.builder().url("http://example.com").valueInteger(1).build()))
+            singletonList(Extension.builder().url("http://example.com").valueInteger("1").build()))
         .start("2000-01-01T00:00:00-00:00")
         .end("2001-01-01T00:00:00-00:00")
         .build();

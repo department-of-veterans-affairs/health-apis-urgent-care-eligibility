@@ -4,32 +4,32 @@ import static gov.va.api.health.urgentcare.api.RoundTrip.assertRoundTrip;
 import static gov.va.api.health.urgentcare.api.bundle.AbstractBundle.BundleType.searchset;
 import static java.util.Collections.singletonList;
 
-import gov.va.api.health.urgentcare.api.ExactlyOneOfVerifier;
+import gov.va.api.health.urgentcare.api.ZeroOrOneOfVerifier;
 import gov.va.api.health.urgentcare.api.bundle.BundleLink;
 import gov.va.api.health.urgentcare.api.bundle.BundleLink.LinkRelation;
-import gov.va.api.health.urgentcare.api.resources.Coverage.Bundle;
-import gov.va.api.health.urgentcare.api.resources.Coverage.Entry;
-import gov.va.api.health.urgentcare.api.samples.SampleCoverages;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Bundle;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Entry;
+import gov.va.api.health.urgentcare.api.samples.SampleCoverageEligibilityResponses;
 import org.junit.Test;
 
-public class CoverageTest {
+public class CoverageEligibilityResponseTest {
 
-  private final SampleCoverages data = SampleCoverages.get();
+  private final SampleCoverageEligibilityResponses data = SampleCoverageEligibilityResponses.get();
 
   @Test
   public void bundlerCanBuildCoverageBundles() {
     Entry entry =
         Entry.builder()
             .extension(singletonList(data.extension()))
-            .fullUrl("http://coverage.com")
+            .fullUrl("http://coverage-eligibility-response.com")
             .id("123")
             .link(
                 singletonList(
                     BundleLink.builder()
                         .relation(BundleLink.LinkRelation.self)
-                        .url(("http://coverage/1"))
+                        .url(("http://coverage-eligibility-response/1"))
                         .build()))
-            .resource(data.coverageWithValueQuanitity())
+            .resource(data.coverageEligibilityResponse())
             .search(data.search())
             .request(data.request())
             .response(data.response())
@@ -42,7 +42,7 @@ public class CoverageTest {
                 singletonList(
                     BundleLink.builder()
                         .relation(LinkRelation.self)
-                        .url(("http://coverage.com/2"))
+                        .url(("http://coverage-eligibility-response.com/2"))
                         .build()))
             .type(searchset)
             .signature(data.signature())
@@ -52,17 +52,18 @@ public class CoverageTest {
   }
 
   @Test
-  public void coverage() {
-    assertRoundTrip(data.coverageWithValueQuanitity());
-    assertRoundTrip(data.coverageWithValueMoney());
+  public void coverageEligibilityResponse() {
+    assertRoundTrip(data.coverageEligibilityResponse());
   }
 
   @Test
   public void relatedGroups() {
-    ExactlyOneOfVerifier.builder()
-        .sample(data.costToBeneficiaryWithValueQuantity())
-        .fieldPrefix("value")
+    ZeroOrOneOfVerifier.builder()
+        .sample(data.coverageEligibilityResponse())
+        .fieldPrefix("serviced")
         .build()
         .verify();
+    ZeroOrOneOfVerifier.builder().sample(data.benefit()).fieldPrefix("allowed").build().verify();
+    ZeroOrOneOfVerifier.builder().sample(data.benefit()).fieldPrefix("used").build().verify();
   }
 }
