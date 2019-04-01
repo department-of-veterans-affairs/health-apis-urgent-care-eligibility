@@ -17,8 +17,6 @@ public class ValidateEligibilitiesTest {
 
   @Rule public final ExpectedException thrown = ExpectedException.none();
 
-  @Mock SoapRequester soapRequesterMock;
-
   @Mock EligibilityInfo eligibilityInfo;
 
   private ValidateEligibilities validateEligibilities;

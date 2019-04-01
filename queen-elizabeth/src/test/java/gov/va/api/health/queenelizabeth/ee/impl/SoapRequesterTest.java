@@ -2,7 +2,6 @@ package gov.va.api.health.queenelizabeth.ee.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
 
 import gov.va.api.health.queenelizabeth.Samples;
 import gov.va.api.health.queenelizabeth.ee.Eligibilities;
@@ -12,21 +11,19 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
-import javax.xml.soap.*;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Spy;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({SoapRequester.class, SOAPConnectionFactory.class})
-@PowerMockIgnore("javax.net.ssl.*")
 public class SoapRequesterTest {
 
   @Mock URL url;
@@ -35,42 +32,38 @@ public class SoapRequesterTest {
 
   @Mock HttpsURLConnection httpsUrlConnection;
 
-  @Mock SOAPConnectionFactory soapConnectionFactory;
-
   @Mock SOAPConnection soapConnection;
 
-  private SoapRequester soapRequester;
+  @Spy
+  SoapRequester soapRequester =
+      new SoapRequester("https://ee.va.gov:9334/getEESummary/", "test-truststore.jks", "secret");
 
   @Before
   @SneakyThrows
   public void _init() {
     MockitoAnnotations.initMocks(this);
-    soapRequester =
-        new SoapRequester("https://ee.va.gov:9334/getEESummary/", "test-truststore.jks", "secret");
     /* URL */
-    PowerMockito.whenNew(URL.class).withArguments(anyString()).thenReturn(url);
-    /* Inet Address */
-    PowerMockito.mockStatic(InetAddress.class);
+    Mockito.doReturn(url).when(soapRequester).getNewUrl(Mockito.anyString());
+
     /* HttpsUrlConnection */
-    PowerMockito.when(url.openConnection()).thenReturn(httpsUrlConnection);
-    PowerMockito.doNothing().when(httpsUrlConnection).connect();
+    Mockito.when(url.openConnection()).thenReturn(httpsUrlConnection);
+    Mockito.doNothing().when(httpsUrlConnection).connect();
+
     /* SOAPConnection */
-    PowerMockito.mockStatic(SOAPConnectionFactory.class);
-    PowerMockito.when(SOAPConnectionFactory.newInstance()).thenReturn(soapConnectionFactory);
+    Mockito.doReturn(soapConnection).when(soapRequester).getSoapConnectionFromFactory();
   }
 
   @Test(expected = Eligibilities.RequestFailed.class)
   public void badUrlProtocolGetsRequestFailed() {
-    PowerMockito.when(url.getProtocol()).thenReturn("http");
+    Mockito.when(url.getProtocol()).thenReturn("http");
     soapRequester.executeSoapCall(soapMessageGenerator().createGetEeSummarySoapRequest());
   }
 
   @Test(expected = Eligibilities.RequestFailed.class)
   @SneakyThrows
   public void localhostGetsRequestFailed() {
-    PowerMockito.when(url.getProtocol()).thenReturn("https");
-    PowerMockito.when(url.getHost()).thenReturn("localhost");
-    PowerMockito.when(soapConnectionFactory.createConnection()).thenThrow(SOAPException.class);
+    Mockito.when(url.getProtocol()).thenReturn("https");
+    Mockito.when(url.getHost()).thenReturn("localhost");
     soapRequester.executeSoapCall(soapMessageGenerator().createGetEeSummarySoapRequest());
   }
 
@@ -79,16 +72,16 @@ public class SoapRequesterTest {
     InputStream is = new ByteArrayInputStream(exampleXml.getBytes());
     SOAPMessage soapResponse = MessageFactory.newInstance().createMessage(null, is);
     /* SOAPConnection */
-    PowerMockito.when(soapConnectionFactory.createConnection()).thenReturn(soapConnection);
-    PowerMockito.when(soapConnection.call(any(), any())).thenReturn(soapResponse);
+    Mockito.when(soapRequester.getSoapConnectionFromFactory()).thenReturn(soapConnection);
+    Mockito.when(soapConnection.call(Mockito.any(), Mockito.any())).thenReturn(soapResponse);
   }
 
   @Test(expected = Eligibilities.RequestFailed.class)
   @SneakyThrows
   public void soapConnectionFailGetsRequestFailed() {
-    PowerMockito.when(url.getProtocol()).thenReturn("https");
-    PowerMockito.when(InetAddress.getByName(any())).thenReturn(inetAddress);
-    PowerMockito.when(soapConnectionFactory.createConnection()).thenThrow(SOAPException.class);
+    Mockito.when(url.getProtocol()).thenReturn("https");
+    Mockito.when(soapRequester.getInetAddressByName(any())).thenReturn(inetAddress);
+    Mockito.when(soapRequester.getSoapConnectionFromFactory()).thenThrow(SOAPException.class);
     soapRequester.executeSoapCall(soapMessageGenerator().createGetEeSummarySoapRequest());
   }
 
@@ -104,8 +97,8 @@ public class SoapRequesterTest {
   @Test
   @SneakyThrows
   public void successfulResponseShouldReturnWhenGoodIcn() {
-    PowerMockito.when(url.getProtocol()).thenReturn("https");
-    PowerMockito.when(InetAddress.getByName(any())).thenReturn(inetAddress);
+    Mockito.when(url.getProtocol()).thenReturn("https");
+    Mockito.when(soapRequester.getInetAddressByName(Mockito.any())).thenReturn(inetAddress);
     mockResults(Samples.create().getEeSummaryResponse());
     String expected = Samples.create().getEeSummaryResponseBody();
     String result =
