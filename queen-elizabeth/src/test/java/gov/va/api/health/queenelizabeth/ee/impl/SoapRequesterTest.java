@@ -15,7 +15,6 @@ import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
