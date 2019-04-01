@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Request Mappings for Coverage Eligibility Response Resournce, see
+ * Request Mappings for Coverage Eligibility Response Resource, see
  * https://www.hl7.org/fhir/R4/coverageeligibilityresponse.html for implementation details.
  */
 @SuppressWarnings("WeakerAccess")
@@ -41,9 +41,10 @@ public class CoverageEligibilityResponseController {
   private QueenElizabethClient queenElizabethClient;
   private Bundler bundler;
 
-  private Bundle bundle(String id) {
-    GetEESummaryResponse eeSummaryResponse = search(id);
-    LinkConfig linkConfig = LinkConfig.builder().path("CoverageEligibilityResponse").id(id).build();
+  private Bundle bundle(String icn) {
+    GetEESummaryResponse eeSummaryResponse = search(icn);
+    LinkConfig linkConfig =
+        LinkConfig.builder().path("CoverageEligibilityResponse").icn(icn).build();
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
@@ -53,8 +54,8 @@ public class CoverageEligibilityResponseController {
             CoverageEligibilityResponse.Bundle::new));
   }
 
-  private GetEESummaryResponse search(String id) {
-    Query<GetEESummaryResponse> query = Query.forType(GetEESummaryResponse.class).id(id).build();
+  private GetEESummaryResponse search(String icn) {
+    Query<GetEESummaryResponse> query = Query.forType(GetEESummaryResponse.class).id(icn).build();
     return hasPayload(queenElizabethClient.search(query));
   }
 

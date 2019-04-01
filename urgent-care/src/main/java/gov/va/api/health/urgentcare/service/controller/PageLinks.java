@@ -13,15 +13,12 @@ public interface PageLinks {
   /** Create a list of parameters that will contain 3 to 5 values. */
   List<BundleLink> create(LinkConfig config);
 
-  /** Provides direct read link for a given id, e.g. /api/Patient/123. */
-  String readLink(String resourcePath, String id);
-
   @Data
   @Builder
   class LinkConfig {
-    /** The resource path without the base URL or port. E.g. /api/Patient/1234 */
+    /** The resource path without the base URL or port. */
     private final String path;
 
-    private final String id;
+    private final String icn;
   }
 }

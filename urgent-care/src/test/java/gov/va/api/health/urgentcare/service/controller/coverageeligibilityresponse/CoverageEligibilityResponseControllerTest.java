@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import gov.va.api.health.autoconfig.configuration.JacksonConfig;
 import gov.va.api.health.urgentcare.api.bundle.AbstractBundle.BundleType;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Bundle;
@@ -12,10 +13,13 @@ import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.En
 import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
+import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController.Transformer;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import java.util.function.Supplier;
+import javax.validation.ConstraintViolationException;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -58,7 +62,7 @@ public class CoverageEligibilityResponseControllerTest {
     verify(bundler).bundle(captor.capture());
 
     LinkConfig expectedLinkConfig =
-        LinkConfig.builder().path("CoverageEligibilityResponse").id(id).build();
+        LinkConfig.builder().path("CoverageEligibilityResponse").icn(id).build();
     assertThat(captor.getValue().linkConfig()).isEqualTo(expectedLinkConfig);
     assertThat(captor.getValue().xmlItems()).isEqualTo(singletonList(getEESummaryResponse));
     assertThat(captor.getValue().newBundle().get()).isInstanceOf(Bundle.class);
@@ -84,14 +88,13 @@ public class CoverageEligibilityResponseControllerTest {
     assertSearch(() -> controller.searchByPatient("me"), "me");
   }
 
-  /*
   @Test
   @SneakyThrows
   public void validateAcceptsValidBundle() {
     CoverageEligibilityResponse resource =
         JacksonConfig.createMapper()
             .readValue(
-                getClass().getResourceAsStream("/cdw/old-allergyintolerance-1.03.json"),
+                getClass().getResourceAsStream("/ee/coverageeligibilityresponse.json"),
                 CoverageEligibilityResponse.class);
     Bundle bundle = bundleOf(resource);
     assertThat(controller.validate(bundle)).isEqualTo(Validator.ok());
@@ -103,11 +106,11 @@ public class CoverageEligibilityResponseControllerTest {
     CoverageEligibilityResponse resource =
         JacksonConfig.createMapper()
             .readValue(
-                getClass().getResourceAsStream("/cdw/old-allergyintolerance-1.03.json"),
+                getClass().getResourceAsStream("/ee/coverageeligibilityresponse.json"),
                 CoverageEligibilityResponse.class);
     resource.resourceType(null);
 
     Bundle bundle = bundleOf(resource);
     controller.validate(bundle);
-  }*/
+  }
 }

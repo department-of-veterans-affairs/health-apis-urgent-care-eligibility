@@ -43,7 +43,6 @@ public class Bundler {
                 t -> {
                   E entry = context.newEntry().get();
                   entry.resource(t);
-                  entry.fullUrl(links.readLink(context.linkConfig().path(), t.id()));
                   entry.search(Search.builder().mode(SearchMode.match).build());
                   return entry;
                 })
@@ -56,8 +55,7 @@ public class Bundler {
    * paging data, and 2) The machinery to create type specific bundles, entries, and converted
    * objects.
    *
-   * @param <X> The EE Xml item type. Queen Elizabeth returns only GetEESummaryResponse, hence, this
-   *     will always be of type GetEESummaryResponse
+   * @param <X> The EE Xml item type.
    * @param <T> The Data Query type to produce, e.g. Coverage
    * @param <E> The entry type, e.g. Coverage.Entry
    * @param <B> The bundle type, e.g. Coverage.Bundle

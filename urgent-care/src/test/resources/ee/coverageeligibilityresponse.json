@@ -1,0 +1,39 @@
+{
+    "resourceType" : "CoverageEligibilityResponse",
+    "id" : "E2500",
+    "text" : {
+        "status" : "generated",
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the CoverageEligibilityResponse.</div>"
+    },
+    "identifier" : [
+        {
+            "system" : "http://www.va.gov/FHIR/R4/coverageeligibilityresponse",
+            "value" : "881234"
+        }
+    ],
+    "status" : "active",
+    "purpose" : [
+        "discovery"
+    ],
+    "patient" : {
+        "reference" : "Patient/pat1"
+    },
+    "created" : "2010-02-24T17:06:00Z",
+    "request" : {
+        "display" : "[Devise display text for notional request without resource reference]"
+    },
+    "outcome" : "complete",
+    "insurer" : {
+        "display" : "Veterans Health Administration"
+    },
+    "insurance" : [
+        {
+            "coverage" : {
+                "display" : "B - basic"
+            },
+            "benefitPeriod" : {
+                "start" : "2010-02-24T17:06:00Z"
+            }
+        }
+    ]
+}

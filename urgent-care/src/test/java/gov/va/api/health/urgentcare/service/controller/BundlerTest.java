@@ -46,12 +46,8 @@ public class BundlerTest {
         Collections.singletonList(
             BundleLink.builder().relation(LinkRelation.self).url("http://whatever.com").build());
     when(this.links.create(Mockito.any())).thenReturn(bundleLinks);
-    when(this.links.readLink(Mockito.any(), Mockito.any()))
-        .thenReturn("http://one.com")
-        .thenReturn("http://two.com")
-        .thenReturn("http://three.com");
 
-    LinkConfig linkConfig = LinkConfig.builder().path("api/Fugazi").id("1").build();
+    LinkConfig linkConfig = LinkConfig.builder().path("api/Fugazi").icn("1").build();
 
     List<FugaziCdwRoot> xmlItems =
         Arrays.asList(FugaziCdwRoot.of(1), FugaziCdwRoot.of(2), FugaziCdwRoot.of(3));
@@ -63,9 +59,9 @@ public class BundlerTest {
     expected.link(bundleLinks);
     expected.entry(
         Arrays.asList(
-            FugaziEntry.of("http://one.com", FugaziArgo.of(1)),
-            FugaziEntry.of("http://two.com", FugaziArgo.of(2)),
-            FugaziEntry.of("http://three.com", FugaziArgo.of(3))));
+            FugaziEntry.of(FugaziArgo.of(1)),
+            FugaziEntry.of(FugaziArgo.of(2)),
+            FugaziEntry.of(FugaziArgo.of(3))));
 
     Object actual =
         bundler.bundle(
@@ -97,9 +93,8 @@ public class BundlerTest {
   }
 
   private static class FugaziEntry extends AbstractEntry<FugaziArgo> {
-    private static FugaziEntry of(String url, FugaziArgo a) {
+    private static FugaziEntry of(FugaziArgo a) {
       FugaziEntry entry = new FugaziEntry();
-      entry.fullUrl(url);
       entry.resource(a);
       entry.search(Search.builder().mode(SearchMode.match).build());
       return entry;
