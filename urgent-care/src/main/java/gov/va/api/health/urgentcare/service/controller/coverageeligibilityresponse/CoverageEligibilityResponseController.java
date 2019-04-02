@@ -8,6 +8,7 @@ import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Bu
 import gov.va.api.health.urgentcare.api.resources.OperationOutcome;
 import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
+import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
 import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
@@ -43,12 +44,15 @@ public class CoverageEligibilityResponseController {
 
   private Bundle bundle(String icn) {
     GetEESummaryResponse eeSummaryResponse = search(icn);
+    GetEeSummaryResponseTheRemix theRemix = new GetEeSummaryResponseTheRemix();
+    theRemix.setEeSummaryResponse(eeSummaryResponse);
+    theRemix.setIcn(icn);
     LinkConfig linkConfig =
         LinkConfig.builder().path("CoverageEligibilityResponse").icn(icn).build();
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
-            singletonList(eeSummaryResponse),
+            singletonList(theRemix),
             transformer,
             CoverageEligibilityResponse.Entry::new,
             CoverageEligibilityResponse.Bundle::new));
@@ -75,5 +79,5 @@ public class CoverageEligibilityResponseController {
   }
 
   public interface Transformer
-      extends Function<GetEESummaryResponse, CoverageEligibilityResponse> {}
+      extends Function<GetEeSummaryResponseTheRemix, CoverageEligibilityResponse> {}
 }

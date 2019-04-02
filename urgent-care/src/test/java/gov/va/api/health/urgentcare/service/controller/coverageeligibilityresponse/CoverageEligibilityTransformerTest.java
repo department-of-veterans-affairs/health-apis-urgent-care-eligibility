@@ -13,6 +13,7 @@ import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.In
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Outcome;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Purpose;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Status;
+import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.med.esr.webservices.jaxws.schemas.CommunityCareEligibilityInfo;
 import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
@@ -80,11 +81,16 @@ public class CoverageEligibilityTransformerTest {
       return communityCareEligibilityInfo;
     }
 
-    private GetEESummaryResponse coverageEligibilityResponse() {
+    private GetEeSummaryResponseTheRemix coverageEligibilityResponse() {
+      GetEeSummaryResponseTheRemix sampleCoverageEligibilityResponseRemix =
+          new GetEeSummaryResponseTheRemix();
       GetEESummaryResponse sampleCoverageEligibilityResponse = new GetEESummaryResponse();
       sampleCoverageEligibilityResponse.setSummary(eeSummary());
       sampleCoverageEligibilityResponse.setInvocationDate(dateTime());
-      return sampleCoverageEligibilityResponse;
+      sampleCoverageEligibilityResponseRemix.setEeSummaryResponse(
+          sampleCoverageEligibilityResponse);
+      sampleCoverageEligibilityResponseRemix.setIcn("1234");
+      return sampleCoverageEligibilityResponseRemix;
     }
 
     private XMLGregorianCalendar dateTime() {
@@ -173,7 +179,7 @@ public class CoverageEligibilityTransformerTest {
     }
 
     Reference patient() {
-      return Reference.builder().display("Patient/").build();
+      return Reference.builder().display("Patient/1234").build();
     }
 
     Reference request() {
