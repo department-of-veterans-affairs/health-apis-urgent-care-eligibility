@@ -17,9 +17,9 @@ import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.In
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Outcome;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Purpose;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Status;
-import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController.Transformer;
 import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
+import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityCollection;
 import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -29,8 +29,8 @@ import org.springframework.stereotype.Service;
 public class CoverageEligibilityResponseTransformer implements Transformer {
 
   @Override
-  public CoverageEligibilityResponse apply(GetEeSummaryResponseTheRemix eeSummaryResponseTheRemix) {
-    return coverageEligibilityResponse(eeSummaryResponseTheRemix);
+  public CoverageEligibilityResponse apply(GetEESummaryResponse eeSummaryResponse) {
+    return coverageEligibilityResponse(eeSummaryResponse);
   }
 
   Period benefitPeriod(XMLGregorianCalendar dateTime) {
@@ -50,23 +50,22 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
     return Reference.builder().display(code + " - " + description).build();
   }
 
-  private CoverageEligibilityResponse coverageEligibilityResponse(
-      GetEeSummaryResponseTheRemix source) {
+  private CoverageEligibilityResponse coverageEligibilityResponse(GetEESummaryResponse source) {
     return CoverageEligibilityResponse.builder()
         .resourceType("CoverageEligibilityResponse")
         .text(text())
         .identifier(identifier())
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))
-        .patient(Reference.builder().display("Patient/" + source.getIcn()).build())
-        .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()))
+        .patient(Reference.builder().display("Patient/").build())
+        .created(asDateTimeString(source.getInvocationDate()))
         .request(
             Reference.builder()
                 .display("[Devise display text for notional request without resource reference]")
                 .build())
         .outcome(Outcome.complete)
         .insurer(Reference.builder().display("Veterans Health Administration").build())
-        .insurance(insurances(source.getEeSummaryResponse().getSummary()))
+        .insurance(insurances(source.getSummary()))
         .build();
   }
 

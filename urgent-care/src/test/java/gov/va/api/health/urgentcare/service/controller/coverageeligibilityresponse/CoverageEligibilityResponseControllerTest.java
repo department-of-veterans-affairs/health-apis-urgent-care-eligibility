@@ -12,11 +12,11 @@ import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Bu
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Entry;
 import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
-import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
 import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController.Transformer;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
+import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import java.util.function.Supplier;
 import javax.validation.ConstraintViolationException;
 import lombok.SneakyThrows;
@@ -43,11 +43,11 @@ public class CoverageEligibilityResponseControllerTest {
   }
 
   private void assertSearch(Supplier<Bundle> invocation, String id) {
-    GetEeSummaryResponseTheRemix getEESummaryResponseTheRemix = new GetEeSummaryResponseTheRemix();
+    GetEESummaryResponse getEESummaryResponse = new GetEESummaryResponse();
     CoverageEligibilityResponse coverageEligibilityResponse =
         CoverageEligibilityResponse.builder().build();
-    when(tx.apply(getEESummaryResponseTheRemix)).thenReturn(coverageEligibilityResponse);
-    when(client.search(Mockito.any())).thenReturn(getEESummaryResponseTheRemix);
+    when(tx.apply(getEESummaryResponse)).thenReturn(coverageEligibilityResponse);
+    when(client.search(Mockito.any())).thenReturn(getEESummaryResponse);
 
     Bundle mockBundle = new Bundle();
     when(bundler.bundle(Mockito.any())).thenReturn(mockBundle);
@@ -56,8 +56,7 @@ public class CoverageEligibilityResponseControllerTest {
 
     assertThat(actual).isSameAs(mockBundle);
 
-    ArgumentCaptor<
-            BundleContext<GetEeSummaryResponseTheRemix, CoverageEligibilityResponse, Entry, Bundle>>
+    ArgumentCaptor<BundleContext<GetEESummaryResponse, CoverageEligibilityResponse, Entry, Bundle>>
         captor = ArgumentCaptor.forClass(BundleContext.class);
 
     verify(bundler).bundle(captor.capture());
@@ -65,7 +64,7 @@ public class CoverageEligibilityResponseControllerTest {
     LinkConfig expectedLinkConfig =
         LinkConfig.builder().path("CoverageEligibilityResponse").icn(id).build();
     assertThat(captor.getValue().linkConfig()).isEqualTo(expectedLinkConfig);
-    assertThat(captor.getValue().xmlItems()).isEqualTo(singletonList(getEESummaryResponseTheRemix));
+    assertThat(captor.getValue().xmlItems()).isEqualTo(singletonList(getEESummaryResponse));
     assertThat(captor.getValue().newBundle().get()).isInstanceOf(Bundle.class);
     assertThat(captor.getValue().newEntry().get()).isInstanceOf(Entry.class);
     assertThat(captor.getValue().transformer()).isSameAs(tx);
