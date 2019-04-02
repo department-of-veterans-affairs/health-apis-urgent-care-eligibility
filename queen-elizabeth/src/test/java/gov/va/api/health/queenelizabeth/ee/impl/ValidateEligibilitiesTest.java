@@ -27,9 +27,8 @@ public class ValidateEligibilitiesTest {
     validateEligibilities = new ValidateEligibilities(eligibilityInfo);
   }
 
-  @Test
+  @Test(expected = Eligibilities.MissingIcnValue.class)
   public void emptyIdShouldReturnMissingIcnValueException() {
-    thrown.expect(Eligibilities.MissingIcnValue.class);
     validateEligibilities.request(
         SoapMessageGenerator.builder()
             .eeUsername("eeTestUsername")
@@ -39,9 +38,8 @@ public class ValidateEligibilitiesTest {
             .build());
   }
 
-  @Test
+  @Test(expected = Eligibilities.UnknownIdentityInSearchParameter.class)
   public void invalidIcnIdShouldReturnUnknownIdentityException() {
-    thrown.expect(Eligibilities.UnknownIdentityInSearchParameter.class);
     validateEligibilities.request(
         SoapMessageGenerator.builder()
             .eeUsername("eeTestUsername")
@@ -49,6 +47,14 @@ public class ValidateEligibilitiesTest {
             .eeRequestName("eeTestRequestName")
             .id("not-an-icn")
             .build());
+  }
+
+  @Test(expected = Eligibilities.RequestFailed.class)
+  public void requestFailedForFailedParse() {
+    Mockito.doReturn("<not-valid-xml>")
+        .when(eligibilityInfo)
+        .executeSoapCall(Mockito.any(SOAPMessage.class));
+    validateEligibilities.request(soapMessageGenerator());
   }
 
   private SoapMessageGenerator soapMessageGenerator() {

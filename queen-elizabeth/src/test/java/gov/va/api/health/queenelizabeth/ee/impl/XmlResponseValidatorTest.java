@@ -11,7 +11,7 @@ import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import org.junit.Test;
-import org.w3c.dom.Document;
+import org.w3c.dom.*;
 
 public class XmlResponseValidatorTest {
 
@@ -39,6 +39,16 @@ public class XmlResponseValidatorTest {
   }
 
   @Test(expected = Eligibilities.RequestFailed.class)
+  public void requestFailedForBadXml() {
+    XmlResponseValidator xmlResponseValidator =
+        XmlResponseValidator.builder()
+            .soapMessageGenerator(soapMessageGenerator())
+            .response(null)
+            .build();
+    xmlResponseValidator.validate();
+  }
+
+  @Test(expected = Eligibilities.RequestFailed.class)
   public void requestFailedForEeFault() {
     parse(Samples.create().eeFault());
   }
@@ -50,5 +60,10 @@ public class XmlResponseValidatorTest {
         .eeRequestName("eeTestRequestName")
         .id("1010101010V666666")
         .build();
+  }
+
+  @Test
+  public void successForGoodResult() {
+    parse(Samples.create().getEeSummaryResponse());
   }
 }
