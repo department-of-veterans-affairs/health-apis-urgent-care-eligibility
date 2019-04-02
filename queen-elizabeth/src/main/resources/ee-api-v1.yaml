@@ -11,21 +11,21 @@ paths:
       summary: Send request to EE Service for given parameters
       operationId: eeRequest
       parameters:
-        - in: query
-          name: id
-          description: ICN of a Person
-          schema:
-            type: string
-            pattern: "[0-9]{10}V[0-9]{6}"
-        responses:
-          '200':
-            description: Eligibility Response
-            content:
-              application/xml:
-                schema:
-                  type: string
-          '400':
-            $ref: '#/components/responses/BadRequest'
+      - in: query
+        name: id
+        description: ICN of a Person
+        schema:
+          type: string
+          pattern: "[0-9]{10}V[0-9]{6}"
+      responses:
+        '200':
+          description: Eligibility Response
+          content:
+            application/xml:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
 
 components:
   responses:

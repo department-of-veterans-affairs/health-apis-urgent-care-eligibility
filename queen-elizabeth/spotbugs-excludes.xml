@@ -15,13 +15,13 @@
     <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
   </Match>
   <!--
-    Line 88 of Soap Requester opens a url connection from the ee.endpoint.url in properties.
+    Line 84 of ConnectionProvider opens a url connection from the ee.endpoint.url in properties.
     To prevent Server Side Request forgery, the code checks the url protocol is HTTPS (E&E
     uses one way TLS) and that the request address is not local. If the url fails either of
     these checks, the connection is never made and the request fails.
   -->
   <Match>
-    <Class name="gov.va.api.health.queenelizabeth.ee.impl.SoapRequester"/>
+    <Class name="gov.va.api.health.queenelizabeth.ee.impl.ConnectionProvider"/>
     <Bug pattern="URLCONNECTION_SSRF_FD"/>
   </Match>
 </FindBugsFilter>

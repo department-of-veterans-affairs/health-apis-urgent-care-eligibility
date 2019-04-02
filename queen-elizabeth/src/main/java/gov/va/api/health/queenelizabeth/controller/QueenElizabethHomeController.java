@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class EeClientHomeController {
+public class QueenElizabethHomeController {
   private static final YAMLMapper YAML_MAPPER = new YAMLMapper();
 
   private final Resource openapi;
 
   @Autowired
-  public EeClientHomeController(@Value("classpath:/ee-api-v1.yaml") Resource openapi) {
+  public QueenElizabethHomeController(@Value("classpath:/ee-api-v1.yaml") Resource openapi) {
     this.openapi = openapi;
   }
 
@@ -44,7 +44,7 @@ public class EeClientHomeController {
   )
   @ResponseBody
   public Object openapiJson() throws IOException {
-    return EeClientHomeController.YAML_MAPPER.readValue(openapiContent(), Object.class);
+    return QueenElizabethHomeController.YAML_MAPPER.readValue(openapiContent(), Object.class);
   }
 
   /** Provide access to the OpenAPI yaml via RESTful interface. */
