@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * This provides paging links for bundles. It will create links for first, self, and last always. It
- * will conditionally create previous and next links.
+ * This provides paging links for bundles. It will create links for first, self, and last always.
+ * Will not create next and previous links because they will always be the same as first and last.
  */
 public interface PageLinks {
-  /** Create a list of parameters that will contain 3 to 5 values. */
+  /** Create with ICN parameter */
   List<BundleLink> create(LinkConfig config);
 
   @Data

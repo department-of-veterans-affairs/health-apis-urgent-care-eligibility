@@ -9,7 +9,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-/** Utility methods for transforming CDW results to Argonaut. */
+/** Utility methods for transforming EE results to R4. */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Transformers {
 
@@ -92,13 +92,13 @@ public final class Transformers {
   }
 
   /**
-   * Indicates the CDW payload is missing, but no errors were reported. This exception indicates
-   * there is a bug in CDW, Mr. Anderson, or the Mr. Anderson client.
+   * Indicates the EE payload is missing, but no errors were reported. This exception indicates
+   * there is a bug in EE, Queen Elizabeth, or the Queen Elizabeth client.
    */
   static class MissingPayload extends TransformationException {
     MissingPayload() {
       super(
-          "Payload is missing, but no errors reported by Mr. Anderson."
+          "Payload is missing, but no errors reported by Queen Elizabeth."
               + " This can occur when the resource is registered with the identity service"
               + " but the database returns an empty search result.");
     }
