@@ -8,6 +8,7 @@ import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Bu
 import gov.va.api.health.urgentcare.api.resources.OperationOutcome;
 import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
+import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
 import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
@@ -42,21 +43,22 @@ public class CoverageEligibilityResponseController {
   private Bundler bundler;
 
   private Bundle bundle(String icn) {
-    GetEESummaryResponse eeSummaryResponse = search(icn);
+    GetEeSummaryResponseTheRemix theRemix = search(icn);
     LinkConfig linkConfig =
         LinkConfig.builder().path("CoverageEligibilityResponse").icn(icn).build();
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
-            singletonList(eeSummaryResponse),
+            singletonList(theRemix),
             transformer,
             CoverageEligibilityResponse.Entry::new,
             CoverageEligibilityResponse.Bundle::new));
   }
 
-  private GetEESummaryResponse search(String icn) {
+  private GetEeSummaryResponseTheRemix search(String icn) {
     Query<GetEESummaryResponse> query = Query.forType(GetEESummaryResponse.class).id(icn).build();
-    return hasPayload(queenElizabethClient.search(query));
+    GetEESummaryResponse eeSummaryResponse = hasPayload(queenElizabethClient.search(query));
+    return new GetEeSummaryResponseTheRemix(icn, eeSummaryResponse);
   }
 
   /** Search by patient. */
@@ -75,5 +77,5 @@ public class CoverageEligibilityResponseController {
   }
 
   public interface Transformer
-      extends Function<GetEESummaryResponse, CoverageEligibilityResponse> {}
+      extends Function<GetEeSummaryResponseTheRemix, CoverageEligibilityResponse> {}
 }

@@ -4,9 +4,10 @@ import static gov.va.api.health.urgentcare.service.controller.Transformers.allBl
 import static gov.va.api.health.urgentcare.service.controller.Transformers.asDateTimeString;
 import static gov.va.api.health.urgentcare.service.controller.Transformers.convertAll;
 import static gov.va.api.health.urgentcare.service.controller.Transformers.ifPresent;
-import static gov.va.api.health.urgentcare.service.controller.Transformers.isBlank;
 import static java.util.Collections.singletonList;
 
+import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
+import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.elements.Narrative;
@@ -14,13 +15,15 @@ import gov.va.api.health.urgentcare.api.elements.Narrative.NarrativeStatus;
 import gov.va.api.health.urgentcare.api.elements.Reference;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Insurance;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Item;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Outcome;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Purpose;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Status;
+import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController.Transformer;
 import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
-import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityCollection;
+import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityInfo;
 import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.stereotype.Service;
@@ -29,43 +32,62 @@ import org.springframework.stereotype.Service;
 public class CoverageEligibilityResponseTransformer implements Transformer {
 
   @Override
-  public CoverageEligibilityResponse apply(GetEESummaryResponse eeSummaryResponse) {
-    return coverageEligibilityResponse(eeSummaryResponse);
+  public CoverageEligibilityResponse apply(GetEeSummaryResponseTheRemix theRemix) {
+    return coverageEligibilityResponse(theRemix);
   }
 
   Period benefitPeriod(XMLGregorianCalendar dateTime) {
     return Period.builder().start(asDateTimeString(dateTime)).build();
   }
 
-  Reference coverage(String code, String description) {
-    if (allBlank(code, description)) {
+  CodeableConcept category(VceEligibilityInfo source) {
+    if (source == null) {
       return null;
     }
-    if (isBlank(code)) {
-      return Reference.builder().display(description).build();
+    if (allBlank(source.getVceDescription(), source.getVceCode())) {
+      return null;
     }
-    if (isBlank(description)) {
-      return Reference.builder().display(code).build();
-    }
-    return Reference.builder().display(code + " - " + description).build();
+    return CodeableConcept.builder().coding(categoryCoding(source)).build();
   }
 
-  private CoverageEligibilityResponse coverageEligibilityResponse(GetEESummaryResponse source) {
+  List<Coding> categoryCoding(VceEligibilityInfo source) {
+    if (source == null) {
+      return null;
+    }
+    if (allBlank(source.getVceDescription(), source.getVceCode())) {
+      return null;
+    }
+    return singletonList(
+        Coding.builder().code(source.getVceCode()).display(source.getVceDescription()).build());
+  }
+
+  Reference coverage() {
+    return Reference.builder()
+        .identifier(
+            Identifier.builder()
+                .system("http://www.va.gov/identifiers/patients")
+                .id("Patient placeholder")
+                .build())
+        .build();
+  }
+
+  private CoverageEligibilityResponse coverageEligibilityResponse(
+      GetEeSummaryResponseTheRemix source) {
     return CoverageEligibilityResponse.builder()
         .resourceType("CoverageEligibilityResponse")
         .text(text())
         .identifier(identifier())
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))
-        .patient(Reference.builder().display("Patient/1010101010V666666").build())
-        .created(asDateTimeString(source.getInvocationDate()))
+        .patient(Reference.builder().display("Patient/" + source.getIcn()).build())
+        .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()))
         .request(
             Reference.builder()
                 .display("[Devise display text for notional request without resource reference]")
                 .build())
         .outcome(Outcome.complete)
         .insurer(Reference.builder().display("Veterans Health Administration").build())
-        .insurance(insurances(source.getSummary()))
+        .insurance(insurances(source.getEeSummaryResponse().getSummary()))
         .build();
   }
 
@@ -92,10 +114,21 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         ifPresent(eligibilities, VceEligibilityCollection::getEligibility),
         eligibilityInfo ->
             Insurance.builder()
-                .coverage(
-                    coverage(eligibilityInfo.getVceCode(), eligibilityInfo.getVceDescription()))
+                .coverage(coverage())
                 .benefitPeriod(benefitPeriod(eligibilityInfo.getVceEffectiveDate()))
+                .item(item(eligibilityInfo))
                 .build());
+  }
+
+  List<Item> item(VceEligibilityInfo source) {
+    if (source == null) {
+      return null;
+    }
+    if (allBlank(source.getVceCode(), source.getVceDescription())
+        && source.getVceEffectiveDate() == null) {
+      return null;
+    }
+    return singletonList(Item.builder().category(category(source)).build());
   }
 
   Narrative text() {

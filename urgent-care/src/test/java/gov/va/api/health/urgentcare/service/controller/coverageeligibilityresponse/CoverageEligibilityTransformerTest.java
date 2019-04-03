@@ -1,8 +1,11 @@
 package gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
+import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.elements.Narrative;
@@ -10,9 +13,11 @@ import gov.va.api.health.urgentcare.api.elements.Narrative.NarrativeStatus;
 import gov.va.api.health.urgentcare.api.elements.Reference;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Insurance;
+import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Item;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Outcome;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Purpose;
 import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Status;
+import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.med.esr.webservices.jaxws.schemas.CommunityCareEligibilityInfo;
 import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
@@ -34,14 +39,17 @@ public class CoverageEligibilityTransformerTest {
   CoverageEligibilityResponseTransformer tx = new CoverageEligibilityResponseTransformer();
 
   @Test
-  public void coverage() {
-    assertThat(tx.coverage("B", "basic")).isEqualTo(expected.coverage());
-    assertThat(tx.coverage("B", null)).isEqualTo(expected.coverageNoDescription());
-    assertThat(tx.coverage("B", "")).isEqualTo(expected.coverageNoDescription());
-    assertThat(tx.coverage(null, "basic")).isEqualTo(expected.coverageNoCode());
-    assertThat(tx.coverage("", "basic")).isEqualTo(expected.coverageNoCode());
-    assertThat(tx.coverage(null, null)).isNull();
-    assertThat(tx.coverage("", "")).isNull();
+  public void category() {
+    assertThat(tx.category(ee.eligibility())).isEqualTo(expected.category());
+    assertThat(tx.category(null)).isNull();
+    assertThat(tx.category(new VceEligibilityInfo())).isNull();
+  }
+
+  @Test
+  public void categoryCoding() {
+    assertThat(tx.categoryCoding(ee.eligibility())).isEqualTo(expected.categoryCodings());
+    assertThat(tx.categoryCoding(null)).isNull();
+    assertThat(tx.categoryCoding(new VceEligibilityInfo())).isNull();
   }
 
   @Test
@@ -64,6 +72,13 @@ public class CoverageEligibilityTransformerTest {
     assertThat(tx.insurances(sampleEeSummary)).isNull();
   }
 
+  @Test
+  public void item() {
+    assertThat(tx.item(ee.eligibility())).isEqualTo(expected.items());
+    assertThat(tx.item(null)).isNull();
+    assertThat(tx.item(new VceEligibilityInfo())).isNull();
+  }
+
   private static class EeSampleData {
 
     private DatatypeFactory datatypeFactory;
@@ -80,11 +95,13 @@ public class CoverageEligibilityTransformerTest {
       return communityCareEligibilityInfo;
     }
 
-    private GetEESummaryResponse coverageEligibilityResponse() {
+    private GetEeSummaryResponseTheRemix coverageEligibilityResponse() {
       GetEESummaryResponse sampleCoverageEligibilityResponse = new GetEESummaryResponse();
       sampleCoverageEligibilityResponse.setSummary(eeSummary());
       sampleCoverageEligibilityResponse.setInvocationDate(dateTime());
-      return sampleCoverageEligibilityResponse;
+      GetEeSummaryResponseTheRemix theRemix =
+          new GetEeSummaryResponseTheRemix("123456789", sampleCoverageEligibilityResponse);
+      return theRemix;
     }
 
     private XMLGregorianCalendar dateTime() {
@@ -119,8 +136,22 @@ public class CoverageEligibilityTransformerTest {
 
   private static class Expected {
 
+    CodeableConcept category() {
+      return CodeableConcept.builder().coding(categoryCodings()).build();
+    }
+
+    List<Coding> categoryCodings() {
+      return singletonList(Coding.builder().code("B").display("basic").build());
+    }
+
     Reference coverage() {
-      return Reference.builder().display("B - basic").build();
+      return Reference.builder()
+          .identifier(
+              Identifier.builder()
+                  .system("http://www.va.gov/identifiers/patients")
+                  .id("Patient placeholder")
+                  .build())
+          .build();
     }
 
     CoverageEligibilityResponse coverageEligibilityResponse() {
@@ -139,14 +170,6 @@ public class CoverageEligibilityTransformerTest {
           .build();
     }
 
-    Reference coverageNoCode() {
-      return Reference.builder().display("basic").build();
-    }
-
-    Reference coverageNoDescription() {
-      return Reference.builder().display("B").build();
-    }
-
     Identifier identifier() {
       return Identifier.builder()
           .system("http://www.va.gov/FHIR/R4/coverageeligibilityresponse")
@@ -158,6 +181,7 @@ public class CoverageEligibilityTransformerTest {
       return Insurance.builder()
           .coverage(coverage())
           .benefitPeriod(Period.builder().start("2018-11-07").build())
+          .item(items())
           .build();
     }
 
@@ -172,8 +196,12 @@ public class CoverageEligibilityTransformerTest {
       return Reference.builder().display("Veterans Health Administration").build();
     }
 
+    List<Item> items() {
+      return singletonList(Item.builder().category(category()).build());
+    }
+
     Reference patient() {
-      return Reference.builder().display("Patient/1010101010V666666").build();
+      return Reference.builder().display("Patient/123456789").build();
     }
 
     Reference request() {
