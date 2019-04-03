@@ -57,7 +57,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .identifier(identifier())
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))
-        .patient(Reference.builder().display("Patient/").build())
+        .patient(Reference.builder().display("Patient/1010101010V666666").build())
         .created(asDateTimeString(source.getInvocationDate()))
         .request(
             Reference.builder()

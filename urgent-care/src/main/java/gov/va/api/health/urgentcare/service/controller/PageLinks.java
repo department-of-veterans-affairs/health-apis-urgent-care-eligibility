@@ -10,7 +10,7 @@ import lombok.Data;
  * Will not create next and previous links because they will always be the same as first and last.
  */
 public interface PageLinks {
-  /** Create with ICN parameter */
+  /** Create with ICN parameter. */
   List<BundleLink> create(LinkConfig config);
 
   @Data

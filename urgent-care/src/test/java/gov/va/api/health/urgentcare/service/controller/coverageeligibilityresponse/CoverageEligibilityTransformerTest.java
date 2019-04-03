@@ -173,7 +173,7 @@ public class CoverageEligibilityTransformerTest {
     }
 
     Reference patient() {
-      return Reference.builder().display("Patient/").build();
+      return Reference.builder().display("Patient/1010101010V666666").build();
     }
 
     Reference request() {
