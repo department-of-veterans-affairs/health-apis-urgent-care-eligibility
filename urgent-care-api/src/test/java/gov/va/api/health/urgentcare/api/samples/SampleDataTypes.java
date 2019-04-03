@@ -60,15 +60,6 @@ public class SampleDataTypes {
         .build();
   }
 
-  /*public Age age() {
-    return Age.builder()
-        .value("19")
-        .unit("HelloUnit")
-        .system("Y")
-        .code("2000-01-01T00:00:00-00:00")
-        .build();
-  }*/
-
   public Attachment attachment() {
     return Attachment.builder()
         .contentType("HelloType")
@@ -113,18 +104,6 @@ public class SampleDataTypes {
         .build();
   }
 
-  /*public Count count() {
-    return Count.builder().value("19").unit("HelloUnit").system("Y").code("1").build();
-  }
-
-  public Duration duration() {
-    return Duration.builder()
-        .value("11.11")
-        .unit("HelloUnit")
-        .system("Y")
-        .code("2000-01-01T00:00:00-00:00")
-        .build();
-  }*/
   public CodeableConcept details() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("HelloText").build();
   }
@@ -228,10 +207,6 @@ public class SampleDataTypes {
     return Range.builder().high(simpleQuantity()).low(simpleQuantity()).build();
   }
 
-  /*public Ratio ratio() {
-    return Ratio.builder().numerator(quantity()).denominator(quantity()).build();
-  }*/
-
   public Reference reference() {
     return Reference.builder().reference("HelloReference").display("HelloDisplay").build();
   }
@@ -270,18 +245,6 @@ public class SampleDataTypes {
         .lastModified("2005-01-21T07:57:00Z")
         .build();
   }
-
-  /*public SampledData sampledData() {
-    return SampledData.builder()
-        .origin(simpleQuantity())
-        .period("11.11")
-        .factor("11.11")
-        .lowerLimit("11.11")
-        .upperLimit("11.11")
-        .dimensions("1")
-        .data("HelloText")
-        .build();
-  }*/
 
   public Search search() {
     return Search.builder()
