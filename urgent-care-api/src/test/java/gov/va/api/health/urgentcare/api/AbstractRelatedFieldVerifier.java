@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
+import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
 import gov.va.api.health.urgentcare.api.elements.Extension;
 import gov.va.api.health.urgentcare.api.samples.SampleDataTypes;
@@ -68,6 +69,7 @@ public abstract class AbstractRelatedFieldVerifier<T> {
     suppliers.put(Fhir.URI, () -> "http://example.com");
     suppliers.put(Fhir.DATE, () -> "2005-01-21");
     suppliers.put(Fhir.DATETIME, () -> "2005-01-21T07:57:00Z");
+    suppliers.put(Fhir.DECIMAL, () -> "1.00");
     suppliers.put(Fhir.ID, () -> "id");
     suppliers.put(Fhir.INSTANT, () -> "2005-01-21T07:57:00.000Z");
     suppliers.put(Fhir.INTEGER, () -> "10");
@@ -84,6 +86,7 @@ public abstract class AbstractRelatedFieldVerifier<T> {
     SampleDataTypes dataTypes = SampleDataTypes.get();
     Map<Class<?>, Supplier<?>> suppliers = new HashMap<>();
     suppliers.put(Extension.class, dataTypes::extension);
+    suppliers.put(Period.class, dataTypes::period);
     suppliers.put(Money.class, dataTypes::money);
     suppliers.put(SimpleQuantity.class, dataTypes::simpleQuantity);
     return suppliers;
