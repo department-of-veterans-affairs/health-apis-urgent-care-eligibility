@@ -102,7 +102,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
     return Narrative.builder()
         .status(NarrativeStatus.generated)
         .div(
-            "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the CoverageEligibilityResponse.</div>")
+            "<div xmlns=http://www.w3.org/1999/xhtml>A human-readable rendering of the CoverageEligibilityResponse.</div>")
         .build();
   }
 }
