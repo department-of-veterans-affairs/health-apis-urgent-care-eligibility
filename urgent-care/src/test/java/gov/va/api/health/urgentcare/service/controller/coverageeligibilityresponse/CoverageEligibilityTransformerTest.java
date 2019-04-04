@@ -205,9 +205,7 @@ public class CoverageEligibilityTransformerTest {
     }
 
     Reference request() {
-      return Reference.builder()
-          .display("[Devise display text for notional request without resource reference]")
-          .build();
+      return Reference.builder().display("Requested by [placeholder]").build();
     }
 
     Narrative text() {
