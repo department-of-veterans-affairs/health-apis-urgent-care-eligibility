@@ -83,7 +83,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()))
         .request(
             Reference.builder()
-                .display("[Devise display text for notional request without resource reference]")
+                .display("Requested by [placeholder]")
                 .build())
         .outcome(Outcome.complete)
         .insurer(Reference.builder().display("Veterans Health Administration").build())
