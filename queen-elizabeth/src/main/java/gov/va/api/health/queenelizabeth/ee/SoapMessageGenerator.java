@@ -4,7 +4,6 @@ import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
@@ -35,9 +34,7 @@ public class SoapMessageGenerator {
   @SneakyThrows
   public SOAPMessage createGetEeSummarySoapRequest() {
 
-    SOAPMessage soapMessage = null;
-    MessageFactory messageFactory = MessageFactory.newInstance();
-    soapMessage = messageFactory.createMessage();
+    SOAPMessage soapMessage = MessageFactory.newInstance().createMessage();
 
     try {
       SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -87,7 +84,7 @@ public class SoapMessageGenerator {
 
       soapMessage.saveChanges();
       return soapMessage;
-    } catch (SOAPException e) {
+    } catch (Exception e) {
       throw new Eligibilities.RequestFailed(
           soapMessage, "Failed to generate SOAPMessage for getEESummaryRequest");
     }
