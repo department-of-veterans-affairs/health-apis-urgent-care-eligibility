@@ -7,6 +7,7 @@ import gov.va.api.health.autoconfig.configuration.JacksonConfig;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
 import gov.va.api.health.urgentcare.api.datatypes.Period;
 import gov.va.api.health.urgentcare.api.datatypes.SimpleQuantity;
+import gov.va.api.health.urgentcare.api.elements.Extension;
 import gov.va.api.health.urgentcare.api.samples.SampleDataTypes;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -84,6 +85,7 @@ public abstract class AbstractRelatedFieldVerifier<T> {
   private static Map<Class<?>, Supplier<?>> createKnownTypes() {
     SampleDataTypes dataTypes = SampleDataTypes.get();
     Map<Class<?>, Supplier<?>> suppliers = new HashMap<>();
+    suppliers.put(Extension.class, dataTypes::extension);
     suppliers.put(Period.class, dataTypes::period);
     suppliers.put(Money.class, dataTypes::money);
     suppliers.put(SimpleQuantity.class, dataTypes::simpleQuantity);

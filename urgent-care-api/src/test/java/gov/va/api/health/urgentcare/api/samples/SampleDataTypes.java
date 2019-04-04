@@ -7,12 +7,18 @@ import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Request;
 import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Response;
 import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Search;
 import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.SearchMode;
+import gov.va.api.health.urgentcare.api.datatypes.Address;
+import gov.va.api.health.urgentcare.api.datatypes.Address.AddressType;
+import gov.va.api.health.urgentcare.api.datatypes.Address.AddressUse;
+import gov.va.api.health.urgentcare.api.datatypes.Attachment;
 import gov.va.api.health.urgentcare.api.datatypes.CodeableConcept;
 import gov.va.api.health.urgentcare.api.datatypes.Coding;
 import gov.va.api.health.urgentcare.api.datatypes.ContactDetail;
 import gov.va.api.health.urgentcare.api.datatypes.ContactPoint;
 import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointSystem;
 import gov.va.api.health.urgentcare.api.datatypes.ContactPoint.ContactPointUse;
+import gov.va.api.health.urgentcare.api.datatypes.HumanName;
+import gov.va.api.health.urgentcare.api.datatypes.HumanName.NameUse;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier;
 import gov.va.api.health.urgentcare.api.datatypes.Identifier.IdentifierUse;
 import gov.va.api.health.urgentcare.api.datatypes.Money;
@@ -31,12 +37,13 @@ import gov.va.api.health.urgentcare.api.elements.Narrative.NarrativeStatus;
 import gov.va.api.health.urgentcare.api.elements.Reference;
 import gov.va.api.health.urgentcare.api.resources.OperationOutcome.Issue;
 import gov.va.api.health.urgentcare.api.resources.OperationOutcome.Issue.IssueSeverity;
+import java.util.Arrays;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(staticName = "get")
 public class SampleDataTypes {
 
-  /*public Address address() {
+  public Address address() {
     return Address.builder()
         .id("1234")
         .extension(singletonList(extension()))
@@ -53,15 +60,6 @@ public class SampleDataTypes {
         .build();
   }
 
-  public Age age() {
-    return Age.builder()
-        .value("19")
-        .unit("HelloUnit")
-        .system("Y")
-        .code("2000-01-01T00:00:00-00:00")
-        .build();
-  }
-
   public Attachment attachment() {
     return Attachment.builder()
         .contentType("HelloType")
@@ -73,7 +71,8 @@ public class SampleDataTypes {
         .title("HelloTitle")
         .creation("2000-01-01T00:00:00-00:00")
         .build();
-  }*/
+  }
+
   public CodeableConcept codeableConcept() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("code text test").build();
   }
@@ -105,18 +104,6 @@ public class SampleDataTypes {
         .build();
   }
 
-  /*public Count count() {
-    return Count.builder().value("19").unit("HelloUnit").system("Y").code("1").build();
-  }
-
-  public Duration duration() {
-    return Duration.builder()
-        .value("11.11")
-        .unit("HelloUnit")
-        .system("Y")
-        .code("2000-01-01T00:00:00-00:00")
-        .build();
-  }*/
   public CodeableConcept details() {
     return CodeableConcept.builder().coding(singletonList(coding())).text("HelloText").build();
   }
@@ -152,7 +139,7 @@ public class SampleDataTypes {
         .build();
   }
 
-  /*public HumanName humanName() {
+  public HumanName humanName() {
     return HumanName.builder()
         .use(NameUse.anonymous)
         .text("HelloText")
@@ -162,7 +149,8 @@ public class SampleDataTypes {
         .suffix(singletonList("HelloSuffix"))
         .period(period())
         .build();
-  }*/
+  }
+
   public Identifier identifier() {
     return Identifier.builder()
         .id("5678")
@@ -219,10 +207,6 @@ public class SampleDataTypes {
     return Range.builder().high(simpleQuantity()).low(simpleQuantity()).build();
   }
 
-  /*public Ratio ratio() {
-    return Ratio.builder().numerator(quantity()).denominator(quantity()).build();
-  }*/
-
   public Reference reference() {
     return Reference.builder().reference("HelloReference").display("HelloDisplay").build();
   }
@@ -261,18 +245,6 @@ public class SampleDataTypes {
         .lastModified("2005-01-21T07:57:00Z")
         .build();
   }
-
-  /*public SampledData sampledData() {
-    return SampledData.builder()
-        .origin(simpleQuantity())
-        .period("11.11")
-        .factor("11.11")
-        .lowerLimit("11.11")
-        .upperLimit("11.11")
-        .dimensions("1")
-        .data("HelloText")
-        .build();
-  }*/
 
   public Search search() {
     return Search.builder()
