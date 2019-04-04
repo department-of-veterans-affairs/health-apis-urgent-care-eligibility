@@ -108,19 +108,19 @@ public class WebExceptionHandlerTest {
      *
      * <pre>
      * {
-     *   "id":"99bfd970-d6c5-4998-a59c-9e9c2848d2b6",
-     *   "text":{
-     *     "status":"additional",
-     *      "div":"<div>Failure: /api/Patient/123</div>"
-     *   },
-     *   "issue":
-     *   [
-     *     {
-     *       "severity":"fatal",
-     *       "code":"not-found",
-     *       "diagnostics":"Error: NotFound Timestamp:2018-11-08T19:10:24.198Z"
-     *     }
-     *   ]
+     *  "id": "99ea1528-1579-40c3-a99e-4b86f948a503",
+     *  "resourceType": "OperationOutcome",
+     *  "text": {
+     *    "status": "additional",
+     *    "div": "<div>Failure: /api/CoverageEligibilityResponse</div>"
+     * },
+     * "issue": [
+     *   {
+     *       "severity": "fatal",
+     *       "code": "not-found",
+     *       "diagnostics": "Error: NotFound Timestamp:2019-04-04T22:43:12.709Z"
+     *   }
+     *  ]
      * }
      * </pre>
      */
