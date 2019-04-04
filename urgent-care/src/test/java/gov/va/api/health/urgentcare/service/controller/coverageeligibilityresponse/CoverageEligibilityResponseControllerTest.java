@@ -49,6 +49,7 @@ public class CoverageEligibilityResponseControllerTest {
         new GetEeSummaryResponseTheRemix(id, getEESummaryResponse);
     CoverageEligibilityResponse coverageEligibilityResponse =
         CoverageEligibilityResponse.builder().build();
+
     when(tx.apply(theRemix)).thenReturn(coverageEligibilityResponse);
     when(client.search(Mockito.any())).thenReturn(getEESummaryResponse);
 
@@ -68,7 +69,9 @@ public class CoverageEligibilityResponseControllerTest {
     LinkConfig expectedLinkConfig =
         LinkConfig.builder().path("CoverageEligibilityResponse").icn(id).build();
     assertThat(captor.getValue().linkConfig()).isEqualTo(expectedLinkConfig);
-    // assertThat(captor.getValue().xmlItems()).isEqualTo(singletonList(theRemix));
+    assertThat(captor.getValue().xmlItems().get(0).getEeSummaryResponse())
+        .isEqualTo(theRemix.getEeSummaryResponse());
+    assertThat(captor.getValue().xmlItems().get(0).getIcn()).isEqualTo(id);
     assertThat(captor.getValue().newBundle().get()).isInstanceOf(Bundle.class);
     assertThat(captor.getValue().newEntry().get()).isInstanceOf(Entry.class);
     assertThat(captor.getValue().transformer()).isSameAs(tx);
