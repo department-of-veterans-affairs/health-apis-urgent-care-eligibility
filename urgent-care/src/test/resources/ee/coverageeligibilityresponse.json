@@ -1,6 +1,5 @@
 {
     "resourceType" : "CoverageEligibilityResponse",
-    "id" : "E2500",
     "text" : {
         "status" : "generated",
         "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the CoverageEligibilityResponse.</div>"
@@ -16,11 +15,11 @@
         "discovery"
     ],
     "patient" : {
-        "reference" : "Patient/pat1"
+        "reference" : "Patient/1008679665V880686"
     },
     "created" : "2010-02-24T17:06:00Z",
     "request" : {
-        "display" : "[Devise display text for notional request without resource reference]"
+        "display" : "Requested by [placeholder]"
     },
     "outcome" : "complete",
     "insurer" : {
@@ -29,11 +28,26 @@
     "insurance" : [
         {
             "coverage" : {
-                "display" : "B - basic"
+                "identifier" : {
+                    "id" : "PatientPlaceholder",
+                    "system" : "http://www.va.gov/identifiers/patients"
+                }
             },
             "benefitPeriod" : {
-                "start" : "2010-02-24T17:06:00Z"
-            }
+                "start" : "2019-03-27T14:37:48.000-05:00"
+            },
+            "item" : [
+                {
+                    "category" : {
+                        "coding" : [
+                            {
+                                "code" : "N",
+                                "display" : "State No Full Service VA"
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     ]
 }

@@ -149,7 +149,7 @@ public class CoverageEligibilityTransformerTest {
           .identifier(
               Identifier.builder()
                   .system("http://www.va.gov/identifiers/patients")
-                  .id("Patient placeholder")
+                  .id("PatientPlaceholder")
                   .build())
           .build();
     }
@@ -212,7 +212,7 @@ public class CoverageEligibilityTransformerTest {
       return Narrative.builder()
           .status(NarrativeStatus.generated)
           .div(
-              "<div xmlns=http://www.w3.org/1999/xhtml>A human-readable rendering of the CoverageEligibilityResponse.</div>")
+              "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the CoverageEligibilityResponse.</div>")
           .build();
     }
   }

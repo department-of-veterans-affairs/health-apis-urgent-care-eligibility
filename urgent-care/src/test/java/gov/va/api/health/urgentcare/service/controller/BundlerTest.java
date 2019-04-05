@@ -28,8 +28,8 @@ import org.mockito.MockitoAnnotations;
 
 @SuppressWarnings("WeakerAccess")
 public class BundlerTest {
-  private static final Function<FugaziCdwRoot, FugaziArgo> FUGAZIMUS_PRIME =
-      x -> FugaziArgo.of(x.id());
+  private static final Function<FugaziCdwRoot, FugaziUrgentCare> FUGAZIMUS_PRIME =
+      x -> FugaziUrgentCare.of(x.id());
 
   @Mock PageLinks links;
   Bundler bundler;
@@ -59,9 +59,9 @@ public class BundlerTest {
     expected.link(bundleLinks);
     expected.entry(
         Arrays.asList(
-            FugaziEntry.of(FugaziArgo.of(1)),
-            FugaziEntry.of(FugaziArgo.of(2)),
-            FugaziEntry.of(FugaziArgo.of(3))));
+            FugaziEntry.of(FugaziUrgentCare.of(1)),
+            FugaziEntry.of(FugaziUrgentCare.of(2)),
+            FugaziEntry.of(FugaziUrgentCare.of(3))));
 
     Object actual =
         bundler.bundle(
@@ -73,14 +73,14 @@ public class BundlerTest {
 
   @Value
   @Builder
-  private static class FugaziArgo implements Resource {
+  private static class FugaziUrgentCare implements Resource {
     String id;
     Meta meta;
     String implicitRules;
     String language;
 
-    private static FugaziArgo of(int id) {
-      return FugaziArgo.builder().id("a" + id).build();
+    private static FugaziUrgentCare of(int id) {
+      return FugaziUrgentCare.builder().id("a" + id).build();
     }
   }
 
@@ -92,8 +92,8 @@ public class BundlerTest {
     int id;
   }
 
-  private static class FugaziEntry extends AbstractEntry<FugaziArgo> {
-    private static FugaziEntry of(FugaziArgo a) {
+  private static class FugaziEntry extends AbstractEntry<FugaziUrgentCare> {
+    private static FugaziEntry of(FugaziUrgentCare a) {
       FugaziEntry entry = new FugaziEntry();
       entry.resource(a);
       entry.search(Search.builder().mode(SearchMode.match).build());

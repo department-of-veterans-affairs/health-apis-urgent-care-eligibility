@@ -25,6 +25,7 @@ import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityCollection;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityInfo;
 import java.util.List;
+import java.util.TimeZone;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +67,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .identifier(
             Identifier.builder()
                 .system("http://www.va.gov/identifiers/patients")
-                .id("Patient placeholder")
+                .id("PatientPlaceholder")
                 .build())
         .build();
   }
@@ -132,7 +133,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
     return Narrative.builder()
         .status(NarrativeStatus.generated)
         .div(
-            "<div xmlns=http://www.w3.org/1999/xhtml>A human-readable rendering of the CoverageEligibilityResponse.</div>")
+            "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the CoverageEligibilityResponse.</div>")
         .build();
   }
 }
