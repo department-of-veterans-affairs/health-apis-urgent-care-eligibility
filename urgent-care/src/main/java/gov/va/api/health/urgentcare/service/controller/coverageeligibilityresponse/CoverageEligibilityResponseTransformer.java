@@ -80,7 +80,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))
         .patient(Reference.builder().display("Patient/" + source.getIcn()).build())
-        .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()))
+        .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()) + ".000-06:00")
         .request(Reference.builder().display("Requested by [placeholder]").build())
         .outcome(Outcome.complete)
         .insurer(Reference.builder().display("Veterans Health Administration").build())

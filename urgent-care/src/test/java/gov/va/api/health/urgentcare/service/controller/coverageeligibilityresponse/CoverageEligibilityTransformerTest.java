@@ -109,6 +109,7 @@ public class CoverageEligibilityTransformerTest {
       gregorianCalendar.setYear(2018);
       gregorianCalendar.setMonth(11);
       gregorianCalendar.setDay(7);
+      gregorianCalendar.setTime(0, 0, 0);
       return gregorianCalendar;
     }
 
@@ -162,7 +163,7 @@ public class CoverageEligibilityTransformerTest {
           .status(Status.active)
           .purpose(asList(Purpose.discovery))
           .patient(patient())
-          .created("2018-11-07")
+          .created("2018-11-07T00:00:00.000-06:00")
           .request(request())
           .outcome(Outcome.complete)
           .insurer(insurer())
@@ -180,7 +181,7 @@ public class CoverageEligibilityTransformerTest {
     Insurance insurance() {
       return Insurance.builder()
           .coverage(coverage())
-          .benefitPeriod(Period.builder().start("2018-11-07").build())
+          .benefitPeriod(Period.builder().start("2018-11-07T00:00:00").build())
           .item(items())
           .build();
     }
