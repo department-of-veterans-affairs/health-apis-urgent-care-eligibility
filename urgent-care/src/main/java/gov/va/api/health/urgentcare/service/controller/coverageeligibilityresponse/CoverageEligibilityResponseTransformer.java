@@ -25,7 +25,6 @@ import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityCollection;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityInfo;
 import java.util.List;
-import java.util.TimeZone;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.stereotype.Service;
 
