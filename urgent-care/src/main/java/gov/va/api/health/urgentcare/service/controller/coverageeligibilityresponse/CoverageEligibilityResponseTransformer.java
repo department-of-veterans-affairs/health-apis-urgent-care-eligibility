@@ -25,7 +25,6 @@ import gov.va.med.esr.webservices.jaxws.schemas.EeSummary;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityCollection;
 import gov.va.med.esr.webservices.jaxws.schemas.VceEligibilityInfo;
 import java.util.List;
-import java.util.TimeZone;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +58,11 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
       return null;
     }
     return singletonList(
-        Coding.builder().code(source.getVceCode()).display(source.getVceDescription()).build());
+        Coding.builder()
+            .code(source.getVceCode())
+            .display(source.getVceDescription())
+            .system("http://www.va.gov/terminology/vistadefinedterms/communityCareEligibilityInfo")
+            .build());
   }
 
   Reference coverage() {
@@ -81,7 +84,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))
         .patient(Reference.builder().display("Patient/" + source.getIcn()).build())
-        .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()))
+        .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()) + ".000-06:00")
         .request(Reference.builder().display("Requested by [placeholder]").build())
         .outcome(Outcome.complete)
         .insurer(Reference.builder().display("Veterans Health Administration").build())
