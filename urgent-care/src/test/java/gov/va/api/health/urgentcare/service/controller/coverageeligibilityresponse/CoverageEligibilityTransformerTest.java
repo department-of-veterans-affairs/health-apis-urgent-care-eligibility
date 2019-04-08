@@ -142,13 +142,7 @@ public class CoverageEligibilityTransformerTest {
     }
 
     List<Coding> categoryCodings() {
-      return singletonList(
-          Coding.builder()
-              .code("B")
-              .display("basic")
-              .system(
-                  "http://www.va.gov/terminology/vistadefinedterms/communityCareEligibilityInfo")
-              .build());
+      return singletonList(Coding.builder().code("B").display("basic").build());
     }
 
     Reference coverage() {

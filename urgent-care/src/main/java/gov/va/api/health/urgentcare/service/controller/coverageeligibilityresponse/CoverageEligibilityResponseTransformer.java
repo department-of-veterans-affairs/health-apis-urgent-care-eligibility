@@ -58,11 +58,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
       return null;
     }
     return singletonList(
-        Coding.builder()
-            .code(source.getVceCode())
-            .display(source.getVceDescription())
-            .system("http://www.va.gov/terminology/vistadefinedterms/communityCareEligibilityInfo")
-            .build());
+        Coding.builder().code(source.getVceCode()).display(source.getVceDescription()).build());
   }
 
   Reference coverage() {
