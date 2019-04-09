@@ -10,7 +10,6 @@
   <version>1.0.13-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>urgent-care-api</module>
     <module>ee-artifacts</module>
     <module>urgent-care</module>
     <module>queen-elizabeth</module>

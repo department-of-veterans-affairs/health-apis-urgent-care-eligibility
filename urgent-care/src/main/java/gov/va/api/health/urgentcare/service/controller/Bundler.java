@@ -1,11 +1,11 @@
 package gov.va.api.health.urgentcare.service.controller;
 
-import gov.va.api.health.urgentcare.api.bundle.AbstractBundle;
-import gov.va.api.health.urgentcare.api.bundle.AbstractBundle.BundleType;
-import gov.va.api.health.urgentcare.api.bundle.AbstractEntry;
-import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.Search;
-import gov.va.api.health.urgentcare.api.bundle.AbstractEntry.SearchMode;
-import gov.va.api.health.urgentcare.api.resources.Resource;
+import gov.va.api.health.r4.api.bundle.AbstractBundle;
+import gov.va.api.health.r4.api.bundle.AbstractBundle.BundleType;
+import gov.va.api.health.r4.api.bundle.AbstractEntry;
+import gov.va.api.health.r4.api.bundle.AbstractEntry.Search;
+import gov.va.api.health.r4.api.bundle.AbstractEntry.SearchMode;
+import gov.va.api.health.r4.api.resources.Resource;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
 import java.util.List;
 import java.util.function.Function;
