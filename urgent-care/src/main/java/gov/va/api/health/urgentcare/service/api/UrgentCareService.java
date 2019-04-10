@@ -16,7 +16,7 @@ import javax.ws.rs.Path;
         description =
             "FHIR (Fast Healthcare Interoperability Resources) specification defines a set of"
                 + " \"Resources\" that represent granular clinical concepts."
-                + "This service is compiant with Urgent Care Eligibility Implementation."
+                + "This service is compliant with Urgent Care Eligibility Implementation."
       ),
   servers = {
     @Server(

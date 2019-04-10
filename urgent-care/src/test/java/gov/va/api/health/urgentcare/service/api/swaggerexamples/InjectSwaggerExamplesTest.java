@@ -63,7 +63,7 @@ public class InjectSwaggerExamplesTest {
   @SneakyThrows
   private void injectSwaggerExamples(String filename, ObjectMapper mapper) {
     final Map<String, Object> swaggerExamples = loadSwaggerExamples();
-    File swaggerFile = new File(new File(targetDirectory(), "swagger"), filename);
+    File swaggerFile = new File(new File(targetDirectory(), "classes"), filename);
     assertThat(swaggerFile.exists()).isTrue();
     JsonNode root = mapper.readTree(swaggerFile);
     List<JsonNode> parents = root.findParents("example");
