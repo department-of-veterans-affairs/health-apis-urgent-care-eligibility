@@ -1,14 +1,22 @@
 package gov.va.api.health.urgentcare.service.config;
 
 import gov.va.api.health.autoconfig.configuration.SecureRestTemplateConfig;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import javax.validation.constraints.Null;
 
 /**
  * Supplier for RestTemplate that support JAXB.
@@ -26,8 +34,7 @@ public class JaxbRestTemplateConfig {
   @WithJaxb
   public RestTemplate jaxbRestTemplate(@Autowired RestTemplateBuilder restTemplateBuilder) {
     RestTemplate restTemplate = secureConfig.restTemplate(restTemplateBuilder);
-    restTemplate.setMessageConverters(
-        Collections.singletonList(new Jaxb2RootElementHttpMessageConverter()));
+    restTemplate.getMessageConverters().add(0, new Jaxb2RootElementHttpMessageConverter());
     return restTemplate;
   }
 }
