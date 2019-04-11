@@ -9,6 +9,10 @@
   <artifactId>urgent-care</artifactId>
   <version>1.0.14-SNAPSHOT</version>
   <packaging>jar</packaging>
+  <properties>
+    <ee-artifacts.version>1.1.31</ee-artifacts.version>
+    <r4.version>1.0.1</r4.version>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>gov.va.api.health</groupId>
@@ -17,7 +21,7 @@
     <dependency>
       <groupId>gov.va.api.health</groupId>
       <artifactId>r4</artifactId>
-      <version>1.0.1</version>
+      <version>${r4.version}</version>
     </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
@@ -42,7 +46,7 @@
     <dependency>
       <groupId>gov.va.api.health</groupId>
       <artifactId>ee-artifacts</artifactId>
-      <version>1.1.31</version>
+      <version>${ee-artifacts.version}</version>
     </dependency>
   </dependencies>
   <build>
