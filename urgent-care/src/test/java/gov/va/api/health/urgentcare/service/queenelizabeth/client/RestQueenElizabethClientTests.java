@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import gov.va.api.health.ids.api.IdentityService;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,6 +27,7 @@ public class RestQueenElizabethClientTests {
   @Rule public final ExpectedException thrown = ExpectedException.none();
 
   @Mock RestTemplate mockRestTemplate;
+  @Mock IdentityService identityService;
 
   private RestQueenElizabethClient qeClient;
 
@@ -33,7 +35,8 @@ public class RestQueenElizabethClientTests {
   public void _init() {
     MockitoAnnotations.initMocks(this);
     qeClient =
-        new RestQueenElizabethClient("https://ee.va.gov:9334/getEESummary/", mockRestTemplate);
+        new RestQueenElizabethClient(
+            "https://ee.va.gov:9334/getEESummary/", mockRestTemplate, identityService);
   }
 
   @Test
