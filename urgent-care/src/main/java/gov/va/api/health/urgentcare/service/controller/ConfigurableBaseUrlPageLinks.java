@@ -1,7 +1,7 @@
 package gov.va.api.health.urgentcare.service.controller;
 
-import gov.va.api.health.urgentcare.api.bundle.BundleLink;
-import gov.va.api.health.urgentcare.api.bundle.BundleLink.LinkRelation;
+import gov.va.api.health.r4.api.bundle.BundleLink;
+import gov.va.api.health.r4.api.bundle.BundleLink.LinkRelation;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,10 @@
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import gov.va.api.health.urgentcare.api.Fhir;
-import gov.va.api.health.urgentcare.api.elements.Element;
-import gov.va.api.health.urgentcare.api.elements.Extension;
-import gov.va.api.health.urgentcare.api.elements.Reference;
-import gov.va.api.health.urgentcare.api.validation.ZeroOrOneOf;
+import gov.va.api.health.urgentcare.service.api.Fhir;
+import gov.va.api.health.urgentcare.service.api.elements.Element;
+import gov.va.api.health.urgentcare.service.api.elements.Extension;
+import gov.va.api.health.urgentcare.service.api.elements.Reference;
+import gov.va.api.health.urgentcare.service.api.validation.ZeroOrOneOf;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import javax.validation.Valid;
