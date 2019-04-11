@@ -4,12 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import gov.va.api.health.autoconfig.configuration.SecureRestTemplateConfig;
-import java.util.List;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 public class JaxbRestTemplateConfigTest {
@@ -26,10 +22,6 @@ public class JaxbRestTemplateConfigTest {
 
     assertThat(actual).isSameAs(rt);
 
-    @SuppressWarnings("unchecked")
-    ArgumentCaptor<List<HttpMessageConverter<?>>> captor = ArgumentCaptor.forClass(List.class);
-    verify(rt).setMessageConverters(captor.capture());
-    assertThat(captor.getValue().size()).isEqualTo(1);
-    assertThat(captor.getValue().get(0)).isInstanceOf(Jaxb2RootElementHttpMessageConverter.class);
+    verify(rt).getMessageConverters();
   }
 }
