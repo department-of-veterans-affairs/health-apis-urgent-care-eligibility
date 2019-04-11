@@ -3,9 +3,9 @@ package gov.va.api.health.urgentcare.service.controller.coverageeligibilityrespo
 import static gov.va.api.health.urgentcare.service.controller.Transformers.hasPayload;
 import static java.util.Collections.singletonList;
 
-import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse;
-import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Bundle;
-import gov.va.api.health.urgentcare.api.resources.OperationOutcome;
+import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse;
+import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Bundle;
+import gov.va.api.health.r4.api.resources.OperationOutcome;
 import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
 import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;

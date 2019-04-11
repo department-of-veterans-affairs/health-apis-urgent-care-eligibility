@@ -2,8 +2,8 @@ package gov.va.api.health.urgentcare.service.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gov.va.api.health.urgentcare.api.bundle.BundleLink;
-import gov.va.api.health.urgentcare.api.bundle.BundleLink.LinkRelation;
+import gov.va.api.health.r4.api.bundle.BundleLink;
+import gov.va.api.health.r4.api.bundle.BundleLink.LinkRelation;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
 import java.util.List;
 import org.junit.Before;

@@ -1,10 +1,10 @@
 package gov.va.api.health.urgentcare.service.controller;
 
-import gov.va.api.health.urgentcare.api.elements.Narrative;
-import gov.va.api.health.urgentcare.api.elements.Narrative.NarrativeStatus;
-import gov.va.api.health.urgentcare.api.resources.OperationOutcome;
-import gov.va.api.health.urgentcare.api.resources.OperationOutcome.Issue;
-import gov.va.api.health.urgentcare.api.resources.OperationOutcome.Issue.IssueSeverity;
+import gov.va.api.health.r4.api.elements.Narrative;
+import gov.va.api.health.r4.api.elements.Narrative.NarrativeStatus;
+import gov.va.api.health.r4.api.resources.OperationOutcome;
+import gov.va.api.health.r4.api.resources.OperationOutcome.Issue;
+import gov.va.api.health.r4.api.resources.OperationOutcome.Issue.IssueSeverity;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient.BadRequest;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient.NotFound;
 import java.time.Instant;

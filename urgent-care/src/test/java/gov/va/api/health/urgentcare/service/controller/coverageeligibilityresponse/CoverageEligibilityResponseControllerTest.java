@@ -6,10 +6,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
-import gov.va.api.health.urgentcare.api.bundle.AbstractBundle.BundleType;
-import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse;
-import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Bundle;
-import gov.va.api.health.urgentcare.api.resources.CoverageEligibilityResponse.Entry;
+import gov.va.api.health.r4.api.bundle.AbstractBundle.BundleType;
+import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse;
+import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Bundle;
+import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Entry;
 import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
 import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
