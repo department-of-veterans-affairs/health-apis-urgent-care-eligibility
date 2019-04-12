@@ -1,5 +1,6 @@
 package gov.va.api.health.urgentcare.service.queenelizabeth.client;
 
+import gov.va.api.health.ids.api.IdentityService;
 import gov.va.api.health.urgentcare.service.config.WithJaxb;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,16 @@ public class RestQueenElizabethClient implements QueenElizabethClient {
 
   private final String baseUrl;
 
+  private final IdentityService identityService;
+
+  /** Constructor. */
   public RestQueenElizabethClient(
       @Value("${queenelizabeth.url}") String baseUrl,
-      @Autowired @WithJaxb RestTemplate restTemplate) {
+      @Autowired @WithJaxb RestTemplate restTemplate,
+      @Autowired IdentityService identityService) {
     this.baseUrl = baseUrl;
     this.restTemplate = restTemplate;
+    this.identityService = identityService;
   }
 
   private HttpEntity<Void> requestEntity() {
@@ -56,6 +62,6 @@ public class RestQueenElizabethClient implements QueenElizabethClient {
   }
 
   private String urlOf(Query<?> query) {
-    return baseUrl + "/api/v1/eligibilityandenrollment" + query.toQueryString();
+    return baseUrl + "/api/v1/eligibilityandenrollment" + query.toQueryString(identityService);
   }
 }
