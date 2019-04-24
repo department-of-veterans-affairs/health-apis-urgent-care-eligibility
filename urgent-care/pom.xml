@@ -11,7 +11,7 @@
   <packaging>jar</packaging>
   <properties>
     <ee-artifacts.version>1.1.31</ee-artifacts.version>
-    <r4.version>1.0.2</r4.version>
+    <r4.version>1.0.3</r4.version>
   </properties>
   <dependencies>
     <dependency>
