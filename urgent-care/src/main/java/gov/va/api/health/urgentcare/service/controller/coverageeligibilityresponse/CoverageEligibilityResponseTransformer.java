@@ -59,7 +59,11 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
       return null;
     }
     return singletonList(
-        Coding.builder().code(source.getVceCode()).display(source.getVceDescription()).build());
+        Coding.builder()
+            .system(null)
+            .code(source.getVceCode())
+            .display(source.getVceDescription())
+            .build());
   }
 
   private CoverageEligibilityResponse coverageEligibilityResponse(
@@ -75,7 +79,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .request(null)
         ._request(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
         .outcome(Outcome.complete)
-        .insurer(Reference.builder().display("Veterans Health Administration").build())
+        .insurer(Reference.builder().display("Veterans Affairs Plan").build())
         .insurance(insurances(source.getEeSummaryResponse().getSummary()))
         .build();
   }

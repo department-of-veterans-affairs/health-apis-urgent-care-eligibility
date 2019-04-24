@@ -143,7 +143,7 @@ public class CoverageEligibilityTransformerTest {
     }
 
     List<Coding> categoryCodings() {
-      return singletonList(Coding.builder().code("B").display("basic").build());
+      return singletonList(Coding.builder().system(null).code("B").display("basic").build());
     }
 
     CoverageEligibilityResponse coverageEligibilityResponse() {
@@ -187,7 +187,7 @@ public class CoverageEligibilityTransformerTest {
     }
 
     Reference insurer() {
-      return Reference.builder().display("Veterans Health Administration").build();
+      return Reference.builder().display("Veterans Affairs Plan").build();
     }
 
     List<Item> items() {
