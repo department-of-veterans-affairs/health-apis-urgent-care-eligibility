@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gov.va.api.health.r4.api.DataAbsentReason;
 import gov.va.api.health.r4.api.datatypes.CodeableConcept;
 import gov.va.api.health.r4.api.datatypes.Coding;
 import gov.va.api.health.r4.api.datatypes.Identifier;
@@ -145,16 +146,6 @@ public class CoverageEligibilityTransformerTest {
       return singletonList(Coding.builder().code("B").display("basic").build());
     }
 
-    Reference coverage() {
-      return Reference.builder()
-          .identifier(
-              Identifier.builder()
-                  .system("http://www.va.gov/identifiers/patients")
-                  .id("PatientPlaceholder")
-                  .build())
-          .build();
-    }
-
     CoverageEligibilityResponse coverageEligibilityResponse() {
       return CoverageEligibilityResponse.builder()
           .resourceType("CoverageEligibilityResponse")
@@ -164,7 +155,8 @@ public class CoverageEligibilityTransformerTest {
           .purpose(asList(Purpose.discovery))
           .patient(patient())
           .created("2018-11-07T00:00:00.000-06:00")
-          .request(request())
+          .request(null)
+          ._request(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
           .outcome(Outcome.complete)
           .insurer(insurer())
           .insurance(insurances())
@@ -180,7 +172,8 @@ public class CoverageEligibilityTransformerTest {
 
     Insurance insurance() {
       return Insurance.builder()
-          .coverage(coverage())
+          .coverage(null)
+          ._coverage(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
           .benefitPeriod(Period.builder().start("2018-11-07T00:00:00").build())
           .item(items())
           .build();
