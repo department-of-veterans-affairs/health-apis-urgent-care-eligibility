@@ -71,6 +71,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
     return CoverageEligibilityResponse.builder()
         .resourceType("CoverageEligibilityResponse")
         .text(text())
+        .id(source.getIcn())
         .identifier(identifier())
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))

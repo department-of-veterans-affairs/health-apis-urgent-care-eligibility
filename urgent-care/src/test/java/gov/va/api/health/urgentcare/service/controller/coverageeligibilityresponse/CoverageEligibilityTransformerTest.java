@@ -150,6 +150,7 @@ public class CoverageEligibilityTransformerTest {
       return CoverageEligibilityResponse.builder()
           .resourceType("CoverageEligibilityResponse")
           .text(text())
+          .id("123456789")
           .identifier(asList(identifier()))
           .status(Status.active)
           .purpose(asList(Purpose.discovery))
