@@ -6,6 +6,7 @@ import static gov.va.api.health.urgentcare.service.controller.Transformers.conve
 import static gov.va.api.health.urgentcare.service.controller.Transformers.ifPresent;
 import static java.util.Collections.singletonList;
 
+import gov.va.api.health.r4.api.DataAbsentReason;
 import gov.va.api.health.r4.api.datatypes.CodeableConcept;
 import gov.va.api.health.r4.api.datatypes.Coding;
 import gov.va.api.health.r4.api.datatypes.Identifier;
@@ -65,27 +66,19 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
             .build());
   }
 
-  Reference coverage() {
-    return Reference.builder()
-        .identifier(
-            Identifier.builder()
-                .system("http://www.va.gov/identifiers/patients")
-                .id("PatientPlaceholder")
-                .build())
-        .build();
-  }
-
   private CoverageEligibilityResponse coverageEligibilityResponse(
       GetEeSummaryResponseTheRemix source) {
     return CoverageEligibilityResponse.builder()
         .resourceType("CoverageEligibilityResponse")
         .text(text())
+        .id(source.getIcn())
         .identifier(identifier())
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))
         .patient(Reference.builder().display("Patient/" + source.getIcn()).build())
         .created(asDateTimeString(source.getEeSummaryResponse().getInvocationDate()) + ".000-06:00")
-        .request(Reference.builder().display("Requested by [placeholder]").build())
+        .request(null)
+        ._request(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
         .outcome(Outcome.complete)
         .insurer(Reference.builder().display("Veterans Affairs Plan").build())
         .insurance(insurances(source.getEeSummaryResponse().getSummary()))
@@ -115,7 +108,8 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         ifPresent(eligibilities, VceEligibilityCollection::getEligibility),
         eligibilityInfo ->
             Insurance.builder()
-                .coverage(coverage())
+                .coverage(null)
+                ._coverage(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
                 .benefitPeriod(benefitPeriod(eligibilityInfo.getVceEffectiveDate()))
                 .item(item(eligibilityInfo))
                 .build());

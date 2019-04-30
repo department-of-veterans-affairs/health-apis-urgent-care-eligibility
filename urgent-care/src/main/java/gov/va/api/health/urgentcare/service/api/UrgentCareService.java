@@ -1,6 +1,5 @@
 package gov.va.api.health.urgentcare.service.api;
 
-import gov.va.api.health.r4.api.CoverageApi;
 import gov.va.api.health.r4.api.CoverageEligibilityResponseApi;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -31,8 +30,7 @@ import javax.ws.rs.Path;
       )
 )
 @Path("/")
-public interface UrgentCareService
-    extends CoverageApi, CoverageEligibilityResponseApi, MetadataApi {
+public interface UrgentCareService extends CoverageEligibilityResponseApi, MetadataApi {
   class UrgentCareServiceException extends RuntimeException {
     UrgentCareServiceException(String message) {
       super(message);
