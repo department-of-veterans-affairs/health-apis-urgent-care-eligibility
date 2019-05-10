@@ -80,7 +80,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .request(null)
         ._request(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
         .outcome(Outcome.complete)
-        .insurer(Reference.builder().display("Veterans Affairs Plan").build())
+        .insurer(Reference.builder().display("Veterans Administration").build())
         .insurance(insurances(source.getEeSummaryResponse().getSummary()))
         .build();
   }

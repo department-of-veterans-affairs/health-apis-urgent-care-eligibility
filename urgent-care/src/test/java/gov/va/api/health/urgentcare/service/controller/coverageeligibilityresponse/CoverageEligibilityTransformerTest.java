@@ -188,7 +188,7 @@ public class CoverageEligibilityTransformerTest {
     }
 
     Reference insurer() {
-      return Reference.builder().display("Veterans Affairs Plan").build();
+      return Reference.builder().display("Veterans Administration").build();
     }
 
     List<Item> items() {
