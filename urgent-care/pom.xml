@@ -7,10 +7,10 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>urgent-care</artifactId>
-  <version>1.0.18-SNAPSHOT</version>
+  <version>1.0.18</version>
   <packaging>jar</packaging>
   <properties>
-    <r4.version>1.0.3</r4.version>
+    <r4.version>1.0.4</r4.version>
     <ee-artifacts.version>1.1.36</ee-artifacts.version>
   </properties>
   <dependencies>
