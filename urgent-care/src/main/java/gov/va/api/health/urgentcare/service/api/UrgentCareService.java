@@ -15,17 +15,17 @@ import javax.ws.rs.Path;
         description =
             "FHIR (Fast Healthcare Interoperability Resources) specification defines a set of"
                 + " \"Resources\" that represent granular clinical concepts."
-                + "This service is compliant with Urgent Care Eligibility Implementation."
+                + "This service is compliant with CoverageEligibilityResponse."
       ),
   servers = {
     @Server(
-      url = "https://dev-api.va.gov/services/argonaut/v0/",
-      description = "Development server - url not definitive."
+      url = "https://dev-api.va.gov/services/fhir/v0/r4",
+      description = "Development server"
     )
   },
   externalDocs =
       @ExternalDocumentation(
-        description = "Urgent Care Eligibility",
+        description = "FHIR (R4)",
         url = "https://www.hl7.org/fhir/R4/index.html"
       )
 )
