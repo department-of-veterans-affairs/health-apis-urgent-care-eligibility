@@ -18,10 +18,7 @@ import javax.ws.rs.Path;
                 + "This service is compliant with CoverageEligibilityResponse."
       ),
   servers = {
-    @Server(
-      url = "https://dev-api.va.gov/services/fhir/v0/r4",
-      description = "Development server"
-    )
+    @Server(url = "https://dev-api.va.gov/services/fhir/v0/r4", description = "Development server")
   },
   externalDocs =
       @ExternalDocumentation(
