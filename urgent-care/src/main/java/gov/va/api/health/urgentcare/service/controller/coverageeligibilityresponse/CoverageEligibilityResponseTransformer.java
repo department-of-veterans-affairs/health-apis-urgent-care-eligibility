@@ -85,11 +85,11 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .build();
   }
 
-  List<Identifier> identifier(String ICN) {
+  List<Identifier> identifier(String icn) {
     return singletonList(
         Identifier.builder()
             .system("http://www.va.gov/FHIR/R4/coverageeligibilityresponse")
-            .value(ICN)
+            .value(icn)
             .build());
   }
 

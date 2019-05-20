@@ -167,7 +167,7 @@ public class CoverageEligibilityTransformerTest {
     Identifier identifier() {
       return Identifier.builder()
           .system("http://www.va.gov/FHIR/R4/coverageeligibilityresponse")
-          .value("881234")
+          .value("123456789")
           .build();
     }
 
