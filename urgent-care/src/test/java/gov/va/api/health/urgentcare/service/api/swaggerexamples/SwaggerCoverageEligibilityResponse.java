@@ -35,17 +35,17 @@ public class SwaggerCoverageEligibilityResponse {
                   BundleLink.builder()
                       .relation(LinkRelation.self)
                       .url(
-                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008547368V529417&page=1&_count=15")
+                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15")
                       .build(),
                   BundleLink.builder()
                       .relation(LinkRelation.self)
                       .url(
-                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008547368V529417&page=1&_count=15")
+                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15")
                       .build(),
                   BundleLink.builder()
                       .relation(LinkRelation.self)
                       .url(
-                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008547368V529417&page=1&_count=15")
+                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15")
                       .build()))
           .entry(
               asList(
@@ -57,12 +57,12 @@ public class SwaggerCoverageEligibilityResponse {
                                       Identifier.builder()
                                           .system(
                                               "http://www.va.gov/FHIR/R4/coverageeligibilityresponse")
-                                          .value("1008547368V529417")
+                                          .value("1008679665V880686")
                                           .build()))
                               .status(Status.active)
                               .purpose(singletonList(Purpose.discovery))
                               .patient(
-                                  Reference.builder().display("Patient/1008547368V529417").build())
+                                  Reference.builder().display("Patient/1008679665V880686").build())
                               .created("2019-02-21T23:44:32.000-06:00")
                               .request(null)
                               ._request(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
