@@ -3,17 +3,18 @@ package gov.va.api.health.urgentcare.service.api.swaggerexamples;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
+import gov.va.api.health.r4.api.DataAbsentReason;
 import gov.va.api.health.r4.api.bundle.AbstractBundle.BundleType;
 import gov.va.api.health.r4.api.bundle.BundleLink;
 import gov.va.api.health.r4.api.bundle.BundleLink.LinkRelation;
 import gov.va.api.health.r4.api.datatypes.CodeableConcept;
 import gov.va.api.health.r4.api.datatypes.Coding;
+import gov.va.api.health.r4.api.datatypes.Identifier;
 import gov.va.api.health.r4.api.datatypes.Period;
 import gov.va.api.health.r4.api.elements.Reference;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Benefit;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Bundle;
-import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.CoverageEligibilityResponseError;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Entry;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Insurance;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Item;
@@ -34,53 +35,47 @@ public class SwaggerCoverageEligibilityResponse {
                   BundleLink.builder()
                       .relation(LinkRelation.self)
                       .url(
-                          "https://dev-api.va.gov/services/argonaut/v0/CoverageEligibilityResponse?patient=1017283148V813263&page=1&_count=15")
+                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008547368V529417&page=1&_count=15")
                       .build(),
                   BundleLink.builder()
                       .relation(LinkRelation.self)
                       .url(
-                          "https://dev-api.va.gov/services/argonaut/v0/CoverageEligibilityResponse?patient=1017283148V813263&page=1&_count=15")
+                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008547368V529417&page=1&_count=15")
                       .build(),
                   BundleLink.builder()
                       .relation(LinkRelation.self)
                       .url(
-                          "https://dev-api.va.gov/services/argonaut/v0/CoverageEligibilityResponse?patient=1017283148V813263&page=1&_count=15")
+                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008547368V529417&page=1&_count=15")
                       .build()))
           .entry(
               asList(
                   Entry.builder()
-                      .fullUrl(
-                          "https://dev-api.va.gov/services/argonaut/v0/CoverageEligibilityResponse/1008547368V529417")
                       .resource(
                           CoverageEligibilityResponse.builder()
+                              .identifier(
+                                  singletonList(
+                                      Identifier.builder()
+                                          .system(
+                                              "http://www.va.gov/FHIR/R4/coverageeligibilityresponse")
+                                          .value("1008547368V529417")
+                                          .build()))
                               .status(Status.active)
-                              .purpose(singletonList(Purpose.benefits))
+                              .purpose(singletonList(Purpose.discovery))
                               .patient(
-                                  Reference.builder()
-                                      .reference("1008547368V529417")
-                                      .display("Patient")
-                                      .build())
+                                  Reference.builder().display("Patient/1008547368V529417").build())
                               .created("2019-02-21T23:44:32.000-06:00")
-                              .request(
-                                  Reference.builder()
-                                      .reference("DATA ABSENT REASON")
-                                      .display("CoverageEligibilityRequest")
-                                      .build())
+                              .request(null)
+                              ._request(DataAbsentReason.of(DataAbsentReason.Reason.unsupported))
                               .outcome(Outcome.complete)
                               .insurer(
-                                  Reference.builder()
-                                      .reference("1008547368V529417")
-                                      .display("Organization")
-                                      .build())
+                                  Reference.builder().display("Veterans Administration").build())
                               .insurance(
                                   singletonList(
                                       Insurance.builder()
-                                          .coverage(
-                                              Reference.builder()
-                                                  .reference("1008547368V529417")
-                                                  .display("Coverage")
-                                                  .build())
-                                          .inforce("true")
+                                          .coverage(null)
+                                          ._coverage(
+                                              DataAbsentReason.of(
+                                                  DataAbsentReason.Reason.unsupported))
                                           .benefitPeriod(
                                               Period.builder()
                                                   .start("2019-02-21T23:44:32.000-06:00")
@@ -105,19 +100,6 @@ public class SwaggerCoverageEligibilityResponse {
                                                                           .build())
                                                                   .build()))
                                                       .build()))
-                                          .build()))
-                              .error(
-                                  singletonList(
-                                      CoverageEligibilityResponseError.builder()
-                                          .code(
-                                              CodeableConcept.builder()
-                                                  .coding(
-                                                      singletonList(
-                                                          Coding.builder()
-                                                              .code("a001")
-                                                              .display("Missing Identifier")
-                                                              .build()))
-                                                  .build())
                                           .build()))
                               .build())
                       .build()))
