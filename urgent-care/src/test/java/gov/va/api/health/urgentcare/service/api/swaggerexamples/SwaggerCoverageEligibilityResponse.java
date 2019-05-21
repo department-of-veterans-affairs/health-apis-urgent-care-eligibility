@@ -13,7 +13,6 @@ import gov.va.api.health.r4.api.datatypes.Identifier;
 import gov.va.api.health.r4.api.datatypes.Period;
 import gov.va.api.health.r4.api.elements.Reference;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse;
-import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Benefit;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Bundle;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Entry;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Insurance;
@@ -84,21 +83,15 @@ public class SwaggerCoverageEligibilityResponse {
                                           .item(
                                               singletonList(
                                                   Item.builder()
-                                                      .benefit(
-                                                          singletonList(
-                                                              Benefit.builder()
-                                                                  .type(
-                                                                      CodeableConcept.builder()
-                                                                          .coding(
-                                                                              singletonList(
-                                                                                  Coding.builder()
-                                                                                      .code(
-                                                                                          "benefit")
-                                                                                      .display(
-                                                                                          "Benefit")
-                                                                                      .build()))
-                                                                          .build())
-                                                                  .build()))
+                                                      .category(
+                                                          CodeableConcept.builder()
+                                                              .coding(
+                                                                  singletonList(
+                                                                      Coding.builder()
+                                                                          .code("U")
+                                                                          .display("Urgent Care")
+                                                                          .build()))
+                                                              .build())
                                                       .build()))
                                           .build()))
                               .build())
