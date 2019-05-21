@@ -51,6 +51,8 @@ public class SwaggerCoverageEligibilityResponse {
                   Entry.builder()
                       .resource(
                           CoverageEligibilityResponse.builder()
+                              .id("1008679665V880686")
+                              .resourceType("CoverageEligibilityResponse")
                               .identifier(
                                   singletonList(
                                       Identifier.builder()
@@ -78,7 +80,6 @@ public class SwaggerCoverageEligibilityResponse {
                                           .benefitPeriod(
                                               Period.builder()
                                                   .start("2019-02-21T23:44:32.000-06:00")
-                                                  .end("2019-02-22T23:44:32.000-06:00")
                                                   .build())
                                           .item(
                                               singletonList(
