@@ -32,12 +32,12 @@ public class SwaggerCoverageEligibilityResponse {
           .link(
               asList(
                   BundleLink.builder()
-                      .relation(LinkRelation.self)
+                      .relation(LinkRelation.first)
                       .url(
                           "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15")
                       .build(),
                   BundleLink.builder()
-                      .relation(LinkRelation.self)
+                      .relation(LinkRelation.last)
                       .url(
                           "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15")
                       .build(),
