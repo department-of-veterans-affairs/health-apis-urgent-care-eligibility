@@ -14,8 +14,9 @@ import javax.ws.rs.Path;
         version = "v1",
         description =
             "FHIR (Fast Healthcare Interoperability Resources) specification defines a set of"
-                + " \"Resources\" that represent granular clinical, financial, and administrative concepts."
-                + "This CoverageEligibilityResponse resource is compliant with FHIR version R4 standards."
+                + " \"Resources\" that represent granular clinical, financial, and administrative"
+                + " concepts.  This CoverageEligibilityResponse resource is compliant with FHIR"
+                + " version R4 standards."
       ),
   servers = {
     @Server(url = "https://dev-api.va.gov/services/fhir/v0/r4", description = "Development server")
