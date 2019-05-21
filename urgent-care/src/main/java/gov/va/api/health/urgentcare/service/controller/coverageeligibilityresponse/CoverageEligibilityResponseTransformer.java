@@ -72,7 +72,7 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .resourceType("CoverageEligibilityResponse")
         .text(text())
         .id(source.getIcn())
-        .identifier(identifier())
+        .identifier(identifier(source.getIcn()))
         .status(Status.active)
         .purpose(singletonList(Purpose.discovery))
         .patient(Reference.builder().display("Patient/" + source.getIcn()).build())
@@ -85,11 +85,11 @@ public class CoverageEligibilityResponseTransformer implements Transformer {
         .build();
   }
 
-  List<Identifier> identifier() {
+  List<Identifier> identifier(String icn) {
     return singletonList(
         Identifier.builder()
             .system("http://www.va.gov/FHIR/R4/coverageeligibilityresponse")
-            .value("881234")
+            .value(icn)
             .build());
   }
 
