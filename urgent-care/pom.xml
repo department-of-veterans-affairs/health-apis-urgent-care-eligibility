@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>urgent-care</artifactId>
-  <version>1.0.20</version>
+  <version>1.0.21-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
     <r4.version>1.0.5</r4.version>
