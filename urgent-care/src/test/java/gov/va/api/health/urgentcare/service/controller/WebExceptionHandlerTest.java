@@ -97,7 +97,7 @@ public class WebExceptionHandlerTest {
   @SneakyThrows
   public void expectStatus() {
     when(queenElizabeth.search(Mockito.any())).thenThrow(exception);
-    when(request.getRequestURI()).thenReturn("/api/CoverageEligibilityResponse?patient=123456789");
+    when(request.getRequestURI()).thenReturn("/CoverageEligibilityResponse?patient=123456789");
     MockMvc mvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setHandlerExceptionResolvers(createExceptionResolver())
@@ -124,9 +124,9 @@ public class WebExceptionHandlerTest {
      * }
      * </pre>
      */
-    mvc.perform(get("/api/CoverageEligibilityResponse?patient=123456789"))
+    mvc.perform(get("/CoverageEligibilityResponse?patient=123456789"))
         .andExpect(status().is(status.value()))
-        .andExpect(jsonPath("text.div", containsString("/api/CoverageEligibilityResponse")))
+        .andExpect(jsonPath("text.div", containsString("/CoverageEligibilityResponse")))
         .andExpect(
             jsonPath("issue[0].diagnostics", containsString(exception.getClass().getSimpleName())));
   }
