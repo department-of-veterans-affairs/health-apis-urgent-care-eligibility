@@ -5,10 +5,8 @@ ENVIRONMENT="$K8S_ENVIRONMENT"
 TOKEN="$TOKEN"
 PATIENT="$PATIENT"
 #metadata is actually on api for now, need to check again. .well-known doesn't exist yet
-PATHS=(fhir/v0/r4/metadata \
-fhir/v0/r4/openapi.json \
-fhir/v0/r4/openapi.yaml \
-fhir/v0/r4/.well-known/smart-configuration)
+PATHS=(fhir/v0/r4/openapi.json \
+fhir/v0/r4/openapi.yaml)
 SUCCESS=0
 FAILURE=0
 
@@ -31,7 +29,7 @@ exit 1
 
 doCurl () {
   REQUEST_URL="$ENDPOINT_DOMAIN_NAME$path"
-  if [[ -n $2 ]]
+  if [[ -n "$2" ]]
   then
     status_code=$(curl -k -H "Authorization: Bearer $2" --write-out %{http_code} --silent --output /dev/null "$REQUEST_URL")
   else
@@ -59,7 +57,7 @@ doSmokeTest () {
   done
 
   path=/fhir/v0/r4/CoverageEligibilityResponse?patient=$PATIENT
-  doCurl 200 $
+  doCurl 200 $TOKEN
   path=/fhir/v0/r4/CoverageEligibilityResponse?patient=$PATIENT
   doCurl 401 "BADTOKEN"
   path=/fhir/v0/r4/CoverageEligibilityResponse?patient=123NOTME
