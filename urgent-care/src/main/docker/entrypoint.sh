@@ -5,9 +5,9 @@ ENVIRONMENT="$K8S_ENVIRONMENT"
 TOKEN="$TOKEN"
 PATIENT="$PATIENT"
 #.well-known doesn't exist yet
-PATHS=(fhir/v0/r4/metadata \
-fhir/v0/r4/openapi.json \
-fhir/v0/r4/openapi.yaml)
+PATHS=(/fhir/v0/r4/metadata \
+/fhir/v0/r4/openapi.json \
+/fhir/v0/r4/openapi.yaml)
 SUCCESS=0
 FAILURE=0
 
