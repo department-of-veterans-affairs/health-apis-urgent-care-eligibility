@@ -121,25 +121,16 @@ sendMoarSpams() {
   echo $spam
 }
 
-makeConfig mr-anderson $PROFILE
-configValue mr-anderson $PROFILE spring.datasource.url "$MRANDERSON_DB_URL"
-configValue mr-anderson $PROFILE spring.datasource.username "$MRANDERSON_DB_USER"
-configValue mr-anderson $PROFILE spring.datasource.password "$MRANDERSON_DB_PASSWORD"
-configValue mr-anderson $PROFILE identityservice.url https://localhost:8089
-checkForUnsetValues mr-anderson $PROFILE
-
-makeConfig data-query $PROFILE
-configValue data-query $PROFILE mranderson.url https://localhost:8088
-configValue data-query $PROFILE argonaut.url https://localhost:8090
-configValue data-query $PROFILE health-check.medication-id 2f773f73-ad7f-56ca-891e-8e364c913fe0
-configValue data-query $PROFILE conformance.statement-type patient
-configValue data-query $PROFILE conformance.contact.name "$(whoDis)"
-configValue data-query $PROFILE conformance.contact.email "$(sendMoarSpams)"
-configValue data-query $PROFILE conformance.security.token-endpoint https://fake.com/token
-configValue data-query $PROFILE conformance.security.authorize-endpoint https://fake.com/authorize
-configValue data-query $PROFILE well-known.capabilities "context-standalone-patient, launch-ehr, permission-offline, permission-patient"
-configValue data-query $PROFILE well-known.response-type-supported "code, refresh_token"
-configValue data-query $PROFILE well-known.scopes-supported "patient/DiagnosticReport.read, patient/Patient.read, offline_access"
+makeConfig urgent-care-eligibility $PROFILE
+configValue urgent-care-eligibility $PROFILE mranderson.url https://localhost:8088
+configValue urgent-care-eligibility $PROFILE argonaut.url https://localhost:8090
+configValue urgent-care-eligibility $PROFILE capability.contanct.name "$(whoDis)"
+configValue urgent-care-eligibility $PROFILE capability.contact.email "$(sendMoarSpams)"
+configValue urgent-care-eligibility $PROFILE capability.security.token-endpoint https://fake.com/token
+configValue urgent-care-eligibility $PROFILE capability.security.authorize-endpoint https://fake.com/authorize
+configValue urgent-care-eligibility $PROFILE well-known.capabilities "context-standalone-patient, launch-ehr, permission-offline, permission-patient"
+configValue urgent-care-eligibility $PROFILE well-known.response-type-supported "code, refresh_token"
+configValue urgent-care-eligibility $PROFILE well-known.scopes-supported "patient/CoverageEligibilityResponse.read, launch/patient, offline_access"
 
 checkForUnsetValues data-query $PROFILE
 
