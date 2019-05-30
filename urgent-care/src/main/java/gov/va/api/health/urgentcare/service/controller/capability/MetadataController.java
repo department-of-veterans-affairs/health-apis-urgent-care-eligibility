@@ -40,7 +40,8 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
 class MetadataController {
 
-  private static final String COVERAGE_HTML = "https://www.hl7.org/fhir/R4/coverage.html";
+  private static final String COVERAGE_ELIGIBILITY_RESPONSE_HTML =
+      "https://www.hl7.org/fhir/r4/coverageeligibilityresponse.html";
 
   private final CapabilityStatementProperties properties;
 
@@ -79,7 +80,10 @@ class MetadataController {
 
   private List<CapabilityResource> resources() {
     return Stream.of(
-            support("Coverage").documentation(COVERAGE_HTML).searchBy(SearchParam.PATIENT).build())
+            support("CoverageEligibilityResponse")
+                .documentation(COVERAGE_ELIGIBILITY_RESPONSE_HTML)
+                .searchBy(SearchParam.PATIENT)
+                .build())
         .map(SupportedResource::asResource)
         .collect(Collectors.toList());
   }

@@ -63,8 +63,8 @@
             },
             "resource" : [
                 {
-                    "type" : "Coverage",
-                    "profile" : "https://www.hl7.org/fhir/R4/coverage.html",
+                    "type" : "CoverageEligibilityResponse",
+                    "profile" : "https://www.hl7.org/fhir/r4/coverageeligibilityresponse.html",
                     "interaction" : [
                         {
                             "code" : "search-type",
