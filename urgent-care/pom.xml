@@ -10,21 +10,11 @@
   <version>1.0.26-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
-    <r4.version>1.0.6</r4.version>
+    <r4.version>1.0.7</r4.version>
     <argonaut-dstu2.version>1.0.5</argonaut-dstu2.version>
     <ee-artifacts.version>1.1.39</ee-artifacts.version>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>gov.va.api.health</groupId>
-      <artifactId>argonaut</artifactId>
-      <version>${argonaut-dstu2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>gov.va.api.health</groupId>
-      <artifactId>dstu2</artifactId>
-      <version>${argonaut-dstu2.version}</version>
-    </dependency>
     <dependency>
       <groupId>gov.va.api.health</groupId>
       <artifactId>service-auto-config</artifactId>

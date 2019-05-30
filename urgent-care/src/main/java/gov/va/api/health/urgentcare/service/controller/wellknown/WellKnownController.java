@@ -1,6 +1,6 @@
 package gov.va.api.health.urgentcare.service.controller.wellknown;
 
-import gov.va.api.health.dstu2.api.information.WellKnown;
+import gov.va.api.health.r4.api.information.WellKnown;
 import gov.va.api.health.urgentcare.service.controller.capability.CapabilityStatementProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
