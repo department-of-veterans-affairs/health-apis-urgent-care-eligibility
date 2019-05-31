@@ -14,9 +14,11 @@ import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.Query;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
+import gov.va.dvp.cdw.xsd.model.*;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,10 +44,16 @@ public class CoverageEligibilityResponseController {
   private QueenElizabethClient queenElizabethClient;
   private Bundler bundler;
 
-  private Bundle bundle(String icn) {
+  private Bundle bundle(MultiValueMap<String, String> parameters, int page, int count, String icn) {
     GetEeSummaryResponseTheRemix theRemix = search(icn);
     LinkConfig linkConfig =
-        LinkConfig.builder().path("CoverageEligibilityResponse").icn(icn).build();
+        LinkConfig.builder()
+                .path("CoverageEligibilityResponse")
+                .icn(icn)
+                .queryParams(parameters)
+                .page(page)
+                .recordsPerPage(count)
+                .build();
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
