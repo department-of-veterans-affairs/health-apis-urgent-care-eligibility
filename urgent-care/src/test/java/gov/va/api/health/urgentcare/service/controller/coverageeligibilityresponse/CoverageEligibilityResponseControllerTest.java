@@ -14,6 +14,7 @@ import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
 import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
+import gov.va.api.health.urgentcare.service.controller.Parameters;
 import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController.Transformer;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
@@ -27,6 +28,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.util.MultiValueMap;
 
 public class CoverageEligibilityResponseControllerTest {
   @Mock QueenElizabethClient client;
@@ -43,7 +45,8 @@ public class CoverageEligibilityResponseControllerTest {
     controller = new CoverageEligibilityResponseController(tx, client, bundler);
   }
 
-  private void assertSearch(Supplier<Bundle> invocation, String id) {
+  private void assertSearch(
+      Supplier<Bundle> invocation, MultiValueMap<String, String> params, String id) {
     GetEESummaryResponse getEESummaryResponse = new GetEESummaryResponse();
     GetEeSummaryResponseTheRemix theRemix =
         new GetEeSummaryResponseTheRemix(id, getEESummaryResponse);
@@ -67,7 +70,11 @@ public class CoverageEligibilityResponseControllerTest {
     verify(bundler).bundle(captor.capture());
 
     LinkConfig expectedLinkConfig =
-        LinkConfig.builder().path("CoverageEligibilityResponse").icn(id).build();
+        LinkConfig.builder()
+            .path("CoverageEligibilityResponse")
+            .queryParams(params)
+            .icn(id)
+            .build();
     assertThat(captor.getValue().linkConfig()).isEqualTo(expectedLinkConfig);
     assertThat(captor.getValue().xmlItems().get(0).getEeSummaryResponse())
         .isEqualTo(theRemix.getEeSummaryResponse());
@@ -92,7 +99,10 @@ public class CoverageEligibilityResponseControllerTest {
 
   @Test
   public void searchByPatient() {
-    assertSearch(() -> controller.searchByPatient("me"), "me");
+    assertSearch(
+        () -> controller.searchByPatient("me", 0, 0),
+        Parameters.builder().add("patient", "me").add("page", 0).add("_count", 0).build(),
+        "me");
   }
 
   @Test

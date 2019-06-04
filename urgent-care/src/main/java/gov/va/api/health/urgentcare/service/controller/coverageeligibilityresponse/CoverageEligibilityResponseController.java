@@ -10,12 +10,13 @@ import gov.va.api.health.urgentcare.service.controller.Bundler;
 import gov.va.api.health.urgentcare.service.controller.Bundler.BundleContext;
 import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRemix;
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
+import gov.va.api.health.urgentcare.service.controller.Parameters;
 import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.Query;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
-import gov.va.dvp.cdw.xsd.model.*;
 import java.util.function.Function;
+import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -48,12 +49,12 @@ public class CoverageEligibilityResponseController {
     GetEeSummaryResponseTheRemix theRemix = search(icn);
     LinkConfig linkConfig =
         LinkConfig.builder()
-                .path("CoverageEligibilityResponse")
-                .icn(icn)
-                .queryParams(parameters)
-                .page(page)
-                .recordsPerPage(count)
-                .build();
+            .path("CoverageEligibilityResponse")
+            .icn(icn)
+            .queryParams(parameters)
+            .page(page)
+            .recordsPerPage(count)
+            .build();
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
@@ -71,8 +72,15 @@ public class CoverageEligibilityResponseController {
 
   /** Search by patient. */
   @GetMapping(params = {"patient"})
-  public Bundle searchByPatient(@RequestParam("patient") String patient) {
-    return bundle(patient);
+  public Bundle searchByPatient(
+      @RequestParam("patient") String patient,
+      @RequestParam(value = "page", defaultValue = "1") @Min(1) int page,
+      @RequestParam(value = "_count", defaultValue = "15") @Min(0) int count) {
+    return bundle(
+        Parameters.builder().add("patient", patient).add("page", page).add("_count", count).build(),
+        page,
+        count,
+        patient);
   }
 
   /** Validate endpoint... validates. */
