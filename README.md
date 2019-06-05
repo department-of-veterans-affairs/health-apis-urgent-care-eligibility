@@ -2,11 +2,25 @@
 
 This API is a [Spring Boot](https://spring.io/projects/spring-boot) microservice that returns all eligibilities of a specific veteran.  This information is returned as a FHIR R4 CoverageEligibilityResponse resource.
 
+The Urgent Care Eligibility API only goes out to the Eligibility and Enrollment system to get data to populate the CoverageEligibilityResponse resource.
+
+The section of XML returned from E&E that is important is given below:
+
+```
+<communityCareEligibilityInfo>
+   <eligibilities>
+      <eligibility>
+         <vceDescription>Urgent Care</vceDescription>
+         <vceEffectiveDate>2019-04-27T21:06:00.000-05:00</vceEffectiveDate>
+         <vceCode>U</vceCode>
+      </eligibility>
+   </eligibilities>
+</communityCareEligibilityInfo>
+```
 
 
 
-
-Possible Eligibilities returned from E&E:
+It is possible to get multiple eligibilities back from Eligibility and Enrollment for a veteran.  All possible eligibilities that can be returned are listed below:
 
 G 	Grandfathered
 N	State No Full-Service VA
@@ -23,6 +37,8 @@ Sample Request:
 curl -H "Authorization: Bearer fakeToken" https://example.com/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686
 ```
 
+
+
 Sample Response:
 
 ```
@@ -33,15 +49,15 @@ Sample Response:
     "link": [
         {
             "relation": "first",
-            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686"
+            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
         },
         {
             "relation": "self",
-            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686"
+            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
         },
         {
             "relation": "last",
-            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686"
+            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
         }
     ],
     "entry": [
