@@ -2,9 +2,7 @@
 
 This API is a [Spring Boot](https://spring.io/projects/spring-boot) microservice that returns all eligibilities of a specific veteran.  This information is returned as a FHIR R4 CoverageEligibilityResponse resource.
 
-The Urgent Care Eligibility API only goes out to the Eligibility and Enrollment system to get data to populate the CoverageEligibilityResponse resource.
-
-The section of XML returned from E&E that is important is given below:
+The Urgent Care Eligibility API only goes out to the Eligibility and Enrollment system to get eligibilities to populate the CoverageEligibilityResponse resource.  The section of XML returned from E&E that is important is given below:
 
 ```
 <communityCareEligibilityInfo>
@@ -20,7 +18,7 @@ The section of XML returned from E&E that is important is given below:
 
 
 
-It is possible to get multiple eligibilities back from Eligibility and Enrollment for a veteran.  All possible eligibilities that can be returned are listed below:
+It is possible to get multiple eligibilities back from E&E for a veteran.  All possible eligibilities that can be returned are listed below:
 
 G 	Grandfathered
 N	State No Full-Service VA
