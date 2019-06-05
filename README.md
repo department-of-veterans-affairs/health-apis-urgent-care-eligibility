@@ -1,6 +1,6 @@
 # health-apis-urgent-care-eligibility
 
-This API is a [Spring Boot](https://spring.io/projects/spring-boot) microservice that returns all eligibilities of a specific veteran.  This information is returned as a FHIR R4 CoverageEligibilityResponse resource.
+This API is a [Spring Boot](https://spring.io/projects/spring-boot) microservice that returns all eligibilities of a specific veteran.  This information is returned as a FHIR R4 [CoverageEligibilityResponse](https://www.hl7.org/fhir/r4/coverageeligibilityresponse.html) resource.
 
 The Urgent Care Eligibility API only goes out to the Eligibility and Enrollment system to get eligibilities to populate the CoverageEligibilityResponse resource.  The section of XML returned from E&E that is important is given below:
 
