@@ -20,19 +20,19 @@ The Urgent Care Eligibility API only goes out to the Eligibility and Enrollment 
 
 It is possible to get multiple eligibilities back from E&E for a veteran.  All possible eligibilities that can be returned are listed below:
 
-G 	Grandfathered
-N	State No Full-Service VA
-U	Urgent Care
-B 	Basic
-H	Hardship
-X	Ineligible
+G	Grandfathered  
+N	State No Full-Service VA  
+U	Urgent Care  
+B	Basic  
+H	Hardship  
+X	Ineligible  
 
 
 
 Sample Request:
 
 ```
-curl -H "Authorization: Bearer fakeToken" https://example.com/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686
+curl -H "Authorization: Bearer fakeToken" https://example.com/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686
 ```
 
 
@@ -47,15 +47,15 @@ Sample Response:
     "link": [
         {
             "relation": "first",
-            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
+            "url": "https://example.com/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
         },
         {
             "relation": "self",
-            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
+            "url": "https://example.com/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
         },
         {
             "relation": "last",
-            "url": "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
+            "url": "https://example.com/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686&page=1&_count=15"
         }
     ],
     "entry": [
