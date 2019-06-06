@@ -50,7 +50,6 @@ public class CoverageEligibilityResponseController {
     LinkConfig linkConfig =
         LinkConfig.builder()
             .path("CoverageEligibilityResponse")
-            .icn(icn)
             .queryParams(parameters)
             .page(page)
             .recordsPerPage(count)

@@ -70,15 +70,10 @@ public class CoverageEligibilityResponseControllerTest {
     verify(bundler).bundle(captor.capture());
 
     LinkConfig expectedLinkConfig =
-        LinkConfig.builder()
-            .path("CoverageEligibilityResponse")
-            .queryParams(params)
-            .icn(id)
-            .build();
+        LinkConfig.builder().path("CoverageEligibilityResponse").queryParams(params).build();
     assertThat(captor.getValue().linkConfig()).isEqualTo(expectedLinkConfig);
     assertThat(captor.getValue().xmlItems().get(0).getEeSummaryResponse())
         .isEqualTo(theRemix.getEeSummaryResponse());
-    assertThat(captor.getValue().xmlItems().get(0).getIcn()).isEqualTo(id);
     assertThat(captor.getValue().newBundle().get()).isInstanceOf(Bundle.class);
     assertThat(captor.getValue().newEntry().get()).isInstanceOf(Entry.class);
     assertThat(captor.getValue().transformer()).isSameAs(tx);

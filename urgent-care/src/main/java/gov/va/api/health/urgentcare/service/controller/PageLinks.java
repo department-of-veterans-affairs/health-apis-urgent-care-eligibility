@@ -24,6 +24,5 @@ public interface PageLinks {
     private final int page;
     private final int totalRecords;
     private final MultiValueMap<String, String> queryParams;
-    private final String icn;
   }
 }
