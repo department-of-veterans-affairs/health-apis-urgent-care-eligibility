@@ -47,7 +47,7 @@ public class BundlerTest {
             BundleLink.builder().relation(LinkRelation.self).url("http://whatever.com").build());
     when(this.links.create(Mockito.any())).thenReturn(bundleLinks);
 
-    LinkConfig linkConfig = LinkConfig.builder().path("api/Fugazi").icn("1").build();
+    LinkConfig linkConfig = LinkConfig.builder().path("api/Fugazi").build();
 
     List<FugaziCdwRoot> xmlItems =
         Arrays.asList(FugaziCdwRoot.of(1), FugaziCdwRoot.of(2), FugaziCdwRoot.of(3));

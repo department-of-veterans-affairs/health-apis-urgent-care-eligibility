@@ -2,12 +2,18 @@ package gov.va.api.health.urgentcare.service.controller;
 
 import gov.va.api.health.r4.api.bundle.BundleLink;
 import gov.va.api.health.r4.api.bundle.BundleLink.LinkRelation;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 /** This implementation uses a configurable base URL (urgent-care.url) for the links. */
 @Service
@@ -55,9 +61,30 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
       return BundleLink.builder().relation(LinkRelation.self).url(toUrl()).build();
     }
 
+    private Stream<String> toKeyValueString(Map.Entry<String, List<String>> entry) {
+      return entry.getValue().stream().map((value) -> entry.getKey() + '=' + value);
+    }
+
     private String toUrl() {
+      MultiValueMap<String, String> mutableParams = new LinkedMultiValueMap<>(config.queryParams());
+      mutableParams.remove("page");
+      mutableParams.remove("_count");
       StringBuilder msg = new StringBuilder(baseUrl).append('/').append(basePath).append('/');
-      msg.append(config.path()).append("?patient=").append(config.icn());
+      msg.append(config.path()).append("?");
+      String params =
+          mutableParams
+              .entrySet()
+              .stream()
+              .sorted(Comparator.comparing(Map.Entry::getKey))
+              .flatMap(this::toKeyValueString)
+              .collect(Collectors.joining("&"));
+      if (!params.isEmpty()) {
+        msg.append(params).append("&");
+      }
+      msg.append("page=")
+          .append(config.queryParams().getFirst("page"))
+          .append("&_count=")
+          .append(config.queryParams().getFirst("_count"));
       return msg.toString();
     }
   }

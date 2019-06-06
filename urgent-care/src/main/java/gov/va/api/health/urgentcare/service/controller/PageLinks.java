@@ -4,6 +4,7 @@ import gov.va.api.health.r4.api.bundle.BundleLink;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.util.MultiValueMap;
 
 /**
  * This provides paging links for bundles. It will create links for first, self, and last always.
@@ -19,6 +20,9 @@ public interface PageLinks {
     /** The resource path without the base URL or port. */
     private final String path;
 
-    private final String icn;
+    private final int recordsPerPage;
+    private final int page;
+    private final int totalRecords;
+    private final MultiValueMap<String, String> queryParams;
   }
 }

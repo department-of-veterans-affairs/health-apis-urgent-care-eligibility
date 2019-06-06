@@ -20,7 +20,8 @@ public class ConfigurableBaseUrlPageLinksTest {
 
   @Test
   public void allLinksPresent() {
-    List<BundleLink> actual = links.create(linkConfig());
+    LinkConfig linkConfig = linkConfig();
+    List<BundleLink> actual = links.create(linkConfig);
     assertThat(actual)
         .containsExactlyInAnyOrder(
             link(LinkRelation.first), link(LinkRelation.self), link(LinkRelation.last));
@@ -29,11 +30,22 @@ public class ConfigurableBaseUrlPageLinksTest {
   private BundleLink link(LinkRelation relation) {
     return BundleLink.builder()
         .relation(relation)
-        .url("https://awesome.com/api/Whatever?patient=1234")
+        .url("https://awesome.com/api/Whatever?patient=1234&page=1&_count=15")
         .build();
   }
 
   private LinkConfig linkConfig() {
-    return LinkConfig.builder().path("Whatever").icn("1234").build();
+    return LinkConfig.builder()
+        .path("Whatever")
+        .queryParams(
+            Parameters.builder()
+                .add("patient", "1234")
+                .add("page", String.valueOf(1))
+                .add("_count", String.valueOf(15))
+                .build())
+        .page(1)
+        .recordsPerPage(15)
+        .totalRecords(1)
+        .build();
   }
 }
