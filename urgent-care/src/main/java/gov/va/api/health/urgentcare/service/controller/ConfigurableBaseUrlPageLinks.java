@@ -18,11 +18,13 @@ import org.springframework.util.MultiValueMap;
 /** This implementation uses a configurable base URL (urgent-care.url) for the links. */
 @Service
 public class ConfigurableBaseUrlPageLinks implements PageLinks {
+
   /**
    * The published URL for urgent care, which is likely not the hostname of the machine running this
    * application.
    */
   private final String baseUrl;
+
   /** These base path for resources, e.g. api */
   private String basePath;
 
@@ -47,9 +49,11 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
   /** This context wraps the link state to allow link creation to be clearly described. */
   @RequiredArgsConstructor
   private class LinkContext {
+
+    // There is only ever one page returned and therefore the first and last page will always be 1.
+    private static final int pageFirstLast = 1;
+
     private final LinkConfig config;
-    /** There is only ever one page returned and therefore the first and last page will always be 1 */
-    private final int pageFirstLast = 1;
 
     BundleLink first() {
       return BundleLink.builder().relation(LinkRelation.first).url(toUrl(pageFirstLast)).build();

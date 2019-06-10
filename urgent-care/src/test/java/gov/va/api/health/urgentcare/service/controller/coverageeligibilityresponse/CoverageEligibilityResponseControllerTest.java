@@ -70,7 +70,12 @@ public class CoverageEligibilityResponseControllerTest {
     verify(bundler).bundle(captor.capture());
 
     LinkConfig expectedLinkConfig =
-        LinkConfig.builder().path("CoverageEligibilityResponse").queryParams(params).build();
+        LinkConfig.builder()
+            .path("CoverageEligibilityResponse")
+            .queryParams(params)
+            .page(1)
+            .recordsPerPage(1)
+            .build();
     assertThat(captor.getValue().linkConfig()).isEqualTo(expectedLinkConfig);
     assertThat(captor.getValue().xmlItems().get(0).getEeSummaryResponse())
         .isEqualTo(theRemix.getEeSummaryResponse());
@@ -95,8 +100,8 @@ public class CoverageEligibilityResponseControllerTest {
   @Test
   public void searchByPatient() {
     assertSearch(
-        () -> controller.searchByPatient("me", 0, 0),
-        Parameters.builder().add("patient", "me").add("page", 0).add("_count", 0).build(),
+        () -> controller.searchByPatient("me", 1, 1),
+        Parameters.builder().add("patient", "me").add("page", 1).add("_count", 1).build(),
         "me");
   }
 
