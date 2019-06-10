@@ -58,7 +58,7 @@ public class CoverageEligibilityResponseController {
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
-            count == 0 ? Collections.emptyList() : singletonList(theRemix),
+            count == 0 || page != 1 ? Collections.emptyList() : singletonList(theRemix),
             transformer,
             CoverageEligibilityResponse.Entry::new,
             CoverageEligibilityResponse.Bundle::new));
