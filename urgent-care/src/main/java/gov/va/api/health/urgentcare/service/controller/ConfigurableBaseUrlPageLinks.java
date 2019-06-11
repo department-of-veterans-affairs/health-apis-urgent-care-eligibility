@@ -18,11 +18,13 @@ import org.springframework.util.MultiValueMap;
 /** This implementation uses a configurable base URL (urgent-care.url) for the links. */
 @Service
 public class ConfigurableBaseUrlPageLinks implements PageLinks {
+
   /**
    * The published URL for urgent care, which is likely not the hostname of the machine running this
    * application.
    */
   private final String baseUrl;
+
   /** These base path for resources, e.g. api */
   private String basePath;
 
@@ -47,25 +49,29 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
   /** This context wraps the link state to allow link creation to be clearly described. */
   @RequiredArgsConstructor
   private class LinkContext {
+
+    // There is only ever one page returned and therefore the first and last page will always be 1.
+    private static final int pageFirstLast = 1;
+
     private final LinkConfig config;
 
     BundleLink first() {
-      return BundleLink.builder().relation(LinkRelation.first).url(toUrl()).build();
+      return BundleLink.builder().relation(LinkRelation.first).url(toUrl(pageFirstLast)).build();
     }
 
     BundleLink last() {
-      return BundleLink.builder().relation(LinkRelation.last).url(toUrl()).build();
+      return BundleLink.builder().relation(LinkRelation.last).url(toUrl(pageFirstLast)).build();
     }
 
     BundleLink self() {
-      return BundleLink.builder().relation(LinkRelation.self).url(toUrl()).build();
+      return BundleLink.builder().relation(LinkRelation.self).url(toUrl(config.page())).build();
     }
 
     private Stream<String> toKeyValueString(Map.Entry<String, List<String>> entry) {
       return entry.getValue().stream().map((value) -> entry.getKey() + '=' + value);
     }
 
-    private String toUrl() {
+    private String toUrl(int page) {
       MultiValueMap<String, String> mutableParams = new LinkedMultiValueMap<>(config.queryParams());
       mutableParams.remove("page");
       mutableParams.remove("_count");
@@ -82,7 +88,7 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
         msg.append(params).append("&");
       }
       msg.append("page=")
-          .append(config.queryParams().getFirst("page"))
+          .append(page)
           .append("&_count=")
           .append(config.queryParams().getFirst("_count"));
       return msg.toString();
