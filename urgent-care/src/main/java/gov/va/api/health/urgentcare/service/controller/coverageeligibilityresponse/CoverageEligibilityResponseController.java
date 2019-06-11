@@ -15,6 +15,7 @@ import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
 import gov.va.api.health.urgentcare.service.queenelizabeth.client.Query;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
+import java.util.Collections;
 import java.util.function.Function;
 import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -57,7 +58,7 @@ public class CoverageEligibilityResponseController {
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
-            singletonList(theRemix),
+            count == 0 || page != 1 ? Collections.emptyList() : singletonList(theRemix),
             transformer,
             CoverageEligibilityResponse.Entry::new,
             CoverageEligibilityResponse.Bundle::new));
