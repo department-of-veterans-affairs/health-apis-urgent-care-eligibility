@@ -3,9 +3,9 @@ package gov.va.api.health.urgentcare.service.controller.capability;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
-import gov.va.api.health.urgentcare.service.api.capability.Capability;
-import gov.va.api.health.urgentcare.service.api.capability.Capability.Kind;
-import gov.va.api.health.urgentcare.service.api.capability.Capability.Status;
+import gov.va.api.health.r4.api.resources.Capability;
+import gov.va.api.health.r4.api.resources.Capability.Kind;
+import gov.va.api.health.r4.api.resources.Capability.Status;
 import gov.va.api.health.urgentcare.service.controller.capability.CapabilityStatementProperties.ContactProperties;
 import gov.va.api.health.urgentcare.service.controller.capability.CapabilityStatementProperties.SecurityProperties;
 import lombok.SneakyThrows;

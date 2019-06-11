@@ -1,6 +1,7 @@
 package gov.va.api.health.urgentcare.service.api;
 
 import gov.va.api.health.r4.api.CoverageEligibilityResponseApi;
+import gov.va.api.health.r4.api.MetadataApi;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
