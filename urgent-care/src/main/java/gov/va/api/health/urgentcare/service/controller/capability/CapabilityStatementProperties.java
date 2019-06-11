@@ -1,7 +1,7 @@
 package gov.va.api.health.urgentcare.service.controller.capability;
 
-import gov.va.api.health.urgentcare.service.api.capability.Capability.Kind;
-import gov.va.api.health.urgentcare.service.api.capability.Capability.Status;
+import gov.va.api.health.r4.api.resources.Capability.Kind;
+import gov.va.api.health.r4.api.resources.Capability.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
