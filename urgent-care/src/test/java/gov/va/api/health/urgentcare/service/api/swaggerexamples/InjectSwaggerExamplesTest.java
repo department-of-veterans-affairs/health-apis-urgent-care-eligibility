@@ -1,12 +1,12 @@
 package gov.va.api.health.urgentcare.service.api.swaggerexamples;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.google.common.base.Preconditions;
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
 import java.io.File;
 import java.lang.reflect.Field;
@@ -16,7 +16,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
@@ -27,17 +26,25 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.springframework.util.ReflectionUtils;
 
+/**
+ * Inject Swagger examples into the openapi.json and openapi.yaml files produced during the compile
+ * phase of the build.
+ *
+ * <p>Swagger examples are provided in the other classes of this package, in static fields prefixed
+ * with 'SWAGGER_EXAMPLE_'. These field names are used as substitution markers to be overwritten
+ * with their corresponding example objects.
+ */
 @Slf4j
 public class InjectSwaggerExamplesTest {
   private static void sortObjectNode(JsonNode node) {
-    checkArgument(node instanceof ObjectNode);
+    Preconditions.checkArgument(node instanceof ObjectNode);
     ObjectNode objNode = (ObjectNode) node;
-    List<Entry<String, JsonNode>> elements =
+    List<Map.Entry<String, JsonNode>> elements =
         Streams.stream(objNode.fields())
             .sorted((left, right) -> left.getKey().compareToIgnoreCase(right.getKey()))
             .collect(Collectors.toList());
     objNode.removeAll();
-    for (Entry<String, JsonNode> element : elements) {
+    for (Map.Entry<String, JsonNode> element : elements) {
       objNode.set(element.getKey(), element.getValue());
     }
   }
