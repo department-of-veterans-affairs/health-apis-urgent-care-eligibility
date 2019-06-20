@@ -59,8 +59,7 @@ public class WebExceptionHandlerTest {
         test(HttpStatus.BAD_REQUEST, new QueenElizabethClient.BadRequest(query)),
         test(HttpStatus.BAD_REQUEST, new ConstraintViolationException(new HashSet<>())),
         test(HttpStatus.INTERNAL_SERVER_ERROR, new QueenElizabethClient.SearchFailed(query)),
-        test(HttpStatus.INTERNAL_SERVER_ERROR, new RuntimeException()),
-        test(HttpStatus.NOT_FOUND, new QueenElizabethClient.NotFound(query)));
+        test(HttpStatus.INTERNAL_SERVER_ERROR, new RuntimeException()));
   }
 
   private static Object[] test(HttpStatus status, Exception exception) {
