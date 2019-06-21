@@ -2,8 +2,8 @@
 
 ## Development Environment
 
-![development](Urgent Care - Development.png)
+![development](development.png)
 
 ## Production Environment
 
-![production](Urgent Care - Production.png)
+![production](production.png)
