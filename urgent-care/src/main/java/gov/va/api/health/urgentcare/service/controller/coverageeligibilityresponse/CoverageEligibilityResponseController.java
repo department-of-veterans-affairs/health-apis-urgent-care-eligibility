@@ -58,7 +58,9 @@ public class CoverageEligibilityResponseController {
     return bundler.bundle(
         BundleContext.of(
             linkConfig,
-            count == 0 || page != 1 ? Collections.emptyList() : singletonList(theRemix),
+            theRemix.getEeSummaryResponse() == null || count == 0 || page != 1
+                ? Collections.emptyList()
+                : singletonList(theRemix),
             transformer,
             CoverageEligibilityResponse.Entry::new,
             CoverageEligibilityResponse.Bundle::new));
@@ -66,8 +68,12 @@ public class CoverageEligibilityResponseController {
 
   private GetEeSummaryResponseTheRemix search(String icn) {
     Query<GetEESummaryResponse> query = Query.forType(GetEESummaryResponse.class).id(icn).build();
-    GetEESummaryResponse eeSummaryResponse = hasPayload(queenElizabethClient.search(query));
-    return new GetEeSummaryResponseTheRemix(icn, eeSummaryResponse);
+    try {
+      GetEESummaryResponse eeSummaryResponse = hasPayload(queenElizabethClient.search(query));
+      return new GetEeSummaryResponseTheRemix(icn, eeSummaryResponse);
+    } catch (QueenElizabethClient.NotFound e) {
+      return new GetEeSummaryResponseTheRemix(icn, null);
+    }
   }
 
   /** Search by patient. */
