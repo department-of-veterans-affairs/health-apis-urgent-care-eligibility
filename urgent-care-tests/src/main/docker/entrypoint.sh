@@ -14,13 +14,15 @@ FAILURE=0
 usage() {
   cat <<EOF
   Commands
-    smoke-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>]
-    regression-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>]
+    smoke-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
+    regression-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
 
   Example
     smoke-test
-      --endpoint-domain-name= localhost
-      --environment=qa
+      --endpoint-domain-name localhost
+      --environment qa
+      --token 123ME
+      --patient ME
 
 
 $1
