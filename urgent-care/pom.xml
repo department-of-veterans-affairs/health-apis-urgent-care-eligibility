@@ -8,11 +8,11 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>urgent-care</artifactId>
-  <version>1.0.44-SNAPSHOT</version>
+  <version>1.0.44</version>
   <packaging>jar</packaging>
   <properties>
     <r4.version>1.0.11</r4.version>
-    <ee-artifacts.version>1.1.43</ee-artifacts.version>
+    <ee-artifacts.version>1.1.44</ee-artifacts.version>
     <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
   </properties>
   <dependencies>
