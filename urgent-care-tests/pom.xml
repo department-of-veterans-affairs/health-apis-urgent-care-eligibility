@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>health-apis-parent</artifactId>
     <groupId>gov.va.api.health</groupId>
+    <artifactId>test-starter</artifactId>
     <version>2.0.6</version>
     <relativePath/>
   </parent>
@@ -10,10 +10,78 @@
   <artifactId>urgent-care-tests</artifactId>
   <version>1.0.45-SNAPSHOT</version>
   <properties>
+    <argonaut-dstu2.version>1.0.10</argonaut-dstu2.version>
     <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
     <docker.organization>vasdvp</docker.organization>
     <docker.tag>latest</docker.tag>
   </properties>
+  <dependencies>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>argonaut</artifactId>
+      <version>${argonaut-dstu2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>dstu2</artifactId>
+      <version>${argonaut-dstu2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.dvp</groupId>
+      <artifactId>lighthouse-keystore</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>ids-api</artifactId>
+      <version>${ids.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>ids</artifactId>
+      <version>${ids.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.api.health</groupId>
+      <artifactId>sentinel</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>${h2.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>gov.va.dvp</groupId>
+      <artifactId>cdw-schemas</artifactId>
+      <version>${cdw-schemas.version}</version>
+      <!-- defined in parent -->
+      <classifier>samples</classifier>
+      <type>zip</type>
+      <exclusions>
+        <exclusion>
+          <groupId>org.mule.modules</groupId>
+          <artifactId>mule-module-objectstore</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.mulesoft.security</groupId>
+          <artifactId>mule-module-security-property-placeholder</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
   <profiles>
     <profile>
       <id>release</id>
