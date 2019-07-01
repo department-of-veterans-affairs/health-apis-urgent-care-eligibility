@@ -9,7 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -57,16 +61,27 @@ public class LabLogInTest {
                             .build());
                 try {
                   TokenExchange token = robot.token();
-                  if (token.isError()) {
+                  URL url =
+                      new URL(
+                          "https://dev-api.va.gov/services/fhir/v0/r4/CoverageEligibilityResponse?patient="
+                              + token.patient());
+                  HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                  con.setRequestProperty("Authorization", "Bearer " + token.accessToken());
+                  con.setRequestMethod("GET");
+                  BufferedReader br =
+                      new BufferedReader(new InputStreamReader(con.getInputStream()));
+                  String response = br.readLine();
+                  if (!token.isError()
+                      && response.contains("\"resourceType\":\"CoverageEligibilityResponse\"")) {
+                    log.info("WINNER: {} is patient {}.", id, token.patient());
+                    winners.add(id);
+                  } else {
                     log.error(
                         "LOSER: {} is a loser: {}, {}",
                         id,
                         token.error(),
                         token.errorDescription());
                     losers.add(id + " - " + token.error() + ": " + token.errorDescription());
-                  } else {
-                    log.info("WINNER: {} is patient {}.", id, token.patient());
-                    winners.add(id);
                   }
                 } catch (Exception e) {
                   log.error(

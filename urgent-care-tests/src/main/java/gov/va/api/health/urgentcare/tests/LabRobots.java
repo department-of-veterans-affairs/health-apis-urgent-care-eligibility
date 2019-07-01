@@ -74,16 +74,7 @@ public final class LabRobots {
                     .scope("profile")
                     .scope("offline_access")
                     .scope("launch/patient")
-                    .scope("patient/AllergyIntolerance.read")
-                    .scope("patient/Condition.read")
-                    .scope("patient/DiagnosticReport.read")
-                    .scope("patient/Immunization.read")
-                    .scope("patient/Medication.read")
-                    .scope("patient/MedicationOrder.read")
-                    .scope("patient/MedicationStatement.read")
-                    .scope("patient/Observation.read")
-                    .scope("patient/Patient.read")
-                    .scope("patient/Procedure.read")
+                    .scope("patient/CoverageEligibilityResponse.read")
                     .build())
             .tokenUrl(urls.token())
             .user(user)
@@ -217,12 +208,7 @@ public final class LabRobots {
 
       assertThat(conformanceStatement.rest()).isNotEmpty();
       Optional<Extension> smartOnFhir =
-          conformanceStatement
-              .rest()
-              .get(0)
-              .security()
-              .extension()
-              .stream()
+          conformanceStatement.rest().get(0).security().extension().stream()
               .filter(
                   e ->
                       "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris"
@@ -236,10 +222,7 @@ public final class LabRobots {
       token = tokenUrl.get().valueUri();
 
       Optional<Extension> authorizeUrl =
-          smartOnFhir
-              .get()
-              .extension()
-              .stream()
+          smartOnFhir.get().extension().stream()
               .filter(e -> "authorize".equals(e.url()))
               .findFirst();
       assertThat(authorizeUrl).isPresent();
