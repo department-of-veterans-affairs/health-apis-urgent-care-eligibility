@@ -1,27 +1,23 @@
 package gov.va.api.health.urgentcare.tests;
 
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import gov.va.api.health.sentinel.LabBot;
+import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 @Slf4j
 public class OauthLoginTest {
-
-  private List<String> winners = new CopyOnWriteArrayList<>();
-  private List<String> losers = new CopyOnWriteArrayList<>();
 
   @Test
   @SneakyThrows
@@ -30,10 +26,33 @@ public class OauthLoginTest {
         LabBot.builder()
             .userIds(LabBot.allUsers())
             .scopes(urgentCareScopes())
-            .configPathName("config/lab.properties")
+            .configFile("config/lab.properties")
             .build()
-            .request("/services/fhir/v0/r4/CoverageEligibilityResponse?patient=");
-    winnersLosers(labBotUserResultList);
+            .request("/services/fhir/v0/r4/CoverageEligibilityResponse?patient={icn}");
+    List<String> winners = new ArrayList<>();
+    List<String> losers = new ArrayList<>();
+    for (LabBotUserResult labBotUserResult : labBotUserResultList) {
+      if (!labBotUserResult.tokenExchange().isError()
+          && labBotUserResult.response().contains(
+              "\"resourceType\":\"CoverageEligibilityResponse\"")) {
+        log.info(
+            "Winner: {} is patient {}.",
+            labBotUserResult.user().id(),
+            labBotUserResult.tokenExchange().patient());
+        winners.add(labBotUserResult.user().id());
+      } else {
+        log.info(
+            "Loser: {} is patient {}.",
+            labBotUserResult.user().id(),
+            labBotUserResult.tokenExchange().patient());
+        losers.add(
+            labBotUserResult.user().id()
+                + " - "
+                + labBotUserResult.tokenExchange().error()
+                + ": "
+                + labBotUserResult.tokenExchange().errorDescription());
+      }
+    }
     String report =
         Stream.concat(winners.stream().map(w -> w + " - OK"), losers.stream())
             .sorted()
@@ -43,32 +62,12 @@ public class OauthLoginTest {
     assertThat(losers.size()).isZero();
   }
 
-  private void winnersLosers(List<LabBotUserResult> labBotUserResultList) {
-    for (LabBotUserResult labBotUserResult : labBotUserResultList) {
-      if (!labBotUserResult.tokenExchange.isError()
-          && labBotUserResult.response.contains(
-              "\"resourceType\":\"CoverageEligibilityResponse\"")) {
-        log.info(
-            "Winner: {} is patient {}.",
-            labBotUserResult.user.id(),
-            labBotUserResult.tokenExchange.patient());
-        winners.add(labBotUserResult.user.id());
-      } else {
-        log.info(
-            "Loser: {} is patient {}.",
-            labBotUserResult.user.id(),
-            labBotUserResult.tokenExchange.patient());
-        losers.add(
-            labBotUserResult.user.id()
-                + " - "
-                + labBotUserResult.tokenExchange.error()
-                + ": "
-                + labBotUserResult.tokenExchange.errorDescription());
-      }
-    }
-  }
-
   public List<String> urgentCareScopes() {
-    return Arrays.asList("patient/CoverageEligibilityResponse.read");
+    return Arrays.asList(
+        "patient/CoverageEligibilityResponse.read",
+        "openid",
+        "profile",
+        "offline_access",
+        "launch/patient");
   }
 }
