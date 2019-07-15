@@ -19,6 +19,15 @@ import org.junit.Test;
 @Slf4j
 public class OauthLoginTest {
 
+  private static List<String> urgentCareScopes() {
+    return Arrays.asList(
+        "patient/CoverageEligibilityResponse.read",
+        "openid",
+        "profile",
+        "offline_access",
+        "launch/patient");
+  }
+
   @Test
   @SneakyThrows
   public void RequestTest() {
@@ -33,13 +42,17 @@ public class OauthLoginTest {
     List<String> losers = new ArrayList<>();
     for (LabBotUserResult labBotUserResult : labBotUserResultList) {
       if (!labBotUserResult.tokenExchange().isError()
-          && labBotUserResult.response().contains(
-              "\"resourceType\":\"CoverageEligibilityResponse\"")) {
+          && labBotUserResult
+              .response()
+              .contains("\"resourceType\":\"CoverageEligibilityResponse\"")) {
         log.info(
             "Winner: {} is patient {}.",
             labBotUserResult.user().id(),
             labBotUserResult.tokenExchange().patient());
-        winners.add(labBotUserResult.user().id());
+        winners.add(
+            labBotUserResult.user().id()
+                + " is patient "
+                + labBotUserResult.tokenExchange().patient());
       } else {
         log.info(
             "Loser: {} is patient {}.",
@@ -47,6 +60,8 @@ public class OauthLoginTest {
             labBotUserResult.tokenExchange().patient());
         losers.add(
             labBotUserResult.user().id()
+                + " is patient "
+                + labBotUserResult.tokenExchange().patient()
                 + " - "
                 + labBotUserResult.tokenExchange().error()
                 + ": "
@@ -60,14 +75,5 @@ public class OauthLoginTest {
     Files.write(new File("lab-users.txt").toPath(), report.getBytes(StandardCharsets.UTF_8));
     log.info("Lab Users:\n{}", report);
     assertThat(losers.size()).isZero();
-  }
-
-  public List<String> urgentCareScopes() {
-    return Arrays.asList(
-        "patient/CoverageEligibilityResponse.read",
-        "openid",
-        "profile",
-        "offline_access",
-        "launch/patient");
   }
 }

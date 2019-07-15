@@ -38,17 +38,6 @@
     </dependency>
     <dependency>
       <groupId>gov.va.api.health</groupId>
-      <artifactId>ids-api</artifactId>
-      <version>${ids.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>gov.va.api.health</groupId>
-      <artifactId>ids</artifactId>
-      <version>${ids.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>gov.va.api.health</groupId>
       <artifactId>sentinel</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
