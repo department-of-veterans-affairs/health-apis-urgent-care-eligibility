@@ -12,10 +12,10 @@
 remove_old_certificate () {
   set +e
   OLD=$(keytool \
-    -list \
-    -keypass "$HEALTH_API_CERTIFICATE_PASSWORD" \
-    -keystore "$TRUST_STORE" \
-    -storepass "$TRUST_STORE_PASSWORD" \
+      -list \
+      -keypass "$HEALTH_API_CERTIFICATE_PASSWORD" \
+      -keystore "$TRUST_STORE" \
+      -storepass "$TRUST_STORE_PASSWORD" \
     | grep "$1")
 
   if [ -n "$OLD" ]
@@ -59,10 +59,10 @@ cd $(dirname $0)/../..
 [ ! -f "$TRUST_STORE" ] && echo "Trust store not found: $TRUST_STORE" && exit 1
 [ -z "$TRUST_STORE_PASSWORD" ] && TRUST_STORE_PASSWORD=changeit
 
-KEYSTORE=mr-anderson/target/certs/system/DVP-DVP-NONPROD.jks
+KEYSTORE=urgent-care/target/certs/system/DVP-DVP-NONPROD.jks
 ALIAS=internal-sys-dev
 
-[ ! -f "$KEYSTORE" ] && echo -e "OH NOES! Keystore not found: $KEYSTORE\nTry building mr-anderson project" && exit 1
+[ ! -f "$KEYSTORE" ] && echo -e "OH NOES! Keystore not found: $KEYSTORE\nTry building urgent-care project" && exit 1
 
 set -e
 
