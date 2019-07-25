@@ -10,22 +10,11 @@
   <artifactId>urgent-care-tests</artifactId>
   <version>1.0.46-SNAPSHOT</version>
   <properties>
-    <argonaut-dstu2.version>1.0.10</argonaut-dstu2.version>
     <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
     <docker.organization>vasdvp</docker.organization>
     <docker.tag>latest</docker.tag>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>gov.va.api.health</groupId>
-      <artifactId>argonaut</artifactId>
-      <version>${argonaut-dstu2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>gov.va.api.health</groupId>
-      <artifactId>dstu2</artifactId>
-      <version>${argonaut-dstu2.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
