@@ -6,12 +6,12 @@ package gov.va.api.health.urgentcare.service.healthcheck;
  */
 public interface SteelThreadSystemCheckLedger {
 
-    /** How many failures in a row (without any successes) were reported. */
-    int getConsecutiveFailureCount();
+  /** How many failures in a row (without any successes) were reported. */
+  int getConsecutiveFailureCount();
 
-    /** Register a failure event and return current failure count. */
-    int recordFailure();
+  /** Register a failure event and return current failure count. */
+  int recordFailure();
 
-    /** Register a success event. */
-    void recordSuccess();
+  /** Register a success event. */
+  void recordSuccess();
 }
