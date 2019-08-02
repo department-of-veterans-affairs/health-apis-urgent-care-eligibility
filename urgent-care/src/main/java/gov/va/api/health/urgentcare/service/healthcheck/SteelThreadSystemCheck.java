@@ -74,7 +74,7 @@ public class SteelThreadSystemCheck implements HealthIndicator {
    */
   @Scheduled(
     fixedDelayString = "${health-check.read-frequency-ms}",
-    initialDelayString = "${health-check.read-frequency-ms"
+    initialDelayString = "${health-check.read-frequency-ms}"
   )
   @SneakyThrows
   public void runSteelThreadCheckAsynchronously() {
