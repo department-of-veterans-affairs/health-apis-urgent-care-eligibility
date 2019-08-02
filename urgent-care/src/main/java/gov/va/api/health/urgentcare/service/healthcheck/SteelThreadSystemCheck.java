@@ -37,7 +37,7 @@ public class SteelThreadSystemCheck implements HealthIndicator {
   public SteelThreadSystemCheck(
       @Autowired QueenElizabethClient client,
       @Autowired SteelThreadSystemCheckLedger ledger,
-      @Value("${health-check.patient-icn") String id,
+      @Value("${health-check.patient-icn}") String id,
       @Value("${health-check.consecutive-failure-threshold}") int consecutiveFailureThreshold) {
     this.client = client;
     this.ledger = ledger;
