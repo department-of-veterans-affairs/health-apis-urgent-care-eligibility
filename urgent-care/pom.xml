@@ -50,6 +50,18 @@
       <artifactId>ee-artifacts</artifactId>
       <version>${ee-artifacts.version}</version>
     </dependency>
+    <!-- jaxb-api dependency added as it is no longer provided in the JDK as of Java 11 -->
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.1</version>
+    </dependency>
+    <!-- jaxb-runtime dependency added as it is no longer provided in the JDK as of Java 11 -->
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>2.3.1</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
