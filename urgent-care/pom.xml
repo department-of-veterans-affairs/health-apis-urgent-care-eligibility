@@ -11,8 +11,8 @@
   <version>2.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
-    <r4.version>1.0.13</r4.version>
-    <ee-artifacts.version>1.1.45</ee-artifacts.version>
+    <r4.version>1.0.18</r4.version>
+    <ee-artifacts.version>1.1.48</ee-artifacts.version>
     <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
   </properties>
   <dependencies>
