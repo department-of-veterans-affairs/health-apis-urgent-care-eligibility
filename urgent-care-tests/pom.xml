@@ -3,63 +3,17 @@
   <parent>
     <groupId>gov.va.api.health</groupId>
     <artifactId>test-starter</artifactId>
-    <version>2.0.9</version>
+    <version>3.0.12-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>urgent-care-tests</artifactId>
-  <version>1.0.46-SNAPSHOT</version>
+  <version>2.0.1-SNAPSHOT</version>
   <properties>
     <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
     <docker.organization>vasdvp</docker.organization>
     <docker.tag>latest</docker.tag>
   </properties>
-  <dependencies>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>${selenium.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>gov.va.dvp</groupId>
-      <artifactId>lighthouse-keystore</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>gov.va.api.health</groupId>
-      <artifactId>sentinel</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>${h2.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>gov.va.dvp</groupId>
-      <artifactId>cdw-schemas</artifactId>
-      <version>${cdw-schemas.version}</version>
-      <!-- defined in parent -->
-      <classifier>samples</classifier>
-      <type>zip</type>
-      <exclusions>
-        <exclusion>
-          <groupId>org.mule.modules</groupId>
-          <artifactId>mule-module-objectstore</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.mulesoft.security</groupId>
-          <artifactId>mule-module-security-property-placeholder</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate.validator</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
   <profiles>
     <profile>
       <id>release</id>
