@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import gov.va.api.health.sentinel.LabBot;
 import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
-import gov.va.api.health.sentinel.categories.Local;
+import gov.va.api.health.sentinel.categories.Manual;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -32,7 +32,7 @@ public class OauthLoginTest {
 
   @Test
   @SneakyThrows
-  @Category(Local.class)
+  @Category(Manual.class)
   public void RequestTest() {
     List<LabBotUserResult> labBotUserResultList =
         LabBot.builder()
