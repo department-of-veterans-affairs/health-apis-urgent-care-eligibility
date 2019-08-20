@@ -23,11 +23,7 @@ public class OauthLoginTest {
 
   private static List<String> urgentCareScopes() {
     return Arrays.asList(
-        "patient/CoverageEligibilityResponse.read",
-        "openid",
-        "profile",
-        "offline_access",
-        "launch/patient");
+        "patient/CoverageEligibilityResponse.read", "offline_access", "launch/patient");
   }
 
   @Test
