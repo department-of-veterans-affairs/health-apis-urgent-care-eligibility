@@ -7,7 +7,7 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
-      <directory>urgent-care/src/main/docker</directory>
+      <directory>src/main/docker</directory>
       <outputDirectory/>
       <useDefaultExcludes>true</useDefaultExcludes>
       <excludes>
