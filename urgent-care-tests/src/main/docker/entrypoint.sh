@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
-ENDPOINT_DOMAIN_NAME="$K8S_LOAD_BALANCER"
+set -o pipefail
+
+#For running our test suite (currently for lab validation/stress testing only)
+[ -z "$TEST_BASE_DIR" ] && TEST_BASE_DIR=/test-suite
+cd $TEST_BASE_DIR
+MAIN_JAR=$(find -maxdepth 1 -name "urgent-care-tests-*.jar" -a -not -name "urgent-care-tests-*-tests.jar")
+TESTS_JAR=$(find -maxdepth 1 -name "urgent-care-tests-*-tests.jar")
+WEB_DRIVER_PROPERTIES="-Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -Dwebdriver.chrome.headless=true"
+SYSTEM_PROPERTIES=$WEB_DRIVER_PROPERTIES
+EXCLUDE_CATEGORY=
+INCLUDE_CATEGORY=
+
+#For doing our simplistic smoke and regression tests
 ENVIRONMENT="$K8S_ENVIRONMENT"
 TOKEN="$TOKEN"
 PATIENT="$PATIENT"
@@ -14,6 +26,9 @@ FAILURE=0
 usage() {
   cat <<EOF
   Commands
+    list-tests
+    list-categories
+    test [--include-category <category>] [--exclude-category <category>] [--trust <host>] [-Dkey=value] <name> [name] [...]
     smoke-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
     regression-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
 
@@ -30,6 +45,54 @@ EOF
 exit 1
 }
 
+#### Start of test suite runner commands ####
+defaultTest() {
+  # Our only test is for Oauth right now. We can default to integration tests whenever we have some
+  doListTests | grep 'Oauth'
+}
+
+# This feels like overkill for our single test, but ignoring all this output feels more important as our suite grows
+doTest() {
+  local tests="$@"
+  [ -z "$tests" ] && tests=$(defaultTest)
+  local filter
+  [ -n "$EXCLUDE_CATEGORY" ] && filter+=" --filter=org.junit.experimental.categories.ExcludeCategories=$EXCLUDE_CATEGORY"
+  [ -n "$INCLUDE_CATEGORY" ] && filter+=" --filter=org.junit.experimental.categories.IncludeCategories=$INCLUDE_CATEGORY"
+  local noise="org.junit"
+  noise+="|groovy.lang.Meta"
+  noise+="|io.restassured.filter"
+  noise+="|io.restassured.internal"
+  noise+="|java.lang.reflect"
+  noise+="|java.net"
+  noise+="|org.apache.http"
+  noise+="|org.codehaus.groovy"
+  noise+="|sun.reflect"
+  java -cp "$(pwd)/*" $SYSTEM_PROPERTIES org.junit.runner.JUnitCore $filter $tests \
+    | grep -vE "^	at ($noise)"
+
+  # Exit on failure otherwise let other actions run.
+  [ $? != 0 ] && exit 1
+}
+
+doListTests() {
+  jar -tf $TESTS_JAR \
+    | grep -E '(IT|Test)\.class' \
+    | sed 's/\.class//' \
+    | tr / . \
+    | sort
+}
+
+doListCategories() {
+  # There are no urgent care specific categories if you're comparing this to dq
+  jar -tf $MAIN_JAR \
+    | grep -E 'gov/va/api/health/sentinel/categories/.*\.class' \
+    | sed 's/\.class//' \
+    | tr / . \
+    | sort
+}
+
+
+#### Start of smoke and regression tests ####
 doCurl () {
   REQUEST_URL="$ENDPOINT_DOMAIN_NAME$path"
   if [[ -n "$2" ]]
@@ -50,6 +113,22 @@ doCurl () {
 }
 
 doSmokeTest () {
+  if [[ -z "$ENDPOINT_DOMAIN_NAME" || -e "$ENDPOINT_DOMAIN_NAME" ]]; then
+    usage "Missing variable K8S_LOAD_BALANCER or option --endpoint-domain-name|-d."
+  fi
+
+  if [[ -z "$ENVIRONMENT" || -e "$ENVIRONMENT" ]]; then
+    usage "Missing variable K8S_ENVIRONMENT or option --environment|-e."
+  fi
+
+  if [[ -z "$TOKEN" || -e "$TOKEN" ]]; then
+    usage "Missing variable TOKEN or option --token|-t."
+  fi
+
+  if [[ -z "$PATIENT" || -e "$PATIENT" ]]; then
+    usage "Missing variable PATIENT or option --patient|-p."
+  fi
+
   if [[ ! "$ENDPOINT_DOMAIN_NAME" == http* ]]; then
     ENDPOINT_DOMAIN_NAME="https://$ENDPOINT_DOMAIN_NAME"
   fi
@@ -80,8 +159,8 @@ doRegressionTest() {
 }
 
 ARGS=$(getopt -n $(basename ${0}) \
-    -l "endpoint-domain-name:,environment:,token:,patient:,help" \
-    -o "d:e:t:p:h" -- "$@")
+    -l "endpoint-domain-name:,environment:,token:,patient:,exclude-category:,include-category:,help" \
+    -o "d:e:t:p:hD:x:i:" -- "$@")
 [ $? != 0 ] && usage
 eval set -- "$ARGS"
 while true
@@ -89,8 +168,11 @@ do
   case "$1" in
     -d|--endpoint-domain-name) ENDPOINT_DOMAIN_NAME=$2;;
     -e|--environment) ENVIRONMENT=$2;;
+    -D) SYSTEM_PROPERTIES+=" -D$2";;
     -t|--token) TOKEN=$2;;
     -p|--patient) PATIENT=$2;;
+    -x|--exclude-category) EXCLUDE_CATEGORY=$2;;
+    -i|--include-category) INCLUDE_CATEGORY=$2;;
     -h|--help) usage '
  __________________
  |< Hey! Listen! >|
@@ -109,27 +191,14 @@ do
   shift;
 done
 
-if [[ -z "$ENDPOINT_DOMAIN_NAME" || -e "$ENDPOINT_DOMAIN_NAME" ]]; then
-  usage "Missing variable K8S_LOAD_BALANCER or option --endpoint-domain-name|-d."
-fi
-
-if [[ -z "$ENVIRONMENT" || -e "$ENVIRONMENT" ]]; then
-  usage "Missing variable K8S_ENVIRONMENT or option --environment|-e."
-fi
-
-if [[ -z "$TOKEN" || -e "$TOKEN" ]]; then
-  usage "Missing variable TOKEN or option --token|-t."
-fi
-
-if [[ -z "$PATIENT" || -e "$PATIENT" ]]; then
-  usage "Missing variable PATIENT or option --patient|-p."
-fi
-
 [ $# == 0 ] && usage "No command specified"
 COMMAND=$1
 shift
 
 case "$COMMAND" in
+  t|test) doTest $@;;
+  lc|list-categories) doListCategories;;
+  lt|list-tests) doListTests;;
   s|smoke-test) doSmokeTest;;
   r|regression-test) doRegressionTest;;
   *) usage "Unknown command: $COMMAND";;
