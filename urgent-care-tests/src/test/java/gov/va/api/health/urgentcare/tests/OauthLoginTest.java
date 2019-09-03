@@ -39,6 +39,8 @@ public class OauthLoginTest {
             .request("/services/fhir/v0/r4/CoverageEligibilityResponse?patient={icn}");
     List<String> winners = new ArrayList<>();
     List<String> losers = new ArrayList<>();
+    log.info("Checking that the number of lab bot users is not 0");
+    assertThat(labBotUserResultList.size()).isNotZero();
     for (LabBotUserResult labBotUserResult : labBotUserResultList) {
       if (!labBotUserResult.tokenExchange().isError()
           && labBotUserResult

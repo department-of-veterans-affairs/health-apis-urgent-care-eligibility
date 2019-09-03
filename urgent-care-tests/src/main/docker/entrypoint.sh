@@ -28,10 +28,20 @@ FAILURE=0
 # Command to make LAB OAuth Test work
 # shm-size needs to be increased to 1g.
 # shm is just shared temporary file storage omn Unix.  I don't know why this script runs out while others dont...
+
 # docker run --rm --init --shm-size="1g" --network=host 
-#     --env-file staging.testvars --env K8S_ENVIRONMENT=lab 
+#     -env K8S_ENVIRONMENT=lab
+#     --env-file staging.testvars
 #     vasdvp/health-apis-urgent-care-tests:latest ol
 
+# OR
+
+# docker run --rm --init --shm-size="1g" --network=host 
+#     --env-file staging.testvars 
+#     vasdvp/health-apis-urgent-care-tests:latest ol
+#     --environment=lab
+
+# The first one matches more in line of how DQ does it.  The second optin matches how our regression/smoke tests work.
 
 usage() {
   cat <<EOF
@@ -41,7 +51,7 @@ usage() {
     test [--include-category <category>] [--exclude-category <category>] [--trust <host>] [-Dkey=value] <name> [name] [...]
     smoke-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
     regression-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
-    oauth-lab-test [--]
+    oauth-lab-test [--environment|-e <env>]
 
   Example
     smoke-test
@@ -116,14 +126,14 @@ setupForAutomation() {
   checkVariablesForAutomation
 
   SYSTEM_PROPERTIES="$WEB_DRIVER_PROPERTIES \
-    -D${K8S_ENVIRONMENT}.user-password=$USER_PASSWORD \
-    -D${K8S_ENVIRONMENT}.client-id=$CLIENT_ID \
-    -D${K8S_ENVIRONMENT}.client-secret=$CLIENT_SECRET \
-    -D${K8S_ENVIRONMENT}.redirect-url=$REDIRECT_URL \
-    -D${K8S_ENVIRONMENT}.aud=$AUD \
-    -D${K8S_ENVIRONMENT}.state=$STATE \
-    -D${K8S_ENVIRONMENT}.base-url=$BASE_URL \
-    -D${K8S_ENVIRONMENT}.credentials-mode=$REQUEST_MODE"   
+    -D${ENVIRONMENT}.user-password=$USER_PASSWORD \
+    -D${ENVIRONMENT}.client-id=$CLIENT_ID \
+    -D${ENVIRONMENT}.client-secret=$CLIENT_SECRET \
+    -D${ENVIRONMENT}.redirect-url=$REDIRECT_URL \
+    -D${ENVIRONMENT}.aud=$AUD \
+    -D${ENVIRONMENT}.state=$STATE \
+    -D${ENVIRONMENT}.base-url=$BASE_URL \
+    -D${ENVIRONMENT}.credentials-mode=$REQUEST_MODE"   
 }
 
 doLabOauthTest(){
