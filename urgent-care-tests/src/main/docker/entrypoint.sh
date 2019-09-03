@@ -12,6 +12,7 @@ SYSTEM_PROPERTIES=$WEB_DRIVER_PROPERTIES
 EXCLUDE_CATEGORY=
 INCLUDE_CATEGORY=
 
+
 #For doing our simplistic smoke and regression tests
 ENVIRONMENT="$K8S_ENVIRONMENT"
 TOKEN="$TOKEN"
@@ -23,6 +24,15 @@ PATHS=(/fhir/v0/r4/metadata \
 SUCCESS=0
 FAILURE=0
 
+
+# Command to make LAB OAuth Test work
+# shm-size needs to be increased to 1g.
+# shm is just shared temporary file storage omn Unix.  I don't know why this script runs out while others dont...
+# docker run --rm --init --shm-size="1g" --network=host 
+#     --env-file staging.testvars --env K8S_ENVIRONMENT=lab 
+#     vasdvp/health-apis-urgent-care-tests:latest ol
+
+
 usage() {
   cat <<EOF
   Commands
@@ -31,6 +41,7 @@ usage() {
     test [--include-category <category>] [--exclude-category <category>] [--trust <host>] [-Dkey=value] <name> [name] [...]
     smoke-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
     regression-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
+    oauth-lab-test [--]
 
   Example
     smoke-test
@@ -91,6 +102,36 @@ doListCategories() {
     | sort
 }
 
+
+
+checkVariablesForAutomation() {
+  # Check out required deployment variables and urgent care specific variables.
+  for param in "USER_PASSWORD" "CLIENT_ID" "CLIENT_SECRET" \
+    "REDIRECT_URL" "AUD" "STATE" "BASE_URL" "REQUEST_MODE"; do
+    [ -z ${!param} ] && usage "Variable $param must be specified."
+  done
+}
+
+setupForAutomation() {
+  checkVariablesForAutomation
+
+  SYSTEM_PROPERTIES="$WEB_DRIVER_PROPERTIES \
+    -D${K8S_ENVIRONMENT}.user-password=$USER_PASSWORD \
+    -D${K8S_ENVIRONMENT}.client-id=$CLIENT_ID \
+    -D${K8S_ENVIRONMENT}.client-secret=$CLIENT_SECRET \
+    -D${K8S_ENVIRONMENT}.redirect-url=$REDIRECT_URL \
+    -D${K8S_ENVIRONMENT}.aud=$AUD \
+    -D${K8S_ENVIRONMENT}.state=$STATE \
+    -D${K8S_ENVIRONMENT}.base-url=$BASE_URL \
+    -D${K8S_ENVIRONMENT}.credentials-mode=$REQUEST_MODE"   
+}
+
+doLabOauthTest(){
+  setupForAutomation
+
+  INCLUDE_CATEGORY=gov.va.api.health.sentinel.categories.Manual
+  doTest   
+}
 
 #### Start of smoke and regression tests ####
 doCurl () {
@@ -201,6 +242,7 @@ case "$COMMAND" in
   lt|list-tests) doListTests;;
   s|smoke-test) doSmokeTest;;
   r|regression-test) doRegressionTest;;
+  ol|oauth-lab-test) doLabOauthTest;;
   *) usage "Unknown command: $COMMAND";;
 esac
 
