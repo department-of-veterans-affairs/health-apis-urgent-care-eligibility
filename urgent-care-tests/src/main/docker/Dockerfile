@@ -1,6 +1,6 @@
-FROM centos:latest
+FROM vasdvp/health-apis-maven:3.6-jdk-12
 
-COPY entrypoint.sh /
-RUN chmod 755 /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY maven/ /test-suite
+RUN chmod 700 /test-suite/*sh
+ENTRYPOINT ["/test-suite/entrypoint.sh"]
 CMD []

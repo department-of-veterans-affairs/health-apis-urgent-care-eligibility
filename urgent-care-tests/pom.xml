@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>health-apis-parent</artifactId>
     <groupId>gov.va.api.health</groupId>
+    <artifactId>test-starter</artifactId>
     <version>3.0.11</version>
     <relativePath/>
   </parent>
@@ -10,9 +10,7 @@
   <artifactId>urgent-care-tests</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <properties>
-    <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
-    <docker.organization>vasdvp</docker.organization>
-    <docker.tag>latest</docker.tag>
+    <groups>gov.va.api.health.sentinel.categories.Local</groups>
   </properties>
   <profiles>
     <profile>
@@ -22,45 +20,9 @@
           <plugin>
             <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
-            <version>${docker-maven-plugin.version}</version>
             <executions>
               <execution>
-                <id>build-test</id>
-                <configuration>
-                  <images>
-                    <image>
-                      <name>${docker.organization}/health-apis-${project.artifactId}</name>
-                      <build>
-                        <dockerFile>Dockerfile</dockerFile>
-                        <tags>
-                          <tag>${project.version}</tag>
-                          <tag>${docker.tag}</tag>
-                        </tags>
-                      </build>
-                    </image>
-                  </images>
-                </configuration>
-                <phase>package</phase>
-                <goals>
-                  <goal>build</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>deploy-test</id>
-                <configuration>
-                  <images>
-                    <image>
-                      <name>${docker.organization}/health-apis-${project.artifactId}</name>
-                      <build>
-                        <dockerFile>Dockerfile</dockerFile>
-                        <tags>
-                          <tag>${project.version}</tag>
-                          <tag>${docker.tag}</tag>
-                        </tags>
-                      </build>
-                    </image>
-                  </images>
-                </configuration>
+                <id>push</id>
                 <phase>deploy</phase>
                 <goals>
                   <goal>push</goal>
