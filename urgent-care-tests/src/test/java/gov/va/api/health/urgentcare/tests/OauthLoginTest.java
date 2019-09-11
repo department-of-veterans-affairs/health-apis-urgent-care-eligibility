@@ -2,79 +2,42 @@ package gov.va.api.health.urgentcare.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gov.va.api.health.sentinel.LabBot;
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
 import gov.va.api.health.sentinel.categories.Manual;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import gov.va.api.health.sentinel.junit.LabBotOauthLoginRule;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+/** Perform an Oauth login test with the application specific parameters. */
 @Slf4j
 public class OauthLoginTest {
 
-  private static List<String> urgentCareScopes() {
-    return Arrays.asList(
-        "patient/CoverageEligibilityResponse.read", "offline_access", "launch/patient");
-  }
+  public List<String> loserList = new ArrayList<>();
 
+  public List<String> winnerList = new ArrayList<>();
+
+  @Rule
+  public LabBotOauthLoginRule labBotOauthLoginRule =
+      new LabBotOauthLoginRule(
+          Arrays.asList(
+              "patient/CoverageEligibilityResponse.read", "offline_access", "launch/patient"),
+          "config/lab.properties",
+          "/services/fhir/v0/r4/CoverageEligibilityResponse?patient={icn}",
+          "\"resourceType\":\"CoverageEligibilityResponse\"",
+          winnerList,
+          loserList);
+
+  /** As a minumum, verify all of the users are winners. */
   @Test
-  @SneakyThrows
   @Category(Manual.class)
-  public void RequestTest() {
-    List<LabBotUserResult> labBotUserResultList =
-        LabBot.builder()
-            .userIds(LabBot.allUsers())
-            .scopes(urgentCareScopes())
-            .configFile("config/lab.properties")
-            .build()
-            .request("/services/fhir/v0/r4/CoverageEligibilityResponse?patient={icn}");
-    List<String> winners = new ArrayList<>();
-    List<String> losers = new ArrayList<>();
-    log.info("Checking that the number of lab bot users is not 0");
-    assertThat(labBotUserResultList.size()).isNotZero();
-    for (LabBotUserResult labBotUserResult : labBotUserResultList) {
-      if (!labBotUserResult.tokenExchange().isError()
-          && labBotUserResult
-              .response()
-              .contains("\"resourceType\":\"CoverageEligibilityResponse\"")) {
-        log.info(
-            "Winner: {} is patient {}.",
-            labBotUserResult.user().id(),
-            labBotUserResult.tokenExchange().patient());
-        winners.add(
-            labBotUserResult.user().id()
-                + " is patient "
-                + labBotUserResult.tokenExchange().patient());
-      } else {
-        log.info(
-            "Loser: {} is patient {}.",
-            labBotUserResult.user().id(),
-            labBotUserResult.tokenExchange().patient());
-        losers.add(
-            labBotUserResult.user().id()
-                + " is patient "
-                + labBotUserResult.tokenExchange().patient()
-                + " - "
-                + labBotUserResult.tokenExchange().error()
-                + ": "
-                + labBotUserResult.tokenExchange().errorDescription());
-      }
-    }
-    String report =
-        Stream.concat(winners.stream().map(w -> w + " - OK"), losers.stream())
-            .sorted()
-            .collect(Collectors.joining("\n"));
-    Files.write(new File("lab-users.txt").toPath(), report.getBytes(StandardCharsets.UTF_8));
-    log.info("Lab Users:\n{}", report);
-    assertThat(losers.size()).isZero();
+  @LabBotOauthLoginRule.LabBotOauthLoginReport
+  @LabBotOauthLoginRule.LabBotOauthLoginReportFile(filename = "lab-users.txt")
+  public void testOauthRequests() {
+    assertThat(loserList.size()).isZero();
+    assertThat(winnerList.size()).isNotZero();
   }
 }
