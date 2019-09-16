@@ -3,6 +3,8 @@ package gov.va.api.health.urgentcare.tests;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import gov.va.api.health.sentinel.categories.Manual;
+import gov.va.api.health.sentinel.junit.LabBotOauthLoginReport;
+import gov.va.api.health.sentinel.junit.LabBotOauthLoginReportFile;
 import gov.va.api.health.sentinel.junit.LabBotOauthLoginRule;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,8 +36,8 @@ public class OauthLoginTest {
   /** As a minumum, verify all of the users are winners. */
   @Test
   @Category(Manual.class)
-  @LabBotOauthLoginRule.LabBotOauthLoginReport
-  @LabBotOauthLoginRule.LabBotOauthLoginReportFile(filename = "lab-users.txt")
+  @LabBotOauthLoginReport
+  @LabBotOauthLoginReportFile(filename = "lab-users.txt")
   public void testOauthRequests() {
     assertThat(loserList.size()).isZero();
     assertThat(winnerList.size()).isNotZero();
