@@ -32,7 +32,7 @@ public class OauthLoginTest {
             .reportFile(new File("lab-users.txt"))
             .build();
     LoginResults results = bot.loginUsers();
-    assertThat(results.winners().size()).isNotZero();
     assertThat(results.losers().size()).isZero();
+    assertThat(results.winners().size()).isNotZero();
   }
 }
