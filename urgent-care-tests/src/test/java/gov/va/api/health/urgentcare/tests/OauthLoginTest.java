@@ -2,44 +2,37 @@ package gov.va.api.health.urgentcare.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gov.va.api.health.sentinel.LabBotOauthLogin;
+import gov.va.api.health.sentinel.LoginResults;
 import gov.va.api.health.sentinel.categories.Manual;
-import gov.va.api.health.sentinel.junit.LabBotOauthLoginReport;
-import gov.va.api.health.sentinel.junit.LabBotOauthLoginReportFile;
-import gov.va.api.health.sentinel.junit.LabBotOauthLoginRule;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.Arrays;
-import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Rule;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /** Perform an Oauth login test with the application specific parameters. */
-@Slf4j
 public class OauthLoginTest {
 
-  public List<String> loserList = new ArrayList<>();
-
-  public List<String> winnerList = new ArrayList<>();
-
-  @Rule
-  public LabBotOauthLoginRule labBotOauthLoginRule =
-      new LabBotOauthLoginRule(
-          Arrays.asList(
-              "patient/CoverageEligibilityResponse.read", "offline_access", "launch/patient"),
-          "config/lab.properties",
-          "/services/fhir/v0/r4/CoverageEligibilityResponse?patient={icn}",
-          "\"resourceType\":\"CoverageEligibilityResponse\"",
-          winnerList,
-          loserList);
-
   /** As a minumum, verify all of the users are winners. */
-  @Test
   @Category(Manual.class)
-  @LabBotOauthLoginReport
-  @LabBotOauthLoginReportFile(filename = "lab-users.txt")
+  @Test
+  @SneakyThrows
   public void testOauthRequests() {
-    assertThat(loserList.size()).isZero();
-    assertThat(winnerList.size()).isNotZero();
+    LabBotOauthLogin bot =
+        LabBotOauthLogin.builder()
+            .scopes(
+                Arrays.asList(
+                    "patient/CoverageEligibilityResponse.read", "offline_access", "launch/patient"))
+            .configFile("config/lab.properties")
+            .requestUrl("/services/fhir/v0/r4/CoverageEligibilityResponse?patient={icn}")
+            .expectedResponse("\"resourceType\":\"CoverageEligibilityResponse\"")
+            .reportEnabled(true)
+            .reportFileEnabled(true)
+            .reportFile(new File("lab-users.txt"))
+            .build();
+    LoginResults results = bot.loginUsers();
+    assertThat(results.winners().size()).isNotZero();
+    assertThat(results.losers().size()).isZero();
   }
 }
