@@ -120,7 +120,6 @@ checkVariablesForAutomation() {
   for param in "USER_PASSWORD" "CLIENT_ID" "CLIENT_SECRET" \
     "REDIRECT_URL" "AUD" "STATE" "BASE_URL" "REQUEST_MODE" \
     "REQUEST_TYPE" "SKIP_TWO_FACTOR_AUTHENTICATION"; do
-
     [ -z ${!param} ] && usage "Variable $param must be specified."
   done
 }
