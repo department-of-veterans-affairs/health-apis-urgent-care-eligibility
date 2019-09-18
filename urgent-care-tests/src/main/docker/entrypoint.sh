@@ -18,6 +18,9 @@ ENDPOINT_DOMAIN_NAME="$K8S_LOAD_BALANCER"
 ENVIRONMENT="$K8S_ENVIRONMENT"
 TOKEN="$TOKEN"
 PATIENT="$PATIENT"
+#Lab Load Test
+CONCURRENT_REQUESTS="$CONCURRENT_REQUESTS"
+REQUESTS_PER_USER="$REQUESTS_PER_USER"
 #.well-known doesn't exist yet
 PATHS=(/fhir/v0/r4/metadata \
 /fhir/v0/r4/openapi.json \
@@ -44,6 +47,15 @@ FAILURE=0
 
 # The first one matches more in line of how DQ does it.  The second option matches how our regression/smoke tests work.
 
+# Command to make LAB Load Test work
+
+# docker run --rm --init --shm-size="1g" --network=host
+#     --env K8S_ENVIRONMENT=lab
+#     --env-file staging.testvars
+#     vasdvp/health-apis-urgent-care-tests:latest lab-load-test
+#       --concurrent-requests 10
+#       --requests-per-user 10
+
 usage() {
   cat <<EOF
   Commands
@@ -53,6 +65,7 @@ usage() {
     smoke-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
     regression-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
     oauth-lab-test [--environment|-e <env>]
+    lab-load-test [--concurrent-requests|-cr <number>] [--requests-per-user|-r <number>]
 
   Example
     smoke-test
@@ -138,6 +151,12 @@ setupForAutomation() {
     -Dva-oauth-robot.credentials-mode=$CREDENTIALS_MODE \
     -Dva-oauth-robot.credentials-type=$CREDENTIALS_TYPE \
     -Dva-oauth-robot.skip-two-factor-authentication=$SKIP_TWO_FACTOR_AUTHENTICATION"
+
+  [ -z "$CONCURRENT_REQUESTS" ] && \
+    $SYSTEM_PROPERTIES="$SYSTEM_PROPERTIES -Dconcurrent-requests=$CONCURRENT_REQUESTS"
+
+  [ -z "$REQUESTS_PER_USER" ] && \
+    $SYSTEM_PROPERTIES="$SYSTEM_PROPERTIES -Drequests_per_user=$REQUESTS_PER_USER"
 }
 
 doLabOauthTest(){
@@ -145,6 +164,13 @@ doLabOauthTest(){
 
   INCLUDE_CATEGORY=gov.va.api.health.sentinel.categories.Manual
   doTest
+}
+
+doLabLoadTest(){
+  setupForAutomation
+
+  INCLUDE_CATEGORY=gov.va.api.health.sentinel.categories.Manual
+  doTest $(doListTests | grep 'Load')
 }
 
 #### Start of smoke and regression tests ####
@@ -214,8 +240,8 @@ doRegressionTest() {
 }
 
 ARGS=$(getopt -n $(basename ${0}) \
-    -l "endpoint-domain-name:,environment:,token:,patient:,exclude-category:,include-category:,help" \
-    -o "d:e:t:p:hD:x:i:" -- "$@")
+    -l "endpoint-domain-name:,environment:,token:,patient:,exclude-category:,include-category:,concurrent-requests:,requests-per-user:,help" \
+    -o "d:e:t:p:hD:x:i:cr:r:" -- "$@")
 [ $? != 0 ] && usage
 eval set -- "$ARGS"
 while true
@@ -228,6 +254,8 @@ do
     -p|--patient) PATIENT=$2;;
     -x|--exclude-category) EXCLUDE_CATEGORY=$2;;
     -i|--include-category) INCLUDE_CATEGORY=$2;;
+    -cr|--concurrent-requests) CONCURRENT_REQUESTS=$2;;
+    -r|--requests-per-user) REQUESTS_PER_USER=$2;;
     -h|--help) usage '
  __________________
  |< Hey! Listen! >|
@@ -257,6 +285,7 @@ case "$COMMAND" in
   s|smoke-test) doSmokeTest;;
   r|regression-test) doRegressionTest;;
   ol|oauth-lab-test) doLabOauthTest;;
+  ll|lab-load-test) doLabLoadTest;;
   *) usage "Unknown command: $COMMAND";;
 esac
 
