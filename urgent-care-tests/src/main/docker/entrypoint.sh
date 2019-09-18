@@ -118,8 +118,8 @@ doListCategories() {
 checkVariablesForAutomation() {
   # Check out required deployment variables and urgent care specific variables.
   for param in "USER_PASSWORD" "CLIENT_ID" "CLIENT_SECRET" \
-    "REDIRECT_URL" "AUD" "STATE" "BASE_URL" "REQUEST_MODE" \
-    "REQUEST_TYPE" "SKIP_TWO_FACTOR_AUTHENTICATION"; do
+    "REDIRECT_URL" "AUD" "STATE" "BASE_URL" "CREDENTIALS_MODE" \
+    "CREDENTIALS_TYPE" "SKIP_TWO_FACTOR_AUTHENTICATION"; do
     [ -z ${!param} ] && usage "Variable $param must be specified."
   done
 }
@@ -135,8 +135,8 @@ setupForAutomation() {
     -Dva-oauth-robot.aud=$AUD \
     -Dva-oauth-robot.state=$STATE \
     -Dva-oauth-robot.base-url=$BASE_URL \
-    -Dva-oauth-robot.credentials-mode=$REQUEST_MODE \
-    -Dva-oauth-robot.credentials-type=$REQUEST_TYPE \
+    -Dva-oauth-robot.credentials-mode=$CREDENTIALS_MODE \
+    -Dva-oauth-robot.credentials-type=$CREDENTIALS_TYPE \
     -Dva-oauth-robot.skip-two-factor-authentication=$SKIP_TWO_FACTOR_AUTHENTICATION"
 }
 
