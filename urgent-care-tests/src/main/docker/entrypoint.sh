@@ -118,7 +118,8 @@ doListCategories() {
 checkVariablesForAutomation() {
   # Check out required deployment variables and urgent care specific variables.
   for param in "USER_PASSWORD" "CLIENT_ID" "CLIENT_SECRET" \
-    "REDIRECT_URL" "AUD" "STATE" "BASE_URL" "REQUEST_MODE"; do
+    "REDIRECT_URL" "AUD" "STATE" "BASE_URL" "CREDENTIALS_MODE" \
+    "CREDENTIALS_TYPE" "SKIP_TWO_FACTOR_AUTHENTICATION"; do
     [ -z ${!param} ] && usage "Variable $param must be specified."
   done
 }
@@ -127,14 +128,16 @@ setupForAutomation() {
   checkVariablesForAutomation
 
   SYSTEM_PROPERTIES="$WEB_DRIVER_PROPERTIES \
-    -D${ENVIRONMENT}.user-password=$USER_PASSWORD \
-    -D${ENVIRONMENT}.client-id=$CLIENT_ID \
-    -D${ENVIRONMENT}.client-secret=$CLIENT_SECRET \
-    -D${ENVIRONMENT}.redirect-url=$REDIRECT_URL \
-    -D${ENVIRONMENT}.aud=$AUD \
-    -D${ENVIRONMENT}.state=$STATE \
-    -D${ENVIRONMENT}.base-url=$BASE_URL \
-    -D${ENVIRONMENT}.credentials-mode=$REQUEST_MODE"
+    -Dva-oauth-robot.user-password=$USER_PASSWORD \
+    -Dva-oauth-robot.client-id=$CLIENT_ID \
+    -Dva-oauth-robot.client-secret=$CLIENT_SECRET \
+    -Dva-oauth-robot.redirect-url=$REDIRECT_URL \
+    -Dva-oauth-robot.aud=$AUD \
+    -Dva-oauth-robot.state=$STATE \
+    -Dva-oauth-robot.base-url=$BASE_URL \
+    -Dva-oauth-robot.credentials-mode=$CREDENTIALS_MODE \
+    -Dva-oauth-robot.credentials-type=$CREDENTIALS_TYPE \
+    -Dva-oauth-robot.skip-two-factor-authentication=$SKIP_TWO_FACTOR_AUTHENTICATION"
 }
 
 doLabOauthTest(){
