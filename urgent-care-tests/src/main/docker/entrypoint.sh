@@ -18,7 +18,7 @@ ENDPOINT_DOMAIN_NAME="$K8S_LOAD_BALANCER"
 ENVIRONMENT="$K8S_ENVIRONMENT"
 TOKEN="$TOKEN"
 PATIENT="$PATIENT"
-#Lab Load Test
+#Lab Stress Test
 REQUESTS="$REQUESTS"
 CONCURRENT_REQUESTS="$CONCURRENT_REQUESTS"
 MAXIMUM_RUNTIME="$MAXIMUM_RUNTIME"
@@ -48,7 +48,7 @@ FAILURE=0
 
 # The first one matches more in line of how DQ does it.  The second option matches how our regression/smoke tests work.
 
-# Command to make LAB Load Test work
+# Command to make LAB Stress Test work
 
 # docker run --rm --init --shm-size="1g" --network=host
 #     --env K8S_ENVIRONMENT=lab
