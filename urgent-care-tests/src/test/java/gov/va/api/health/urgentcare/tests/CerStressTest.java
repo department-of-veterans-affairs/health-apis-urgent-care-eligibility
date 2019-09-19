@@ -35,10 +35,10 @@ public class CerStressTest {
 
   private static Properties properties;
 
-  // Number of requests to execute (-Drequests-per-user=5)
+  // Number of requests to execute (-Drequests=100)
   private static int requests = 100;
 
-  // Concurrent requests (-Dconcurrent-requests=10)
+  // Concurrent requests (-Dconcurrent-requests=20)
   private static int concurrentRequests = 20;
 
   // Maximum test duration (in minutes) (-Dmaximum-runtime=10)
