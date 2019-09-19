@@ -19,8 +19,9 @@ ENVIRONMENT="$K8S_ENVIRONMENT"
 TOKEN="$TOKEN"
 PATIENT="$PATIENT"
 #Lab Load Test
+REQUESTS="$REQUESTS"
 CONCURRENT_REQUESTS="$CONCURRENT_REQUESTS"
-REQUESTS_PER_USER="$REQUESTS_PER_USER"
+MAXIMUM_RUNTIME="$MAXIMUM_RUNTIME"
 #.well-known doesn't exist yet
 PATHS=(/fhir/v0/r4/metadata \
 /fhir/v0/r4/openapi.json \
@@ -52,9 +53,10 @@ FAILURE=0
 # docker run --rm --init --shm-size="1g" --network=host
 #     --env K8S_ENVIRONMENT=lab
 #     --env-file staging.testvars
-#     vasdvp/health-apis-urgent-care-tests:latest lab-load-test
-#       --concurrent-requests 10
-#       --requests-per-user 10
+#     vasdvp/health-apis-urgent-care-tests:latest lab-stress-test
+#       --requests 100
+#       --concurrent-requests 20
+#       --maximum-runtime 10
 
 usage() {
   cat <<EOF
@@ -65,7 +67,7 @@ usage() {
     smoke-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
     regression-test [--endpoint-domain-name|-d <endpoint>] [--environment|-e <env>] [--token|-t <token>] [--patient|-p <ICN>]
     oauth-lab-test [--environment|-e <env>]
-    lab-load-test [--concurrent-requests|-cr <number>] [--requests-per-user|-r <number>]
+    lab-stress-test [--requests|-r <number>] [--concurrent-requests|-c <number>] [--maximum-runtime|-m <number>] 
 
   Example
     smoke-test
@@ -152,11 +154,14 @@ setupForAutomation() {
     -Dva-oauth-robot.credentials-type=$CREDENTIALS_TYPE \
     -Dva-oauth-robot.skip-two-factor-authentication=$SKIP_TWO_FACTOR_AUTHENTICATION"
 
-  [ -z "$CONCURRENT_REQUESTS" ] && \
-    $SYSTEM_PROPERTIES="$SYSTEM_PROPERTIES -Dconcurrent-requests=$CONCURRENT_REQUESTS"
+  [ -n "$REQUESTS" ] && \
+    SYSTEM_PROPERTIES="$SYSTEM_PROPERTIES -Drequests=$REQUESTS"
+    
+  [ -n "$CONCURRENT_REQUESTS" ] && \
+    SYSTEM_PROPERTIES="$SYSTEM_PROPERTIES -Dconcurrent-requests=$CONCURRENT_REQUESTS"
 
-  [ -z "$REQUESTS_PER_USER" ] && \
-    $SYSTEM_PROPERTIES="$SYSTEM_PROPERTIES -Drequests_per_user=$REQUESTS_PER_USER"
+  [ -n "$MAXIMUM_RUNTIME" ] && \
+    SYSTEM_PROPERTIES="$SYSTEM_PROPERTIES -Dmaximum-runtime=$MAXIMUM_RUNTIME"
 }
 
 doLabOauthTest(){
@@ -166,11 +171,11 @@ doLabOauthTest(){
   doTest
 }
 
-doLabLoadTest(){
+doLabStressTest(){
   setupForAutomation
 
   INCLUDE_CATEGORY=gov.va.api.health.sentinel.categories.Manual
-  doTest $(doListTests | grep 'Load')
+  doTest $(doListTests | grep 'Stress')
 }
 
 #### Start of smoke and regression tests ####
@@ -240,8 +245,8 @@ doRegressionTest() {
 }
 
 ARGS=$(getopt -n $(basename ${0}) \
-    -l "endpoint-domain-name:,environment:,token:,patient:,exclude-category:,include-category:,concurrent-requests:,requests-per-user:,help" \
-    -o "d:e:t:p:hD:x:i:cr:r:" -- "$@")
+    -l "endpoint-domain-name:,environment:,token:,patient:,exclude-category:,include-category:,requests:,concurrent-requests:,maximum-runtime:,help" \
+    -o "d:e:t:p:hD:x:i:r:c:m:" -- "$@")
 [ $? != 0 ] && usage
 eval set -- "$ARGS"
 while true
@@ -254,8 +259,9 @@ do
     -p|--patient) PATIENT=$2;;
     -x|--exclude-category) EXCLUDE_CATEGORY=$2;;
     -i|--include-category) INCLUDE_CATEGORY=$2;;
-    -cr|--concurrent-requests) CONCURRENT_REQUESTS=$2;;
-    -r|--requests-per-user) REQUESTS_PER_USER=$2;;
+    -r|--requests) REQUESTS=$2;;
+    -c|--concurrent-requests) CONCURRENT_REQUESTS=$2;;
+    -m|--maximum-runtime) MAXIMUM_RUNTIME=$2;;
     -h|--help) usage '
  __________________
  |< Hey! Listen! >|
@@ -285,7 +291,7 @@ case "$COMMAND" in
   s|smoke-test) doSmokeTest;;
   r|regression-test) doRegressionTest;;
   ol|oauth-lab-test) doLabOauthTest;;
-  ll|lab-load-test) doLabLoadTest;;
+  ls|lab-stress-test) doLabStressTest;;
   *) usage "Unknown command: $COMMAND";;
 esac
 
