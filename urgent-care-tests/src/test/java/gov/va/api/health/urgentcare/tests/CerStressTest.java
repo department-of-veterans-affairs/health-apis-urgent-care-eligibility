@@ -2,6 +2,10 @@ package gov.va.api.health.urgentcare.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gov.va.api.health.sentinel.LabBot;
+import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
+import gov.va.api.health.sentinel.LabBot.LabBotUserResult.LabBotUserResultBuilder;
+import gov.va.api.health.sentinel.categories.Manual;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
@@ -18,19 +21,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import gov.va.api.health.sentinel.LabBot;
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult.LabBotUserResultBuilder;
-import gov.va.api.health.sentinel.categories.Manual;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 @Slf4j
 public class CerStressTest {
