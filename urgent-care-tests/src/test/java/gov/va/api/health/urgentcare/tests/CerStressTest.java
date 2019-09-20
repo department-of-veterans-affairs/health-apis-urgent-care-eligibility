@@ -1,34 +1,36 @@
 package gov.va.api.health.urgentcare.tests;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gov.va.api.health.sentinel.LabBot;
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult.LabBotUserResultBuilder;
-import gov.va.api.health.sentinel.categories.Manual;
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Properties;
+import java.util.Random;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import gov.va.api.health.sentinel.LabBot;
+import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
+import gov.va.api.health.sentinel.LabBot.LabBotUserResult.LabBotUserResultBuilder;
+import gov.va.api.health.sentinel.categories.Manual;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 @Slf4j
 public class CerStressTest {
@@ -76,11 +78,10 @@ public class CerStressTest {
   }
 
   @Test
-  @SneakyThrows
   @Category(Manual.class)
   public void stressTest() {
     log.info(
-        "Begin stress test [{} request, {} concurrent, {} minutes maximum runtime]",
+        "Begin stress test [{} request, {} concurrent, {} minute(s) maximum runtime]",
         requests,
         concurrentRequests,
         maximumRuntime);
@@ -112,12 +113,30 @@ public class CerStressTest {
                   String.format("Failure for %s: %s", failure.user().id(), failure.response()));
             });
 
-    String output =
-        String.format(
-            "%d of %d requests successful%n%s",
-            requests - failures.size(), requests, String.join(System.lineSeparator(), failures));
-    Files.write(new File("stress-test.txt").toPath(), output.getBytes(StandardCharsets.UTF_8));
-    log.info("Stress test results:\n{}", output);
+    StringBuilder output =
+        new StringBuilder()
+            .append("Requests desired   : ")
+            .append(requests)
+            .append(System.lineSeparator())
+            .append("Requests attempted : ")
+            .append(results.size())
+            .append(System.lineSeparator())
+            .append("Requests succeeded : ")
+            .append(results.size() - failures.size())
+            .append(System.lineSeparator())
+            .append("Requests failed    : ")
+            .append(failures.size())
+            .append(System.lineSeparator())
+            .append(String.join(System.lineSeparator(), failures));
+
+    log.info("Stress test results:{}{}", System.lineSeparator(), output);
+
+    try {
+      Files.write(
+          new File("stress-test.txt").toPath(), output.toString().getBytes(StandardCharsets.UTF_8));
+    } catch (IOException e) {
+      log.error("Unable to write test results to a file", e);
+    }
 
     assertThat(failures.size()).isZero();
   }
@@ -177,26 +196,40 @@ public class CerStressTest {
     private void awaitResults(ExecutorService ex, List<Future<?>> futures)
         throws InterruptedException {
       ex.shutdown();
-      ex.awaitTermination(maximumRuntime, TimeUnit.MINUTES);
 
-      String errors =
+      if (!ex.awaitTermination(maximumRuntime, TimeUnit.MINUTES)) {
+        log.info("Maximum runtime has been exceeded; cancelling remaining tasks");
+      }
+
+      /*
+       * Proceed when all tasks are complete or when X minutes have been exceeded.
+       *
+       * Attempt to cancel any remaining tasks and fail the test if any unexpected
+       * exceptions are thrown.
+       */
+
+      int errors =
           futures
               .stream()
-              .map(
+              .mapToInt(
                   f -> {
                     try {
+                      if (!f.isDone()) {
+                        f.cancel(true);
+                      }
                       f.get();
-                      return null;
+                      return 0;
+                    } catch (CancellationException e) {
+                      return 0;
                     } catch (Exception e) {
                       log.error(e.getMessage());
-                      return e.getMessage();
+                      return 1;
                     }
                   })
-              .filter(Objects::nonNull)
-              .collect(Collectors.joining("\n"));
+              .sum();
 
-      if (isNotBlank(errors)) {
-        throw new AssertionError(errors);
+      if (errors > 0) {
+        throw new AssertionError("Thread processing had " + errors + " unexpected errors");
       }
     }
 
