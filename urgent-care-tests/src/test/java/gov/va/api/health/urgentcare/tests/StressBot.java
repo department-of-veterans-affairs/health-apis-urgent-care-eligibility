@@ -127,7 +127,7 @@ public class StressBot {
                   try {
                     result.response(
                         labBot.request(
-                            request.url.replace("{icn}", token.tokenExchange().patient()),
+                            request.url().replace("{icn}", token.tokenExchange().patient()),
                             token.tokenExchange().accessToken()));
                   } catch (Exception e) {
                     log.error("Request failure: {}", e.getMessage(), e.getCause());
