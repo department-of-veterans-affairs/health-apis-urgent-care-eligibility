@@ -1,5 +1,8 @@
 package gov.va.api.health.urgentcare.tests;
 
+import gov.va.api.health.sentinel.LabBot;
+import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
+import gov.va.api.health.sentinel.LabBot.LabBotUserResult.LabBotUserResultBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -8,12 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-
 import javax.validation.constraints.NotNull;
-
-import gov.va.api.health.sentinel.LabBot;
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult;
-import gov.va.api.health.sentinel.LabBot.LabBotUserResult.LabBotUserResultBuilder;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -29,25 +27,8 @@ public class StressBot {
 
   @NotNull private final String configFile;
 
-  @Value
-  @Builder
-  static class StressBotRequest {
-    /** The user IDs for which to execute this request. */
-    @NotNull private List<String> userIds;
-
-    /** The scopes to use for this request. */
-    @NotNull private List<String> scopes;
-
-    /** The path to use for the requests, must contain {icn} to be replaced with the patient icn. */
-    @NotNull private String url;
-
-    /** The number of times to execute this request. */
-    private int times;
-  }
-
   private void awaitResults(ExecutorService ex, List<Future<?>> futures) {
     ex.shutdown();
-
     try {
       if (!ex.awaitTermination(maximumRuntime, TimeUnit.MINUTES)) {
         log.info("Maximum runtime has been exceeded; cancelling remaining tasks");
@@ -56,14 +37,12 @@ public class StressBot {
       log.error("Unexpected interruption while waiting for requests to complete", e);
       throw new IllegalStateException(e);
     }
-
     /*
      * Proceed when all tasks are complete or when X minutes have been exceeded.
      *
      * Attempt to cancel any remaining tasks and fail the test if any unexpected
      * exceptions are thrown.
      */
-
     int errors =
         futures
             .stream()
@@ -83,7 +62,6 @@ public class StressBot {
                   }
                 })
             .sum();
-
     if (errors > 0) {
       throw new AssertionError("Thread processing had " + errors + " unexpected errors");
     }
@@ -102,19 +80,15 @@ public class StressBot {
             .scopes(request.scopes())
             .configFile(configFile)
             .build();
-
     List<LabBotUserResult> tokens = labBot.tokens();
-
     for (LabBotUserResult token : tokens) {
       if (token.tokenExchange().isError()) {
         throw new AssertionError("Token exachange not successful for " + token.user().id());
       }
     }
-
     List<LabBotUserResult> results = new CopyOnWriteArrayList<>();
     List<Future<?>> futures = new ArrayList<>(request.times() * tokens.size());
     ExecutorService ex = Executors.newFixedThreadPool(concurrentRequests);
-
     for (LabBotUserResult token : tokens) {
       for (int i = 0; i < request.times(); i++) {
         futures.add(
@@ -138,9 +112,24 @@ public class StressBot {
                 }));
       }
     }
-
     awaitResults(ex, futures);
-
     return results;
+  }
+
+  @Value
+  @Builder
+  static class StressBotRequest {
+
+    /** The user IDs for which to execute this request. */
+    @NotNull private List<String> userIds;
+
+    /** The scopes to use for this request. */
+    @NotNull private List<String> scopes;
+
+    /** The path to use for the requests, must contain {icn} to be replaced with the patient icn. */
+    @NotNull private String url;
+
+    /** The number of times to execute this request. */
+    private int times;
   }
 }
