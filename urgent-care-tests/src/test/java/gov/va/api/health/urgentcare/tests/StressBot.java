@@ -89,7 +89,8 @@ public class StressBot {
       }
     }
     List<LabBotUserResult> results = new CopyOnWriteArrayList<>();
-    List<Future<?>> futures = new ArrayList<>(request.times() * tokens.size());
+    List<Future<?>> futures =
+        new ArrayList<>(tokens.size() * request.urls.size() * request.times());
     ExecutorService ex = Executors.newFixedThreadPool(concurrentRequests);
     for (LabBotUserResult token : tokens) {
       for (String url : request.urls) {
