@@ -11,8 +11,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.Singular;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,33 +85,35 @@ public class StressBot {
     List<LabBotUserResult> tokens = labBot.tokens();
     for (LabBotUserResult token : tokens) {
       if (token.tokenExchange().isError()) {
-        throw new AssertionError("Token exachange not successful for " + token.user().id());
+        throw new AssertionError("Token exchange not successful for " + token.user().id());
       }
     }
     List<LabBotUserResult> results = new CopyOnWriteArrayList<>();
     List<Future<?>> futures = new ArrayList<>(request.times() * tokens.size());
     ExecutorService ex = Executors.newFixedThreadPool(concurrentRequests);
     for (LabBotUserResult token : tokens) {
-      for (int i = 0; i < request.times(); i++) {
-        futures.add(
-            ex.submit(
-                () -> {
-                  LabBotUserResultBuilder result =
-                      LabBotUserResult.builder()
-                          .user(token.user())
-                          .tokenExchange(token.tokenExchange());
-                  try {
-                    result.response(
-                        labBot.request(
-                            request.url().replace("{icn}", token.tokenExchange().patient()),
-                            token.tokenExchange().accessToken()));
-                  } catch (Exception e) {
-                    log.error("Request failure: {}", e.getMessage(), e.getCause());
-                    result.response(e.getClass().getName() + ": " + e.getMessage());
-                  } finally {
-                    results.add(result.build());
-                  }
-                }));
+      for (String url : request.urls) {
+        for (int i = 0; i < request.times(); i++) {
+          futures.add(
+              ex.submit(
+                  () -> {
+                    LabBotUserResultBuilder result =
+                        LabBotUserResult.builder()
+                            .user(token.user())
+                            .tokenExchange(token.tokenExchange());
+                    try {
+                      result.response(
+                          labBot.request(
+                              url.replace("{icn}", token.tokenExchange().patient()),
+                              token.tokenExchange().accessToken()));
+                    } catch (Exception e) {
+                      log.error("Request failure: {}", e.getMessage(), e.getCause());
+                      result.response(e.getClass().getName() + ": " + e.getMessage());
+                    } finally {
+                      results.add(result.build());
+                    }
+                  }));
+        }
       }
     }
     awaitResults(ex, futures);
@@ -127,7 +131,7 @@ public class StressBot {
     @NotNull private List<String> scopes;
 
     /** The path to use for the requests, must contain {icn} to be replaced with the patient icn. */
-    @NotNull private String url;
+    @Singular @NotEmpty private List<String> urls;
 
     /** The number of times to execute this request. */
     private int times;
