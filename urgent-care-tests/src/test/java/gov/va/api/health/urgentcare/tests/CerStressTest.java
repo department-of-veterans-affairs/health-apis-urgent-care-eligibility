@@ -71,7 +71,7 @@ public class CerStressTest {
   @Category(Manual.class)
   public void stressTest() {
     log.info(
-        "Begin stress test [{} concurrent, {} minute(s) maximum runtime]",
+        "Begin stress test [{} requests, {} concurrent, {} minute(s) maximum runtime]",
         requests,
         concurrentRequests,
         maximumRuntime);
