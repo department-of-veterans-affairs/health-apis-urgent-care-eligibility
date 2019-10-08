@@ -1,12 +1,11 @@
 package gov.va.api.health.urgentcare.service.controller;
 
+import gov.va.api.health.queenelizabeth.ee.exceptions.MissingIcnValue;
 import gov.va.api.health.r4.api.elements.Narrative;
 import gov.va.api.health.r4.api.elements.Narrative.NarrativeStatus;
 import gov.va.api.health.r4.api.resources.OperationOutcome;
 import gov.va.api.health.r4.api.resources.OperationOutcome.Issue;
 import gov.va.api.health.r4.api.resources.OperationOutcome.Issue.IssueSeverity;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient.BadRequest;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient.NotFound;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -16,12 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * Exceptions that escape the rest controllers will be processed by this handler. It will convert
@@ -31,18 +28,29 @@ import org.springframework.web.client.HttpClientErrorException;
 @RequestMapping(produces = {"application/json"})
 @Slf4j
 public class WebExceptionHandler {
-  @ExceptionHandler({BadRequest.class, BindException.class})
+
+  /**
+   * If Queen Elizabeth Service responds by throwing a MissingIcnValue exception, then report as a
+   * bad request.
+   *
+   * @param e Exception.
+   * @param request Request.
+   * @return Error response.
+   */
+  @ExceptionHandler({MissingIcnValue.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public OperationOutcome handleBadRequest(Exception e, HttpServletRequest request) {
     return responseFor("structure", e, request);
   }
 
-  @ExceptionHandler({NotFound.class, HttpClientErrorException.NotFound.class})
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public OperationOutcome handleNotFound(Exception e, HttpServletRequest request) {
-    return responseFor("not-found", e, request);
-  }
-
+  /**
+   * Any exceptions thrown from the Queen Elizabeth Service not handled elsewhere are handled
+   * generically.
+   *
+   * @param e Exception.
+   * @param request Request.
+   * @return Error response.
+   */
   @ExceptionHandler({Exception.class})
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public OperationOutcome handleSnafu(Exception e, HttpServletRequest request) {

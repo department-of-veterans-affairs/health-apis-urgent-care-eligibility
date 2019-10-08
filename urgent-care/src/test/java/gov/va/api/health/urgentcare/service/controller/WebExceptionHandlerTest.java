@@ -8,10 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
+import gov.va.api.health.queenelizabeth.ee.QueenElizabethService;
+import gov.va.api.health.queenelizabeth.ee.exceptions.MissingIcnValue;
+import gov.va.api.health.queenelizabeth.ee.exceptions.RequestFailed;
+import gov.va.api.health.queenelizabeth.ee.handlers.BaseFaultSoapHandler;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController.Transformer;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.Query;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,7 +27,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -39,6 +40,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHan
 @SuppressWarnings("DefaultAnnotationParam")
 @RunWith(Parameterized.class)
 public class WebExceptionHandlerTest {
+
   @Parameter(0)
   public HttpStatus status;
 
@@ -46,19 +48,26 @@ public class WebExceptionHandlerTest {
   public Exception exception;
 
   @Mock HttpServletRequest request;
-  @Mock QueenElizabethClient queenElizabeth;
+
+  @Mock QueenElizabethService queenElizabeth;
+
   @Mock Transformer tx;
+
   @Mock Bundler bundler;
+
   private CoverageEligibilityResponseController controller;
+
   private WebExceptionHandler exceptionHandler;
 
   @Parameterized.Parameters(name = "{index}:{0} - {1}")
   public static List<Object[]> parameters() {
-    Query<?> query = Query.builder().id("123456789").build();
     return Arrays.asList(
-        test(HttpStatus.BAD_REQUEST, new QueenElizabethClient.BadRequest(query)),
+        test(
+            HttpStatus.BAD_REQUEST, new MissingIcnValue(QueenElizabethService.MISSING_ICN_MESSAGE)),
         test(HttpStatus.BAD_REQUEST, new ConstraintViolationException(new HashSet<>())),
-        test(HttpStatus.INTERNAL_SERVER_ERROR, new QueenElizabethClient.SearchFailed(query)),
+        test(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            new RequestFailed(BaseFaultSoapHandler.FAULT_UNKNOWN_MESSAGE)),
         test(HttpStatus.INTERNAL_SERVER_ERROR, new RuntimeException()));
   }
 
@@ -76,6 +85,7 @@ public class WebExceptionHandlerTest {
   private ExceptionHandlerExceptionResolver createExceptionResolver() {
     ExceptionHandlerExceptionResolver exceptionResolver =
         new ExceptionHandlerExceptionResolver() {
+
           @Override
           protected ServletInvocableHandlerMethod getExceptionHandlerMethod(
               HandlerMethod handlerMethod, Exception ex) {
@@ -95,7 +105,7 @@ public class WebExceptionHandlerTest {
   @Test
   @SneakyThrows
   public void expectStatus() {
-    when(queenElizabeth.search(Mockito.any())).thenThrow(exception);
+    when(queenElizabeth.getEeSummary("123456789")).thenThrow(exception);
     when(request.getRequestURI()).thenReturn("/CoverageEligibilityResponse?patient=123456789");
     MockMvc mvc =
         MockMvcBuilders.standaloneSetup(controller)
