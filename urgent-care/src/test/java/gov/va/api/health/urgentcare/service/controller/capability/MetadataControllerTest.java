@@ -21,35 +21,25 @@ public class MetadataControllerTest {
 
   private CapabilityStatementProperties properties() {
     return CapabilityStatementProperties.builder()
-        .id("R4-fhir-capability")
-        .version("1.0.0")
-        .status(Status.active)
-        .name("Urgent Care FHIR")
-        .publisher("Liberty ITS")
+        .id("health-api-urgent-care-capability")
+        .version("2.0.0")
+        .status(Status.draft)
+        .name("API Management Platform | Health - Urgent Care")
+        .publisher("Department of Veterans Affairs")
         .contact(
-            ContactProperties.builder()
-                .name("Drew Myklegard")
-                .email("david.myklegard@va.gov")
-                .build())
-        .publicationDate("2018-09-27T19:30:00-05:00")
-        .description(
-            "This is the base conformance statement for FHIR."
-                + " It represents a server that provides the full"
-                + " set of functionality defined by FHIR."
-                + " It is provided to use as a template for system designers to"
-                + " build their own conformance statements from.")
-        .kind(Kind.capability)
-        .softwareName("Urgent Care")
-        .fhirVersion("1.0.4")
-        .resourceDocumentation("Implemented per the specification")
+            ContactProperties.builder().name("Test Person").email("test.person@va.gov").build())
+        .publicationDate("2019-08-08T19:29:29Z")
+        .description("Read and search support Urgent Care Eligibility.")
+        .kind(Kind.instance)
+        .softwareName("urgent-care")
+        .fhirVersion("4.0.0")
+        .resourceDocumentation(
+            "Implemented per specification. See http://hl7.org/fhir/R4/http.html")
         .security(
             SecurityProperties.builder()
-                .tokenEndpoint("https://argonaut.lighthouse.va.gov/token")
-                .authorizeEndpoint("https://argonaut.lighthouse.va.gov/authorize")
-                .description(
-                    "This is the conformance statement to declare that the server"
-                        + " supports SMART-on-FHIR. See the SMART-on-FHIR docs for the"
-                        + " extension that would go with such a server.")
+                .tokenEndpoint("https://example.com/oauth2/token")
+                .authorizeEndpoint("https://example.com/oauth2/authorization")
+                .description("http://docs.smarthealthit.org/")
                 .build())
         .build();
   }

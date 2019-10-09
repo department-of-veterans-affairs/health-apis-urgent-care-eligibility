@@ -11,7 +11,7 @@
   <version>2.0.12-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
-    <r4.version>1.0.18</r4.version>
+    <r4.version>2.0.1-SNAPSHOT</r4.version>
     <ee-artifacts.version>1.1.48</ee-artifacts.version>
     <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
   </properties>
