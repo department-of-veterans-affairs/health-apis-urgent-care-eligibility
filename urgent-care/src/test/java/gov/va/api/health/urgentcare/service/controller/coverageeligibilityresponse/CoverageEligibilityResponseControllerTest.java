@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import gov.va.api.health.autoconfig.configuration.JacksonConfig;
+import gov.va.api.health.queenelizabeth.ee.QueenElizabethService;
 import gov.va.api.health.r4.api.bundle.AbstractBundle.BundleType;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Bundle;
@@ -17,7 +18,6 @@ import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
 import gov.va.api.health.urgentcare.service.controller.Parameters;
 import gov.va.api.health.urgentcare.service.controller.Validator;
 import gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse.CoverageEligibilityResponseController.Transformer;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import java.util.function.Supplier;
 import javax.validation.ConstraintViolationException;
@@ -31,7 +31,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.util.MultiValueMap;
 
 public class CoverageEligibilityResponseControllerTest {
-  @Mock QueenElizabethClient client;
+  @Mock QueenElizabethService client;
 
   @Mock Transformer tx;
 
@@ -54,7 +54,7 @@ public class CoverageEligibilityResponseControllerTest {
         CoverageEligibilityResponse.builder().build();
 
     when(tx.apply(theRemix)).thenReturn(coverageEligibilityResponse);
-    when(client.search(Mockito.any())).thenReturn(getEESummaryResponse);
+    when(client.getEeSummary(id)).thenReturn(getEESummaryResponse);
 
     Bundle mockBundle = new Bundle();
     when(bundler.bundle(Mockito.any())).thenReturn(mockBundle);

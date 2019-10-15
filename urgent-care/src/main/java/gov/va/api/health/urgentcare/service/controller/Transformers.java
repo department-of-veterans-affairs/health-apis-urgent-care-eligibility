@@ -47,14 +47,6 @@ public final class Transformers {
     return probablyItems.isEmpty() ? null : probablyItems;
   }
 
-  /** Throw a MissingPayload exception if the value is null. */
-  public static <T> T hasPayload(T value) {
-    if (value == null) {
-      throw new MissingPayload();
-    }
-    return value;
-  }
-
   /**
    * Return the result of the given extractor function if the given object is present. The object
    * will be passed to the apply method of the extractor function.
@@ -89,26 +81,5 @@ public final class Transformers {
       return StringUtils.isBlank((CharSequence) value);
     }
     return value == null;
-  }
-
-  /**
-   * Indicates the EE payload is missing, but no errors were reported. This exception indicates
-   * there is a bug in EE, Queen Elizabeth, or the Queen Elizabeth client.
-   */
-  static class MissingPayload extends TransformationException {
-    MissingPayload() {
-      super(
-          "Payload is missing, but no errors reported by Queen Elizabeth."
-              + " This can occur when the resource is registered with the identity service"
-              + " but the database returns an empty search result.");
-    }
-  }
-
-  /** Base exception for controller errors. */
-  static class TransformationException extends RuntimeException {
-    @SuppressWarnings("SameParameterValue")
-    TransformationException(String message) {
-      super(message);
-    }
   }
 }

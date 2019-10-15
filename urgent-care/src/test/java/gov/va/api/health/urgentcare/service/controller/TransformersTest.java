@@ -2,11 +2,9 @@ package gov.va.api.health.urgentcare.service.controller;
 
 import static gov.va.api.health.urgentcare.service.controller.Transformers.asDateTimeString;
 import static gov.va.api.health.urgentcare.service.controller.Transformers.convertAll;
-import static gov.va.api.health.urgentcare.service.controller.Transformers.hasPayload;
 import static gov.va.api.health.urgentcare.service.controller.Transformers.ifPresent;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gov.va.api.health.urgentcare.service.controller.Transformers.MissingPayload;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Function;
@@ -58,16 +56,6 @@ public class TransformersTest {
   @Test
   public void convertAllReturnsNullWhenListIsNull() {
     assertThat(convertAll(null, o -> "x" + o)).isNull();
-  }
-
-  @Test
-  public void hasPayloadReturnsPayloadWhenNotNull() {
-    assertThat(hasPayload("x")).isEqualTo("x");
-  }
-
-  @Test(expected = MissingPayload.class)
-  public void hasPayloadThrowsMissingPayloadExceptionWhenNull() {
-    hasPayload(null);
   }
 
   @Test
