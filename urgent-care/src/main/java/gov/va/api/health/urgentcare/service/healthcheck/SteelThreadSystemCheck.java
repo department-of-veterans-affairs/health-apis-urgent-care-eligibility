@@ -1,9 +1,7 @@
 package gov.va.api.health.urgentcare.service.healthcheck;
 
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient.QueenElizabethServiceException;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.Query;
-import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
+import gov.va.api.health.queenelizabeth.ee.QueenElizabethService;
+import gov.va.api.health.queenelizabeth.ee.exceptions.EligibilitiesException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,7 @@ import org.springframework.web.client.ResourceAccessException;
 @Slf4j
 public class SteelThreadSystemCheck implements HealthIndicator {
 
-  private final QueenElizabethClient client;
+  private final QueenElizabethService client;
 
   private final SteelThreadSystemCheckLedger ledger;
 
@@ -35,7 +33,7 @@ public class SteelThreadSystemCheck implements HealthIndicator {
    *     failures.
    */
   public SteelThreadSystemCheck(
-      @Autowired QueenElizabethClient client,
+      @Autowired QueenElizabethService client,
       @Autowired SteelThreadSystemCheckLedger ledger,
       @Value("${health-check.patient-icn}") String id,
       @Value("${health-check.consecutive-failure-threshold}") int consecutiveFailureThreshold) {
@@ -64,10 +62,6 @@ public class SteelThreadSystemCheck implements HealthIndicator {
         .build();
   }
 
-  private Query<GetEESummaryResponse> query() {
-    return Query.forType(GetEESummaryResponse.class).id(id).build();
-  }
-
   /**
    * Asynchronously perform a steel thread read and save the results for health check to use.
    * Frequency is configurable via properties.
@@ -83,12 +77,12 @@ public class SteelThreadSystemCheck implements HealthIndicator {
     }
     log.info("Performing health check.");
     try {
-      client.search(query());
+      client.getEeSummary(id);
       ledger.recordSuccess();
     } catch (HttpServerErrorException
         | HttpClientErrorException
         | ResourceAccessException
-        | QueenElizabethServiceException e) {
+        | EligibilitiesException e) {
       int consecutiveFailures = ledger.recordFailure();
       log.error("Failed to complete health check. Failure count is " + consecutiveFailures);
     } catch (Exception e) {

@@ -5,21 +5,23 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.Query;
+import gov.va.api.health.queenelizabeth.ee.QueenElizabethService;
+import gov.va.api.health.queenelizabeth.ee.exceptions.RequestFailed;
+import gov.va.api.health.queenelizabeth.ee.handlers.BaseFaultSoapHandler;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.actuate.health.Status;
 
 public class SteelThreadSystemCheckTest {
 
+  private static final String TEST_ICN = "123";
+
   private final int failureThresholdForTests = 5;
 
-  @Mock QueenElizabethClient client;
+  @Mock QueenElizabethService client;
 
   @Mock SteelThreadSystemCheckLedger ledger;
 
@@ -30,9 +32,8 @@ public class SteelThreadSystemCheckTest {
 
   @Test
   public void healthCheckHappyPath() {
-    GetEESummaryResponse root = new GetEESummaryResponse();
     SteelThreadSystemCheck test =
-        new SteelThreadSystemCheck(client, ledger, "123", failureThresholdForTests);
+        new SteelThreadSystemCheck(client, ledger, TEST_ICN, failureThresholdForTests);
     when(ledger.getConsecutiveFailureCount()).thenReturn(failureThresholdForTests - 1);
     assertThat(test.health().getStatus()).isEqualTo(Status.UP);
   }
@@ -40,7 +41,7 @@ public class SteelThreadSystemCheckTest {
   @Test
   public void healthCheckSadPathWhenFailureThresholdExceeded() {
     SteelThreadSystemCheck test =
-        new SteelThreadSystemCheck(client, ledger, "123", failureThresholdForTests);
+        new SteelThreadSystemCheck(client, ledger, TEST_ICN, failureThresholdForTests);
     when(ledger.getConsecutiveFailureCount()).thenReturn(failureThresholdForTests);
     assertThat(test.health().getStatus()).isEqualTo(Status.DOWN);
   }
@@ -56,8 +57,8 @@ public class SteelThreadSystemCheckTest {
   @Test
   public void runSteelThreadExceptionPath() {
     SteelThreadSystemCheck test =
-        new SteelThreadSystemCheck(client, ledger, "123", failureThresholdForTests);
-    when(client.search(Mockito.any()))
+        new SteelThreadSystemCheck(client, ledger, TEST_ICN, failureThresholdForTests);
+    when(client.getEeSummary(TEST_ICN))
         .thenThrow(new IllegalArgumentException(new IllegalArgumentException("foo")));
     when(ledger.recordFailure()).thenReturn(failureThresholdForTests);
 
@@ -72,9 +73,9 @@ public class SteelThreadSystemCheckTest {
   @Test
   public void runSteelThreadHappyPath() {
     GetEESummaryResponse getEESummaryResponse = new GetEESummaryResponse();
-    when(client.search(Mockito.any())).thenReturn(getEESummaryResponse);
+    when(client.getEeSummary(TEST_ICN)).thenReturn(getEESummaryResponse);
     SteelThreadSystemCheck test =
-        new SteelThreadSystemCheck(client, ledger, "123", failureThresholdForTests);
+        new SteelThreadSystemCheck(client, ledger, TEST_ICN, failureThresholdForTests);
     test.runSteelThreadCheckAsynchronously();
     verify(ledger, times(1)).recordSuccess();
   }
@@ -82,11 +83,9 @@ public class SteelThreadSystemCheckTest {
   @Test
   public void runSteelThreadSadPath() {
     SteelThreadSystemCheck test =
-        new SteelThreadSystemCheck(client, ledger, "123", failureThresholdForTests);
-    when(client.search(Mockito.any()))
-        .thenThrow(
-            new QueenElizabethClient.SearchFailed(
-                Query.forType(GetEESummaryResponse.class).build()));
+        new SteelThreadSystemCheck(client, ledger, TEST_ICN, failureThresholdForTests);
+    when(client.getEeSummary(TEST_ICN))
+        .thenThrow(new RequestFailed(BaseFaultSoapHandler.FAULT_UNKNOWN_MESSAGE));
     when(ledger.recordFailure()).thenReturn(failureThresholdForTests);
     test.runSteelThreadCheckAsynchronously();
     verify(ledger, times(1)).recordFailure();

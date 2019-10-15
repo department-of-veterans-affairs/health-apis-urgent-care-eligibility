@@ -1,8 +1,9 @@
 package gov.va.api.health.urgentcare.service.controller.coverageeligibilityresponse;
 
-import static gov.va.api.health.urgentcare.service.controller.Transformers.hasPayload;
 import static java.util.Collections.singletonList;
 
+import gov.va.api.health.queenelizabeth.ee.QueenElizabethService;
+import gov.va.api.health.queenelizabeth.ee.exceptions.PersonNotFound;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse;
 import gov.va.api.health.r4.api.resources.CoverageEligibilityResponse.Bundle;
 import gov.va.api.health.r4.api.resources.OperationOutcome;
@@ -12,9 +13,6 @@ import gov.va.api.health.urgentcare.service.controller.GetEeSummaryResponseTheRe
 import gov.va.api.health.urgentcare.service.controller.PageLinks.LinkConfig;
 import gov.va.api.health.urgentcare.service.controller.Parameters;
 import gov.va.api.health.urgentcare.service.controller.Validator;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.QueenElizabethClient;
-import gov.va.api.health.urgentcare.service.queenelizabeth.client.Query;
-import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 import java.util.Collections;
 import java.util.function.Function;
 import javax.validation.constraints.Min;
@@ -43,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
 public class CoverageEligibilityResponseController {
   private Transformer transformer;
-  private QueenElizabethClient queenElizabethClient;
+  private QueenElizabethService queenElizabethService;
   private Bundler bundler;
 
   private Bundle bundle(MultiValueMap<String, String> parameters, int page, int count, String icn) {
@@ -66,12 +64,19 @@ public class CoverageEligibilityResponseController {
             CoverageEligibilityResponse.Bundle::new));
   }
 
+  /**
+   * Perform Queen Elizabeth getEESummary search on ICN. If the ICN is not found the transform is
+   * performed on an null response object. Any other non-nominal exception from the SOAP Service
+   * floats up and is handled by the WebExceptionHandler associated with this controller.
+   *
+   * @param icn The ICN to search.
+   * @return A GetEeSummaryResponseTheRemix bean that holds an ICN and the GetEeSummaryResponse from
+   *     the getEESummary SOAP Service.
+   */
   private GetEeSummaryResponseTheRemix search(String icn) {
-    Query<GetEESummaryResponse> query = Query.forType(GetEESummaryResponse.class).id(icn).build();
     try {
-      GetEESummaryResponse eeSummaryResponse = hasPayload(queenElizabethClient.search(query));
-      return new GetEeSummaryResponseTheRemix(icn, eeSummaryResponse);
-    } catch (QueenElizabethClient.NotFound e) {
+      return new GetEeSummaryResponseTheRemix(icn, queenElizabethService.getEeSummary(icn));
+    } catch (PersonNotFound e) {
       return new GetEeSummaryResponseTheRemix(icn, null);
     }
   }

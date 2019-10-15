@@ -2,7 +2,7 @@
 
 This API is a [Spring Boot](https://spring.io/projects/spring-boot) microservice that returns all eligibilities of a specific veteran.  This information is returned as a FHIR R4 [CoverageEligibilityResponse](https://www.hl7.org/fhir/r4/coverageeligibilityresponse.html) resource.
 
-The Urgent Care Eligibility API only goes out to the Eligibility and Enrollment system to get eligibilities to populate the CoverageEligibilityResponse resource.  The section of XML returned from E&E that is important is given below:
+The Urgent Care Eligibility API uses the `hand-of-queen-elizabeth QueenElizabethService` to call the Eligibility and Enrollment `getEESummary` SOAP Service for patient a desired ICN.  This service call returns an instance of `GetEESummaryResponse` whose data is transformed by the `CoverageEligibilityResponseTransformer` to populate a `CoverageEligibilityResponse` resource.  A `GetEESummaryResponse` object encapsulates XML returned from E&E.  An example of XML that might be unmarshalled into a `GetEESummaryResponse` object returned by the `QueenElizabethService` is as follows:
 
 ```
 <communityCareEligibilityInfo>
@@ -29,12 +29,16 @@ X	Ineligible
 
 
 
-Sample Request:
+Sample Requests:
 
 ```
 curl -H "Authorization: Bearer fakeToken" https://example.com/services/fhir/v0/r4/CoverageEligibilityResponse?patient=1008679665V880686
 ```
 
+If running locally using SOAPUI or MOCKEE:
+```
+localhost:9090/CoverageEligibilityResponse?patient=1008679665V880686
+```
 
 
 Sample Response:
