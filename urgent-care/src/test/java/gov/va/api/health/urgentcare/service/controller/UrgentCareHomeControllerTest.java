@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StreamUtils;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles("dev")
 @WebMvcTest(controllers = {UrgentCareHomeController.class})
 public class UrgentCareHomeControllerTest {
 
