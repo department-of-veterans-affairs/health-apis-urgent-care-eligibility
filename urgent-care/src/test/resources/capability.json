@@ -1,28 +1,28 @@
 {
+    "id" : "health-api-urgent-care-capability",
     "resourceType" : "Capability",
-    "id" : "R4-fhir-capability",
-    "version" : "1.0.0",
-    "name" : "Urgent Care FHIR",
-    "status" : "active",
-    "publisher" : "Liberty ITS",
+    "version" : "2.0.0",
+    "name" : "API Management Platform | Health - Urgent Care",
+    "status" : "draft",
+    "date" : "2019-08-08T19:29:29Z",
+    "publisher" : "Department of Veterans Affairs",
     "contact" : [
         {
-            "name" : "Drew Myklegard",
+            "name" : "Test Person",
             "telecom" : [
                 {
                     "system" : "email",
-                    "value" : "david.myklegard@va.gov"
+                    "value" : "test.person@va.gov"
                 }
             ]
         }
     ],
-    "date" : "2018-09-27T19:30:00-05:00",
-    "description" : "This is the base conformance statement for FHIR. It represents a server that provides the full set of functionality defined by FHIR. It is provided to use as a template for system designers to build their own conformance statements from.",
-    "kind" : "capability",
+    "description" : "Read and search support Urgent Care Eligibility.",
+    "kind" : "instance",
     "software" : {
-        "name" : "Urgent Care"
+        "name" : "urgent-care"
     },
-    "fhirVersion" : "1.0.4",
+    "fhirVersion" : "4.0.0",
     "format" : [
         "application/json+fhir",
         "application/json",
@@ -38,16 +38,16 @@
                         "extension" : [
                             {
                                 "url" : "token",
-                                "valueUri" : "https://argonaut.lighthouse.va.gov/token"
+                                "valueUri" : "https://example.com/oauth2/token"
                             },
                             {
                                 "url" : "authorize",
-                                "valueUri" : "https://argonaut.lighthouse.va.gov/authorize"
+                                "valueUri" : "https://example.com/oauth2/authorization"
                             }
                         ]
                     }
                 ],
-                "cors" : true,
+                "cors" : "true",
                 "service" : [
                     {
                         "coding" : [
@@ -59,7 +59,7 @@
                         ]
                     }
                 ],
-                "description" : "This is the conformance statement to declare that the server supports SMART-on-FHIR. See the SMART-on-FHIR docs for the extension that would go with such a server."
+                "description" : "http://docs.smarthealthit.org/"
             },
             "resource" : [
                 {
@@ -68,11 +68,11 @@
                     "interaction" : [
                         {
                             "code" : "search-type",
-                            "documentation" : "Implemented per the specification"
+                            "documentation" : "Implemented per specification. See http://hl7.org/fhir/R4/http.html"
                         },
                         {
                             "code" : "read",
-                            "documentation" : "Implemented per the specification"
+                            "documentation" : "Implemented per specification. See http://hl7.org/fhir/R4/http.html"
                         }
                     ],
                     "searchParam" : [
