@@ -55,7 +55,7 @@ public class BundlerTest {
     FugaziBundle expected = new FugaziBundle();
     expected.resourceType("Bundle");
     expected.type(BundleType.searchset);
-    expected.total("1");
+    expected.total(1);
     expected.link(bundleLinks);
     expected.entry(
         Arrays.asList(
