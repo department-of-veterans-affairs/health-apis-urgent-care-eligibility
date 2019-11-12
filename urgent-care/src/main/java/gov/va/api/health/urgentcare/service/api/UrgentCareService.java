@@ -16,14 +16,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import javax.ws.rs.Path;
 
 @OpenAPIDefinition(
-    security =
-        @SecurityRequirement(
-            name = "OauthFlow",
-                scopes = {
-                        "patient/CoverageEligibilityResponse",
-                        "metadata"
-                }
-        ),
+  security =
+      @SecurityRequirement(
+        name = "OauthFlow",
+        scopes = {"patient/CoverageEligibilityResponse", "metadata"}
+      ),
   info =
       @Info(
         title = "Urgent Care Eligibility",
@@ -43,25 +40,26 @@ import javax.ws.rs.Path;
         url = "https://www.hl7.org/fhir/r4/coverageeligibilityresponse.html"
       )
 )
-
 @SecurityScheme(
-        type = SecuritySchemeType.OAUTH2,
-        name = "OauthFlow",
-        in = SecuritySchemeIn.HEADER,
-        flows =
-        @OAuthFlows(
-                implicit =
-                @OAuthFlow(
-                        authorizationUrl = "https://dev-api.va.gov/oauth2/authorization",
-                        tokenUrl = "https://dev-api.va.gov/services/fhir/v0/dstu2/token",
-                        scopes = {
-                                @OAuthScope(name = "patient/CoverageEligibilityResponse", description = "Urgent Care Eligibility"),
-                                @OAuthScope(name = "metadata", description = "Metadata")
-                        }
-                )
-        )
+  type = SecuritySchemeType.OAUTH2,
+  name = "OauthFlow",
+  in = SecuritySchemeIn.HEADER,
+  flows =
+      @OAuthFlows(
+        implicit =
+            @OAuthFlow(
+              authorizationUrl = "https://dev-api.va.gov/oauth2/authorization",
+              tokenUrl = "https://dev-api.va.gov/services/fhir/v0/dstu2/token",
+              scopes = {
+                @OAuthScope(
+                  name = "patient/CoverageEligibilityResponse",
+                  description = "Urgent Care Eligibility"
+                ),
+                @OAuthScope(name = "metadata", description = "Metadata")
+              }
+            )
+      )
 )
-
 @Path("/")
 public interface UrgentCareService extends CoverageEligibilityResponseApi, MetadataApi {
   class UrgentCareServiceException extends RuntimeException {
