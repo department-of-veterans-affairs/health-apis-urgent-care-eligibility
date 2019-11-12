@@ -4,11 +4,26 @@ import gov.va.api.health.r4.api.CoverageEligibilityResponseApi;
 import gov.va.api.health.r4.api.MetadataApi;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import javax.ws.rs.Path;
 
 @OpenAPIDefinition(
+    security =
+        @SecurityRequirement(
+            name = "OauthFlow",
+                scopes = {
+                        "patient/CoverageEligibilityResponse",
+                        "metadata"
+                }
+        ),
   info =
       @Info(
         title = "Urgent Care Eligibility",
@@ -28,6 +43,25 @@ import javax.ws.rs.Path;
         url = "https://www.hl7.org/fhir/r4/coverageeligibilityresponse.html"
       )
 )
+
+@SecurityScheme(
+        type = SecuritySchemeType.OAUTH2,
+        name = "OauthFlow",
+        in = SecuritySchemeIn.HEADER,
+        flows =
+        @OAuthFlows(
+                implicit =
+                @OAuthFlow(
+                        authorizationUrl = "https://dev-api.va.gov/oauth2/authorization",
+                        tokenUrl = "https://dev-api.va.gov/services/fhir/v0/dstu2/token",
+                        scopes = {
+                                @OAuthScope(name = "patient/CoverageEligibilityResponse", description = "Urgent Care Eligibility"),
+                                @OAuthScope(name = "metadata", description = "Metadata")
+                        }
+                )
+        )
+)
+
 @Path("/")
 public interface UrgentCareService extends CoverageEligibilityResponseApi, MetadataApi {
   class UrgentCareServiceException extends RuntimeException {
