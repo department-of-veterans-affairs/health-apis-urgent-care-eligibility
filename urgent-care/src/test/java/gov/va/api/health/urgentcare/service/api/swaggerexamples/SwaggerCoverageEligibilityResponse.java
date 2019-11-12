@@ -70,7 +70,7 @@ public class SwaggerCoverageEligibilityResponse {
       Bundle.builder()
           .resourceType("Bundle")
           .type(BundleType.searchset)
-          .total(String.valueOf(1))
+          .total(1)
           .link(
               asList(
                   BundleLink.builder()

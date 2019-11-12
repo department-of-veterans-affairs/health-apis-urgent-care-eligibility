@@ -32,7 +32,7 @@ public class Bundler {
     B bundle = context.newBundle().get();
     bundle.resourceType("Bundle");
     bundle.type(BundleType.searchset);
-    bundle.total("1");
+    bundle.total(1);
     bundle.link(links.create(context.linkConfig()));
     bundle.entry(
         context
