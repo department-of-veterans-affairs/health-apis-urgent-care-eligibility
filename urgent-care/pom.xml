@@ -120,7 +120,7 @@
       <plugin>
         <groupId>gov.va.plugin.maven</groupId>
         <artifactId>swagger-examples-maven-plugin</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
         <dependencies>
           <dependency>
             <groupId>gov.va.api.health</groupId>
