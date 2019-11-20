@@ -11,7 +11,7 @@
   <version>2.0.18-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
-    <r4.version>2.0.15</r4.version>
+    <r4.version>2.0.19-SNAPSHOT</r4.version>
     <ee-apis-parent.version>3.0.2</ee-apis-parent.version>
     <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
   </properties>
@@ -113,6 +113,28 @@
             </configuration>
             <goals>
               <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>gov.va.plugin.maven</groupId>
+        <artifactId>swagger-examples-maven-plugin</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+        <dependencies>
+          <dependency>
+            <groupId>gov.va.api.health</groupId>
+            <artifactId>r4-examples</artifactId>
+            <version>${r4.version}</version>
+            <scope>runtime</scope>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>inject-examples</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>inject</goal>
             </goals>
           </execution>
         </executions>
