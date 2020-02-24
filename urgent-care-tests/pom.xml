@@ -10,6 +10,7 @@
   <artifactId>urgent-care-tests</artifactId>
   <version>2.0.20-SNAPSHOT</version>
   <properties>
+    <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
     <groups>gov.va.api.health.sentinel.categories.Local</groups>
   </properties>
   <profiles>
