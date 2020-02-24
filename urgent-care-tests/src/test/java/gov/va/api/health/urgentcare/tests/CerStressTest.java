@@ -21,7 +21,6 @@ import org.junit.experimental.categories.Category;
 
 @Slf4j
 public class CerStressTest {
-
   private static final List<String> userIds = Arrays.asList("va.api.user+idme.123@gmail.com");
 
   private static final String url =
@@ -92,8 +91,7 @@ public class CerStressTest {
     assertThat(results.size()).withFailMessage("No results").isGreaterThan(0);
     List<String> failures = new ArrayList<>();
     // Identify failed requests
-    results
-        .stream()
+    results.stream()
         .filter(success().negate())
         .forEach(
             failure -> {

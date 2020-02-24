@@ -63,6 +63,7 @@ public class CoverageEligibilityResponseControllerTest {
 
     assertThat(actual).isSameAs(mockBundle);
 
+    @SuppressWarnings("unchecked")
     ArgumentCaptor<
             BundleContext<GetEeSummaryResponseTheRemix, CoverageEligibilityResponse, Entry, Bundle>>
         captor = ArgumentCaptor.forClass(BundleContext.class);

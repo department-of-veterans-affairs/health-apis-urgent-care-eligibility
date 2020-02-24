@@ -32,7 +32,6 @@ import lombok.SneakyThrows;
 import org.junit.Test;
 
 public class CoverageEligibilityTransformerTest {
-
   private final EeSampleData ee = new EeSampleData();
 
   private final Expected expected = new Expected();
@@ -81,7 +80,6 @@ public class CoverageEligibilityTransformerTest {
   }
 
   private static class EeSampleData {
-
     private DatatypeFactory datatypeFactory;
 
     @SneakyThrows
@@ -137,7 +135,6 @@ public class CoverageEligibilityTransformerTest {
   }
 
   private static class Expected {
-
     CodeableConcept category() {
       return CodeableConcept.builder().coding(categoryCodings()).build();
     }
@@ -197,10 +194,6 @@ public class CoverageEligibilityTransformerTest {
 
     Reference patient() {
       return Reference.builder().display("Patient/123456789").build();
-    }
-
-    Reference request() {
-      return Reference.builder().display("Requested by [placeholder]").build();
     }
 
     Narrative text() {

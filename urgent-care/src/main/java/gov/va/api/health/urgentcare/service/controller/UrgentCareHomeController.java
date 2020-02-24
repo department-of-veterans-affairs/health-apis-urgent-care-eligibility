@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SuppressWarnings("WeakerAccess")
 @RestController
 public class UrgentCareHomeController {
-
   private static final YAMLMapper MAPPER = new YAMLMapper();
 
   private final Resource openapi;
@@ -40,9 +39,8 @@ public class UrgentCareHomeController {
    * redirect.
    */
   @GetMapping(
-    value = {"/", "/openapi.json", "/api/openapi.json"},
-    produces = "application/json"
-  )
+      value = {"/", "/openapi.json", "/api/openapi.json"},
+      produces = "application/json")
   @ResponseBody
   public Object openapiJson() throws IOException {
     return UrgentCareHomeController.MAPPER.readValue(openapiContent(), Object.class);
@@ -50,9 +48,8 @@ public class UrgentCareHomeController {
 
   /** Provide access to the OpenAPI yaml via RESTful interface. */
   @GetMapping(
-    value = {"/openapi.yaml", "/api/openapi.yaml"},
-    produces = "application/vnd.oai.openapi"
-  )
+      value = {"/openapi.yaml", "/api/openapi.yaml"},
+      produces = "application/vnd.oai.openapi")
   @ResponseBody
   public String openapiYaml() throws IOException {
     return openapiContent();

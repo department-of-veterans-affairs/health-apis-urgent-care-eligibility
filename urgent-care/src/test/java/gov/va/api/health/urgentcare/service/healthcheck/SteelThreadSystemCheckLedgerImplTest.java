@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 
 public class SteelThreadSystemCheckLedgerImplTest {
-
   @Test
   public void addingFailureEventIncrementsFailureCount() {
     SteelThreadSystemCheckLedgerImpl recorder = new SteelThreadSystemCheckLedgerImpl();

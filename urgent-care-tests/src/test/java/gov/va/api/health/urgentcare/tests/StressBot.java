@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Builder
 public class StressBot {
-
   private final int concurrentRequests;
 
   private final int maximumRuntime;
@@ -46,8 +45,7 @@ public class StressBot {
      * exceptions are thrown.
      */
     int errors =
-        futures
-            .stream()
+        futures.stream()
             .mapToInt(
                 f -> {
                   try {
@@ -124,7 +122,6 @@ public class StressBot {
   @Value
   @Builder
   static class StressBotRequest {
-
     /** The user IDs for which to execute this request. */
     @NotNull private List<String> userIds;
 

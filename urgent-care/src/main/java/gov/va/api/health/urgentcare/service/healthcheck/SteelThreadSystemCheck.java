@@ -17,7 +17,6 @@ import org.springframework.web.client.ResourceAccessException;
 @Service
 @Slf4j
 public class SteelThreadSystemCheck implements HealthIndicator {
-
   private final QueenElizabethService client;
 
   private final SteelThreadSystemCheckLedger ledger;
@@ -67,9 +66,8 @@ public class SteelThreadSystemCheck implements HealthIndicator {
    * Frequency is configurable via properties.
    */
   @Scheduled(
-    fixedDelayString = "${health-check.read-frequency-ms}",
-    initialDelayString = "${health-check.read-frequency-ms}"
-  )
+      fixedDelayString = "${health-check.read-frequency-ms}",
+      initialDelayString = "${health-check.read-frequency-ms}")
   @SneakyThrows
   public void runSteelThreadCheckAsynchronously() {
     if ("skip".equals(id)) {

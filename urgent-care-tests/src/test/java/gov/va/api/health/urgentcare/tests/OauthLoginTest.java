@@ -20,7 +20,6 @@ import org.junit.experimental.categories.Category;
 
 @Slf4j
 public class OauthLoginTest {
-
   private static List<String> urgentCareScopes() {
     return Arrays.asList(
         "patient/CoverageEligibilityResponse.read", "offline_access", "launch/patient");

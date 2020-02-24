@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequestMapping(produces = {"application/json"})
 @Slf4j
 public class WebExceptionHandler {
-
   /**
    * If Queen Elizabeth Service responds by throwing a MissingIcnValue exception, then report as a
    * bad request.
@@ -67,8 +66,7 @@ public class WebExceptionHandler {
   public OperationOutcome handleValidationException(
       ConstraintViolationException e, HttpServletRequest request) {
     List<String> problems =
-        e.getConstraintViolations()
-            .stream()
+        e.getConstraintViolations().stream()
             .map(v -> v.getPropertyPath() + " " + v.getMessage())
             .collect(Collectors.toList());
     return responseFor("structure", e, request, problems);

@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CoverageEligibilityResponseTransformer implements Transformer {
-
   @Override
   public CoverageEligibilityResponse apply(GetEeSummaryResponseTheRemix theRemix) {
     return coverageEligibilityResponse(theRemix);
