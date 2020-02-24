@@ -11,6 +11,7 @@
   <version>2.0.20-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
+    <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
     <r4.version>2.0.28</r4.version>
     <ee-apis-parent.version>3.0.6</ee-apis-parent.version>
     <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
