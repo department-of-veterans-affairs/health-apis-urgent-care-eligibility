@@ -8,7 +8,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>urgent-care</artifactId>
-  <version>2.0.20</version>
+  <version>2.0.21-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
     <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
