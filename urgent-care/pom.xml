@@ -12,7 +12,7 @@
   <packaging>jar</packaging>
   <properties>
     <r4.version>2.0.28</r4.version>
-    <ee-apis-parent.version>3.0.4</ee-apis-parent.version>
+    <ee-apis-parent.version>3.0.6</ee-apis-parent.version>
     <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
   </properties>
   <dependencies>
