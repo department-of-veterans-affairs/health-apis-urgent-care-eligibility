@@ -5,7 +5,6 @@ package gov.va.api.health.urgentcare.service.healthcheck;
  * resets consecutive failure count and vice versa.
  */
 public interface SteelThreadSystemCheckLedger {
-
   /** How many failures in a row (without any successes) were reported. */
   int getConsecutiveFailureCount();
 

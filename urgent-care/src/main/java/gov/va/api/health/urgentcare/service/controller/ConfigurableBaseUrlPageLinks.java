@@ -2,8 +2,8 @@ package gov.va.api.health.urgentcare.service.controller;
 
 import gov.va.api.health.r4.api.bundle.BundleLink;
 import gov.va.api.health.r4.api.bundle.BundleLink.LinkRelation;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,7 +18,6 @@ import org.springframework.util.MultiValueMap;
 /** This implementation uses a configurable base URL (urgent-care.url) for the links. */
 @Service
 public class ConfigurableBaseUrlPageLinks implements PageLinks {
-
   /**
    * The published URL for urgent care, which is likely not the hostname of the machine running this
    * application.
@@ -39,7 +38,7 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
   @Override
   public List<BundleLink> create(LinkConfig config) {
     LinkContext context = new LinkContext(config);
-    List<BundleLink> links = new LinkedList<>();
+    List<BundleLink> links = new ArrayList<>();
     links.add(context.first());
     links.add(context.self());
     links.add(context.last());
@@ -49,7 +48,6 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
   /** This context wraps the link state to allow link creation to be clearly described. */
   @RequiredArgsConstructor
   private class LinkContext {
-
     // There is only ever one page returned and therefore the first and last page will always be 1.
     private static final int pageFirstLast = 1;
 
@@ -78,9 +76,7 @@ public class ConfigurableBaseUrlPageLinks implements PageLinks {
       StringBuilder msg = new StringBuilder(baseUrl).append('/').append(basePath).append('/');
       msg.append(config.path()).append("?");
       String params =
-          mutableParams
-              .entrySet()
-              .stream()
+          mutableParams.entrySet().stream()
               .sorted(Comparator.comparing(Map.Entry::getKey))
               .flatMap(this::toKeyValueString)
               .collect(Collectors.joining("&"));

@@ -16,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.actuate.health.Status;
 
 public class SteelThreadSystemCheckTest {
-
   private static final String TEST_ICN = "123";
 
   private final int failureThresholdForTests = 5;

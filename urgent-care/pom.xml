@@ -3,7 +3,7 @@
   <parent>
     <artifactId>service-starter</artifactId>
     <groupId>gov.va.api.health</groupId>
-    <version>3.1.8</version>
+    <version>6.0.2</version>
     <relativePath/>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -11,10 +11,10 @@
   <version>2.0.21-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
-    <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
+    <hand-of-queen-elizabeth.version>3.0.6</hand-of-queen-elizabeth.version>
     <r4.version>2.0.32</r4.version>
-    <ee-apis-parent.version>3.0.6</ee-apis-parent.version>
-    <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
+    <swagger-examples-maven-plugin.version>1.0.2</swagger-examples-maven-plugin.version>
+    <swagger-maven-plugin.version>2.1.1</swagger-maven-plugin.version>
   </properties>
   <dependencies>
     <dependency>
@@ -29,39 +29,24 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish</groupId>
-      <artifactId>javax.el</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.reflections</groupId>
-      <artifactId>reflections</artifactId>
-      <version>${reflections.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>gov.va.api.health</groupId>
       <artifactId>hand-of-queen-elizabeth</artifactId>
-      <version>${ee-apis-parent.version}</version>
+      <version>${hand-of-queen-elizabeth.version}</version>
     </dependency>
-    <!-- jaxb-api dependency added as it is no longer provided in the JDK as of Java 11 -->
     <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
-      <version>2.3.1</version>
     </dependency>
-    <!-- jaxb-runtime dependency added as it is no longer provided in the JDK as of Java 11 -->
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
-      <version>2.3.1</version>
     </dependency>
   </dependencies>
   <build>
@@ -121,7 +106,7 @@
       <plugin>
         <groupId>gov.va.plugin.maven</groupId>
         <artifactId>swagger-examples-maven-plugin</artifactId>
-        <version>1.0.1</version>
+        <version>${swagger-examples-maven-plugin.version}</version>
         <dependencies>
           <dependency>
             <groupId>gov.va.api.health</groupId>

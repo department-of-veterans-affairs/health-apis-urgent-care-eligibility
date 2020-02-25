@@ -3,7 +3,6 @@ package gov.va.api.health.urgentcare.service.controller;
 import gov.va.med.esr.webservices.jaxws.schemas.GetEESummaryResponse;
 
 public class GetEeSummaryResponseTheRemix {
-
   String icn;
 
   GetEESummaryResponse eeSummaryResponse;

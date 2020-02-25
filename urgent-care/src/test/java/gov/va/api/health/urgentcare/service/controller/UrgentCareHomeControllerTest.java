@@ -19,7 +19,6 @@ import org.springframework.util.StreamUtils;
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = {UrgentCareHomeController.class})
 public class UrgentCareHomeControllerTest {
-
   @Autowired private MockMvc mvc;
 
   @Test

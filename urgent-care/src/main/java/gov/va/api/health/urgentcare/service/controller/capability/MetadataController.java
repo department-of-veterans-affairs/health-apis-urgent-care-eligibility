@@ -25,7 +25,6 @@ import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Singular;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,12 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(
-  value = {"/metadata"},
-  produces = {"application/json", "application/json+fhir", "application/fhir+json"}
-)
+    value = {"/metadata"},
+    produces = {"application/json", "application/json+fhir", "application/fhir+json"})
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
 class MetadataController {
-
   private static final String COVERAGE_ELIGIBILITY_RESPONSE_HTML =
       "https://www.hl7.org/fhir/r4/coverageeligibilityresponse.html";
 
@@ -82,7 +79,7 @@ class MetadataController {
     return Stream.of(
             support("CoverageEligibilityResponse")
                 .documentation(COVERAGE_ELIGIBILITY_RESPONSE_HTML)
-                .searchBy(SearchParam.PATIENT)
+                .search(Set.of(SearchParam.PATIENT))
                 .build())
         .map(SupportedResource::asResource)
         .collect(Collectors.toList());
@@ -153,12 +150,10 @@ class MetadataController {
   @Value
   @Builder
   private static class SupportedResource {
-
     String type;
 
     String documentation;
 
-    @Singular("searchBy")
     Set<SearchParam> search;
 
     CapabilityStatementProperties properties;
@@ -184,8 +179,7 @@ class MetadataController {
     }
 
     private List<Capability.SearchParam> searchParams() {
-      return search
-          .stream()
+      return search.stream()
           .map(s -> Capability.SearchParam.builder().name(s.param()).type(s.type()).build())
           .collect(Collectors.toList());
     }

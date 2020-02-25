@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 /** Utility methods for transforming EE results to R4. */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Transformers {
-
   /**
    * Return false if at least one value in the given list is a non-blank string, or a non-null
    * object.

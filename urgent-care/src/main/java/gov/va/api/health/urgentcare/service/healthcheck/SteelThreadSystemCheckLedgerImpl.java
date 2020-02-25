@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 /** Implements the recorder. */
 @Component
 public class SteelThreadSystemCheckLedgerImpl implements SteelThreadSystemCheckLedger {
-
   /** A count of consecutive failures, will be reset to 0 on success. */
   private AtomicInteger consecutiveFailureCount = new AtomicInteger(0);
 

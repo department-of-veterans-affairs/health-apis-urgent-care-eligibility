@@ -3,14 +3,13 @@
   <parent>
     <groupId>gov.va.api.health</groupId>
     <artifactId>test-starter</artifactId>
-    <version>3.1.8</version>
+    <version>6.0.2</version>
     <relativePath/>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>urgent-care-tests</artifactId>
   <version>2.0.21-SNAPSHOT</version>
   <properties>
-    <git.allowedBranchNames><![CDATA[^(dependabot/.*|master|release/.*|PR-[0-9]+|(.*/)?[A-Z]{2,10}-[0-9]+-.*)$]]></git.allowedBranchNames>
     <groups>gov.va.api.health.sentinel.categories.Local</groups>
   </properties>
   <profiles>

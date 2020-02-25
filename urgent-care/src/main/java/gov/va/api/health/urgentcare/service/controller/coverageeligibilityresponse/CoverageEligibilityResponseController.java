@@ -35,9 +35,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping(
-  value = {"/CoverageEligibilityResponse"},
-  produces = {"application/json", "application/json+fhir", "application/fhir+json"}
-)
+    value = {"/CoverageEligibilityResponse"},
+    produces = {"application/json", "application/json+fhir", "application/fhir+json"})
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
 public class CoverageEligibilityResponseController {
   private Transformer transformer;
@@ -96,9 +95,8 @@ public class CoverageEligibilityResponseController {
 
   /** Validate endpoint... validates. */
   @PostMapping(
-    value = "/$validate",
-    consumes = {"application/json", "application/json+fhir", "application/fhir+json"}
-  )
+      value = "/$validate",
+      consumes = {"application/json", "application/json+fhir", "application/fhir+json"})
   public OperationOutcome validate(@RequestBody Bundle bundle) {
     return Validator.create().validate(bundle);
   }
