@@ -12,8 +12,6 @@
   <packaging>jar</packaging>
   <properties>
     <hand-of-queen-elizabeth.version>3.0.6</hand-of-queen-elizabeth.version>
-    <jaxb-api.version>2.3.1</jaxb-api.version>
-    <jaxb-runtime.version>2.3.1</jaxb-runtime.version>
     <r4.version>2.0.32</r4.version>
     <swagger-examples-maven-plugin.version>1.0.2</swagger-examples-maven-plugin.version>
     <swagger-maven-plugin.version>2.1.1</swagger-maven-plugin.version>
