@@ -1,4 +1,4 @@
-FROM vasdvp/health-apis-maven:3.6-jdk-12
+FROM vasdvp/health-apis-dev-tools:mvn-3.6-jdk-12
 
 COPY maven/ /test-suite
 RUN chmod 700 /test-suite/*sh
