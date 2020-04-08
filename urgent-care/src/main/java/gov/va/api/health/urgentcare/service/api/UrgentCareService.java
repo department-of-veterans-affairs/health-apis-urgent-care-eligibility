@@ -31,7 +31,7 @@ import javax.ws.rs.Path;
                     + " is compliant with FHIR version R4 standards."),
     servers = {
       @Server(
-          url = "https://dev-api.va.gov/services/fhir/v0/r4",
+          url = "https://sandbox-api.va.gov/services/fhir/v0/r4",
           description = "Development server")
     },
     externalDocs =
@@ -46,8 +46,8 @@ import javax.ws.rs.Path;
         @OAuthFlows(
             implicit =
                 @OAuthFlow(
-                    authorizationUrl = "https://dev-api.va.gov/oauth2/authorization",
-                    tokenUrl = "https://dev-api.va.gov/services/fhir/v0/r4/token",
+                    authorizationUrl = "https://sandbox-api.va.gov/oauth2/authorization",
+                    tokenUrl = "https://sandbox-api.va.gov/services/fhir/v0/r4/token",
                     scopes = {
                       @OAuthScope(
                           name = "patient/CoverageEligibilityResponse.read",
